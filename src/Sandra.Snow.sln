@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.PreCompiler", "Sandra.Snow.PreCompiler\Sandra.Snow.PreCompiler.csproj", "{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41B572E5-63F8-4D1A-9B30-32DEC63B16A5}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

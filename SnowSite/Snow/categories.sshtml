@@ -1,0 +1,16 @@
+@Master['default.sshtml']
+@Section['content']
+
+  <header>
+  <div class="head-inner">
+    <h1>Categories</h1>
+  </div>
+  </header>
+  
+  <ul>
+    @Each.Categories
+      <li><a href="/category/@Current.Url" title="@Current.Name">@Current.Name</a></li>
+    @EndEach
+  </ul>
+  
+@EndSection

@@ -1,0 +1,10 @@
+@Master['default.sshtml']
+@Section['content']
+
+    <div id="post">
+        <h1>@Model.Title</h1>
+        
+        @Model.PostContent
+    </div>
+
+@EndSection
