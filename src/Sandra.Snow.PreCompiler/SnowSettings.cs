@@ -6,18 +6,25 @@ namespace Sandra.Snow.PreCompiler
 {
     public class SnowSettings
     {
+        private string _posts;
+        private string _layouts;
+        private string _output;
+
         public SnowSettings()
         {
             CurrentDir = string.Empty;
             CurrentSnowDir = string.Empty;
         }
 
-        private string _posts;
-        private string _layouts;
-        private string _output;
-
         public string CurrentDir { get; private set; }
+
         public string CurrentSnowDir { get; set; }
+
+        public string UrlFormat { get; set; }
+
+        public string[] CopyDirectories { get; set; }
+        
+        public IEnumerable<StaticFile> ProcessStaticFiles { get; set; }
 
         public string Posts
         {
@@ -36,11 +43,7 @@ namespace Sandra.Snow.PreCompiler
             get { return _output; }
             set { _output = Path.Combine(CurrentDir, value); }
         }
-
-        public string UrlFormat { get; set; }
-        public string[] CopyDirectories { get; set; }
-        public IEnumerable<StaticFile> ProcessStaticFiles { get; set; }
-
+        
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -55,24 +58,5 @@ namespace Sandra.Snow.PreCompiler
                 CurrentSnowDir = Path.Combine(directory ?? "", "Snow")
             };
         }
-
-    }
-
-    public class StaticFile
-    {
-        public StaticFile()
-        {
-            //Mode = ModeEnum.Single;
-        }
-
-        public ModeEnum Mode { get; set; }
-        public string File { get; set; }
-        public string Property { get; set; }
-    }
-
-    public enum ModeEnum
-    {
-        Single,
-        Each
     }
 }

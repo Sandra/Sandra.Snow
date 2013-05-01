@@ -79,9 +79,11 @@
     <Compile Include="CustomMarkdownViewEngine.cs" />
     <Compile Include="FileData.cs" />
     <Compile Include="IoHelpers.cs" />
+    <Compile Include="ModeEnum.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SnowSettings.cs" />
     <Compile Include="SnowViewLocationConventions.cs" />
+    <Compile Include="StaticFile.cs" />
     <Compile Include="StaticPathProvider.cs" />
     <Compile Include="TestModule.cs" />
   </ItemGroup>

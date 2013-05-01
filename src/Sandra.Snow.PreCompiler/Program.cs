@@ -15,9 +15,13 @@ namespace Sandra.Snow.PreCompiler
 {
     internal class Program
     {
+        private static readonly Regex FileNameRegex =
+            new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
+                      RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private static void Main(string[] args)
         {
-            Console.WriteLine("Sandra.Snow: Begin processing");
+            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Begin processing");
 
             try
             {
@@ -72,7 +76,7 @@ namespace Sandra.Snow.PreCompiler
                                             .Select(x => new Category(x));
 
                 TestModule.Categories = categories.ToList();
-                
+
                 settings.ProcessStaticFiles.ForEach(x => ProcessStaticFiles(x, settings, parsedFiles, browserComposer));
 
                 foreach (var copyDirectory in settings.CopyDirectories)
@@ -91,15 +95,10 @@ namespace Sandra.Snow.PreCompiler
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw;
             }
-            Console.WriteLine("Sandra.Snow: Finish processing");
-        }
 
-        public class Data
-        {
-            public IEnumerable<FileData> ParsedFiles { get; set; }
-            public IEnumerable<Category> Categories { get; set; }
+            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Finish processing");
+            Console.ReadKey();
         }
 
         private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<FileData> parsedFiles, Browser browserComposer)
@@ -109,52 +108,66 @@ namespace Sandra.Snow.PreCompiler
             switch (staticFile.Property.ToLower())
             {
                 case "postspaged":
-                {
-                    const int pageSize = 10;
-                    var skip = 0;
-                    var iteration = 1;
-
-                    var currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
-
-                    while (currentIteration.Any())
                     {
-                        TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
+                        const int pageSize = 10;
+                        var skip = 0;
+                        var iteration = 1;
 
-                        var result = browserComposer.Post("/static");
+                        var currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
 
-                        var folder = skip == 0 ? "" : "page" + iteration;
-                        var outputFolder = Path.Combine(settings.Output, folder);
-
-                        if (!Directory.Exists(outputFolder))
+                        while (currentIteration.Any())
                         {
-                            Directory.CreateDirectory(outputFolder);
-                        }
+                            TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
 
-                        File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-
-                        skip += pageSize;
-                        iteration++;
-                        currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
-                    }
-
-                    break;
-                }
-                case"categories":
-                {
-                    if (staticFile.Mode == ModeEnum.Each)
-                    {
-                        foreach (var tempCategory in TestModule.Categories)
-                        {
-                            var category = tempCategory;
-
-                            var posts = parsedFiles.Select(x => x.Post).Where(x => x.Categories.Contains(category.Name));
-
-                            TestModule.CategoriesInPost = posts.ToList();
-                            
-                            //TestModule.Data = fileData;
                             var result = browserComposer.Post("/static");
 
-                            var outputFolder = Path.Combine(settings.Output, "category", category.Url);
+                            var folder = skip == 0 ? "" : "page" + iteration;
+                            var outputFolder = Path.Combine(settings.Output, folder);
+
+                            if (!Directory.Exists(outputFolder))
+                            {
+                                Directory.CreateDirectory(outputFolder);
+                            }
+
+                            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+
+                            skip += pageSize;
+                            iteration++;
+                            currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
+                        }
+
+                        break;
+                    }
+                case "categories":
+                    {
+                        if (staticFile.Mode == ModeEnum.Each)
+                        {
+                            foreach (var tempCategory in TestModule.Categories)
+                            {
+                                var category = tempCategory;
+
+                                var posts = parsedFiles.Select(x => x.Post).Where(x => x.Categories.Contains(category.Name));
+
+                                TestModule.CategoriesInPost = posts.ToList();
+
+                                //TestModule.Data = fileData;
+                                var result = browserComposer.Post("/static");
+
+                                var outputFolder = Path.Combine(settings.Output, "category", category.Url);
+
+                                if (!Directory.Exists(outputFolder))
+                                {
+                                    Directory.CreateDirectory(outputFolder);
+                                }
+
+                                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+                            }
+                        }
+                        else if (staticFile.Mode == ModeEnum.Single)
+                        {
+                            var result = browserComposer.Post("/static");
+
+                            var outputFolder = Path.Combine(settings.Output, "category");
 
                             if (!Directory.Exists(outputFolder))
                             {
@@ -163,29 +176,21 @@ namespace Sandra.Snow.PreCompiler
 
                             File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
                         }
+
+                        break;
                     }
-                    else if (staticFile.Mode == ModeEnum.Single)
-                    {
-                        var result = browserComposer.Post("/static");
-
-                        var outputFolder = Path.Combine(settings.Output, "category");
-
-                        if (!Directory.Exists(outputFolder))
-                        {
-                            Directory.CreateDirectory(outputFolder);
-                        }
-
-                        File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                    }
-
-                    break;
-                }
             }
         }
 
         private static SnowSettings CreateSettings(string currentDir)
         {
             var settings = SnowSettings.Default(currentDir);
+            
+            if (!File.Exists(Path.Combine(currentDir, "snow.config")))
+            {
+                throw new FileNotFoundException("Snow config file not found");
+            }
+
             var fileData = File.ReadAllText(currentDir + "/snow.config");
 
             var newSettings = JsonConvert.DeserializeObject<SnowSettings>(fileData);
@@ -197,6 +202,7 @@ namespace Sandra.Snow.PreCompiler
                 var value = propertyInfo.GetValue(newSettings);
 
                 var singleString = value as string;
+
                 if (!string.IsNullOrWhiteSpace(singleString))
                 {
                     propertyInfo.SetValue(settings, value);
@@ -232,10 +238,6 @@ namespace Sandra.Snow.PreCompiler
 
             File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
         }
-
-        private static readonly Regex FileNameRegex =
-            new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
-                      RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static FileData GetFileData(FileInfo file, Browser browser)
         {
