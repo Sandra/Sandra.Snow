@@ -24,7 +24,6 @@ namespace Sandra.Snow.PreCompiler
                 (viewName, model, viewLocationContext) => "_posts/" + viewName,
                 (viewName, model, viewLocationContext) => "_layouts/" + viewName,
                 (viewName, model, viewLocationContext) => viewName
-
             };
         }
     }

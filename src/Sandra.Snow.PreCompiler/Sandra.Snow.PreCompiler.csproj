@@ -75,11 +75,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Category.cs" />
     <Compile Include="ComposableContent.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
     <Compile Include="FileData.cs" />
     <Compile Include="IoHelpers.cs" />
     <Compile Include="ModeEnum.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SnowSettings.cs" />
     <Compile Include="SnowViewLocationConventions.cs" />
