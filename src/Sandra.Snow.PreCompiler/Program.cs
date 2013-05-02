@@ -95,6 +95,7 @@ namespace Sandra.Snow.PreCompiler
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                throw;
             }
 
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Finish processing");
@@ -185,7 +186,7 @@ namespace Sandra.Snow.PreCompiler
         private static SnowSettings CreateSettings(string currentDir)
         {
             var settings = SnowSettings.Default(currentDir);
-            
+
             if (!File.Exists(Path.Combine(currentDir, "snow.config")))
             {
                 throw new FileNotFoundException("Snow config file not found");
