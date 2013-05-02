@@ -16,4 +16,8 @@ Feel free to help out!
 
 This video shows a really rough showcase of setting up an Azure website and deploying the website which gets compiled.
 
-To get the F5 build working you will need to open up the project properties, and change the Debug command line arguments to specify the root directory of the SnowSite folder. 
+## How to run the project
+
+To run the project when you clone the repository. Open up the Project Properties and go to the Debug tab. For the Startup Options there should be a argument called `config=` this should be the full path to the SnowSite folder. If not then add it.
+
+The site should compile when you hit F5 now. 
