@@ -4,9 +4,9 @@
   <ul class="posts">
     @Each.PostsPaged
   <li>
-      <h1><a href="{{ post.url | remove:'.html' }}">@Current.Title</a> <span style='font-size:8pt; font-weight:normal;'>({{ post.date | date_to_string }})</span></h1> 
+      <h1><a href="@Current.Url">@Current.Title</a> <span style="font-size:8pt; font-weight:normal;">(@Current.DateFormatted)</span></h1> 
       @Current.ContentExcerpt
-      <p><a href="{{ post.url | remove:'.html' }}">Read more...</a></p>
+      <p><a href="@Current.Url">Read more...</a></p>
   </li>
     @EndEach
   </ul> 
