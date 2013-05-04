@@ -22,6 +22,6 @@ To run the project when you clone the repository. Open up the Project Properties
 
 The site should compile when you hit F5 now. 
 
-## sandra.Snow.Barbato
+## Sandra.Snow.Barbato
 
 This is a web application that can be hosted on a server that will do the static generation rather than locally.  It works by accepting a Github web hook, pulling your Git changes, genererating the content, moving the output to a location of choice and then pushing the Git repo changes back to Github.
