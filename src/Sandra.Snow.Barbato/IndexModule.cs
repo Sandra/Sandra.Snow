@@ -15,7 +15,7 @@ namespace Sandra.Snow.Barbato
             Post["/"] = parameters =>
                 {
                     var payloadModel = this.Bind<RootObject>();
-
+                        
                     var repoPath = Repository.Discover(rootPathProvider.GetRootPath());
                     if (string.IsNullOrWhiteSpace(repoPath))
                     {

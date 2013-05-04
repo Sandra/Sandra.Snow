@@ -21,3 +21,7 @@ This video shows a really rough showcase of setting up an Azure website and depl
 To run the project when you clone the repository. Open up the Project Properties and go to the Debug tab. For the Startup Options there should be a argument called `config=` this should be the full path to the SnowSite folder. If not then add it.
 
 The site should compile when you hit F5 now. 
+
+## sandra.Snow.Barbato
+
+This is a web application that can be hosted on a server that will do the static generation rather than locally.  It works by accepting a Github web hook, pulling your Git changes, genererating the content, moving the output to a location of choice and then pushing the Git repo changes back to Github.
