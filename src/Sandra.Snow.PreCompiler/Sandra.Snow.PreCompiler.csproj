@@ -89,6 +89,7 @@
     <Compile Include="SnowSettings.cs" />
     <Compile Include="SnowViewLocationConventions.cs" />
     <Compile Include="StaticFile.cs" />
+    <Compile Include="StaticFileProcessors\BaseProcessor.cs" />
     <Compile Include="StaticPathProvider.cs" />
     <Compile Include="TestModule.cs" />
   </ItemGroup>

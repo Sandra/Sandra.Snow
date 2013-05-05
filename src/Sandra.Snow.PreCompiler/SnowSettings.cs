@@ -17,14 +17,9 @@ namespace Sandra.Snow.PreCompiler
         }
 
         public string CurrentDir { get; private set; }
-
         public string CurrentSnowDir { get; set; }
-
         public string UrlFormat { get; set; }
-
         public string[] CopyDirectories { get; set; }
-        
-        public IEnumerable<StaticFile> ProcessStaticFiles { get; set; }
 
         public string Posts
         {
@@ -44,6 +39,8 @@ namespace Sandra.Snow.PreCompiler
             set { _output = Path.Combine(CurrentDir, value); }
         }
         
+        public IList<StaticFile> ProcessStaticFiles { get; set; }
+        
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -53,7 +50,7 @@ namespace Sandra.Snow.PreCompiler
                 Output = "Website",
                 UrlFormat = "",
                 CopyDirectories = new string[] { },
-                ProcessStaticFiles = Enumerable.Empty<StaticFile>(),
+                ProcessStaticFiles = new List<StaticFile>(),
                 CurrentDir = directory ?? "",
                 CurrentSnowDir = Path.Combine(directory ?? "", "Snow")
             };
