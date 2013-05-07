@@ -1,0 +1,9 @@
+﻿body {
+    background:#333 url('bg.jpg') 0 0 repeat;
+    color: #fff;
+}
+#main{ width: 800px; margin: 0 auto;}
+
+#login{
+   width: 512px; margin: 0 auto;
+}
