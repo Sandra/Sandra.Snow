@@ -8,9 +8,8 @@ namespace Sandra.Snow.Barbato
 
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        private const string GithubConsumerKey = "*key*";
-        private const string GithubConsumerSecret = "*secret*";
-
+        private const string GithubConsumerKey = "5ad3b62391672a6cc068";
+        private const string GithubConsumerSecret = "75810e6eeb242bb3cfa26c1d10b194fba9dc1075";
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
@@ -18,6 +17,13 @@ namespace Sandra.Snow.Barbato
 
             var githubProvider =
                 new GitHubProvider(new ProviderParams() {Key = GithubConsumerKey, Secret = GithubConsumerSecret});
+
+            var authenticationService = new AuthenticationService();
+
+            authenticationService.AddProvider(githubProvider);
+
+            container.Register<IAuthenticationService>(authenticationService);
+
         }
     }
 }

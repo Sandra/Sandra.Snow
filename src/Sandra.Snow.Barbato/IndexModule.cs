@@ -54,6 +54,7 @@
                     return 200;
                 };
 
+            Get["/"] = parameters => { return View["Index"]; };
         }
     }
 

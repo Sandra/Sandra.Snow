@@ -87,6 +87,8 @@
     <Compile Include="Model\GithubModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\AuthenticateCallback.cshtml" />
+    <Content Include="Views\_Layout.cshtml" />
     <None Include="Views\index.cshtml" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
