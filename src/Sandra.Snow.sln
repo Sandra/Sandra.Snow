@@ -13,11 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41B572
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Sandra.Snow.Barbato\Sandra.Snow.Barbato.csproj", "{ED638DD5-E755-4B7A-940D-5C94AB425686}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".stuffz", ".stuffz", "{9A198C3E-49DC-4295-8539-62CD29B1C377}"
-	ProjectSection(SolutionItems) = preProject
-		.stuffz\AssemblyInfoVersion.cs = .stuffz\AssemblyInfoVersion.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

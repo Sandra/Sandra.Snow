@@ -1,11 +1,23 @@
-﻿namespace Sandra.Snow.Barbato
+﻿using WorldDomination.Web.Authentication;
+
+namespace Sandra.Snow.Barbato
 {
     using Nancy;
+    using Nancy.TinyIoc;
+    using WorldDomination.Web.Authentication.ExtraProviders;
 
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        // The bootstrapper enables you to reconfigure the composition of the framework,
-        // by overriding the various methods and properties.
-        // For more information https://github.com/NancyFx/Nancy/wiki/Bootstrapper
+        private const string GithubConsumerKey = "*key*";
+        private const string GithubConsumerSecret = "*secret*";
+
+
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+
+            var githubProvider =
+                new GitHubProvider(new ProviderParams() {Key = GithubConsumerKey, Secret = GithubConsumerSecret});
+        }
     }
 }

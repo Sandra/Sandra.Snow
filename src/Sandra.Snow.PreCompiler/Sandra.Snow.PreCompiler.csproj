@@ -89,7 +89,6 @@
     <Compile Include="ModeEnum.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnowSettings.cs" />
     <Compile Include="SnowViewLocationConventions.cs" />
     <Compile Include="StaticFile.cs" />
