@@ -2,8 +2,17 @@
     background:#333 url('bg.jpg') 0 0 repeat;
     color: #fff;
 }
+
+ul{ list-style-type: none;list-style-position: inside;}
+
 #main{ width: 800px; margin: 0 auto;}
 
 #login{
    width: 512px; margin: 0 auto;
 }
+
+.avatar{ width: 80px;float: left;position: relative;display: block;}
+
+.repo{ width: 220px;float: left;position: relative;display: block;padding: 0 10px;}
+
+.clear{ clear: both;}

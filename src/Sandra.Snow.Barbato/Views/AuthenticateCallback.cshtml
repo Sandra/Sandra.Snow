@@ -1,13 +1,21 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<System.Collections.Generic.IEnumerable<Sandra.Snow.Barbato.Model.RepoModel>>
 @{
-  Layout = "_Layout.cshtml";
-} 
-FUCK
+    Layout = "_Layout.cshtml";
+}
+
 <ul>
     @foreach (var item in Model)
     {
         <li>
-            @item.Name - @item.UpdatedAt - <img src="@item.AvatarUrl" /> @item.HtmlUrl
+            <div class="avatar">
+                <img src="@item.AvatarUrl" />
+            </div>
+            <div class="repo">
+                <h3>@item.Name</h3>
+                <p>@item.Description</p>
+                <p><span>@item.UpdatedAt</span></p>
+            </div>
+            <div class="clear"></div>
         </li>
     }
 </ul>
