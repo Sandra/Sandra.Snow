@@ -9,11 +9,19 @@
 
     public class IndexModule : NancyModule
     {
-        public IndexModule(IRootPathProvider rootPathProvider)
+        public IndexModule(IRootPathProvider rootPathProvider, IUserRepository userRepository)
         {
             Post["/"] = parameters =>
                 {
-                    var payloadModel = this.Bind<RootObject>();
+                    var payloadModel = this.Bind<GithubHookModel.RootObject>();
+
+                    //Check if user is registered
+                    var githubhookfromUsername = payloadModel.repository.owner.name;
+                    var githubhookfromRepo = payloadModel.repository.url;
+
+                    if (!userRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
+                        return HttpStatusCode.Forbidden;
+
                     var gitLocation = ConfigurationManager.AppSettings["GitLocation"];
 
                     var repoPath = rootPathProvider.GetRootPath() + ".git";
@@ -57,5 +65,4 @@
             Get["/"] = parameters => { return View["Index"]; };
         }
     }
-
 }

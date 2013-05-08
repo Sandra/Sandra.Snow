@@ -29,7 +29,7 @@ namespace Sandra.Snow.PreCompiler.StaticFileProcessors
     {
         public override string ProcessorName
         {
-            get { return "PagedPost" }
+            get { return "PagedPost"; }
         }
 
         public override void Process(SnowyData snowyData)

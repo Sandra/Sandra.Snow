@@ -87,13 +87,18 @@
     </Compile>
     <Compile Include="AuthenticationProvider.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Model\GithubUserRepos.cs" />
     <Compile Include="IndexModule.cs" />
-    <Compile Include="Model\GithubModel.cs" />
+    <Compile Include="Model\IUserRepository.cs" />
+    <Compile Include="Model\GithubHookModel.cs" />
+    <Compile Include="Model\UserRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\RepoModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Views\AuthenticateCallback.cshtml" />
+    <Content Include="Views\AuthenticateCallback.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
-    <None Include="Views\index.cshtml" />
+    <Content Include="Views\index.cshtml" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
