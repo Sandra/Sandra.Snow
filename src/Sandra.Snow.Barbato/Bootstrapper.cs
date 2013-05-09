@@ -3,6 +3,7 @@
 namespace Sandra.Snow.Barbato
 {
     using Nancy;
+    using Nancy.Bootstrapper;
     using Nancy.TinyIoc;
     using WorldDomination.Web.Authentication.ExtraProviders;
 
@@ -25,5 +26,7 @@ namespace Sandra.Snow.Barbato
             container.Register<IAuthenticationService>(authenticationService);
 
         }
+
+      
     }
 }
