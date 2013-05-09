@@ -1,21 +1,32 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<System.Collections.Generic.IEnumerable<Sandra.Snow.Barbato.Model.RepoModel>>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.Barbato.Model.RepoModel>
 @{
     Layout = "_Layout.cshtml";
 }
 
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            <div class="avatar">
-                <img src="@item.AvatarUrl" />
-            </div>
-            <div class="repo">
-                <h3>@item.Name</h3>
-                <p>@item.Description</p>
-                <p><span>@item.UpdatedAt</span></p>@item.HtmlUrl 999 888 777 666 555 444 333 222 111 444
-            </div>
-            <div class="clear"></div>
-        </li>
-    }
-</ul>
+@section DocumentReady{
+    <script language="javascript">
+        $(document).ready(function () {
+            $('.repoform').click(function() {
+                this.submit();
+            })
+        });
+    </script>
+}
+
+@foreach (var item in Model.Repos)
+{
+    <form action="/#/selected" method="POST" class="repoform">
+        <div class="avatar">
+            <img src="@item.AvatarUrl" />
+        </div>
+        <div class="repo">
+            <h3>@item.Name</h3>
+            <p>@item.Description</p>
+            <p><span>@item.UpdatedAt</span></p>
+        </div>
+        <div class="clear"></div>
+        <input type="hidden" value="@item.CloneUrl" name="cloneurl" />
+        <input type="hidden" value="@Model.Username" name="username"/>
+    </form>
+}
+

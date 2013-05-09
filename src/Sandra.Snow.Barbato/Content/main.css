@@ -3,7 +3,7 @@
     color: #fff;
 }
 
-ul{ list-style-type: none;list-style-position: inside;}
+
 
 #main{ width: 800px; margin: 0 auto;}
 
@@ -11,8 +11,13 @@ ul{ list-style-type: none;list-style-position: inside;}
    width: 512px; margin: 0 auto;
 }
 
+.repoform{ margin: 10px 0;}
+.repoform h3{ padding: 0;margin: 0;}
+
+.repoform:hover{ background: pink;cursor: pointer;}
+
 .avatar{ width: 80px;float: left;position: relative;display: block;}
 
-.repo{ width: 220px;float: left;position: relative;display: block;padding: 0 10px;}
+.repo{ width: 720px;float: left;position: relative;display: block;}
 
 .clear{ clear: both;}

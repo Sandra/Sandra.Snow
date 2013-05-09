@@ -1,6 +1,13 @@
 ﻿namespace Sandra.Snow.Barbato.Model
 {
+    using System.Collections.Generic;
+
     public class RepoModel
+    {
+        public string Username { get; set; }
+        public IEnumerable<RepoDetail> Repos { get; set; }
+    }
+    public class RepoDetail
     {
         public string CloneUrl { get; set; }
 

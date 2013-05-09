@@ -5,11 +5,14 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="../Content/normalize.css"/>
     <link rel="stylesheet" href="../Content/main.css"/>
+    
     <title>Sandra.Snow.Barbato</title>
 </head>
 <body>
     <div id="main">
         @RenderBody()
     </div>
+    <script src="../Content/Scripts/jquery-2.0.0.min.js"></script>
+    @RenderSection("DocumentReady", required:false)
 </body>
 </html>

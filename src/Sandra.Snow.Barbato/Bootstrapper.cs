@@ -1,11 +1,10 @@
-﻿using WorldDomination.Web.Authentication;
-
-namespace Sandra.Snow.Barbato
+﻿namespace Sandra.Snow.Barbato
 {
     using Nancy;
     using Nancy.Bootstrapper;
     using Nancy.TinyIoc;
     using WorldDomination.Web.Authentication.ExtraProviders;
+    using WorldDomination.Web.Authentication;
 
     public class Bootstrapper : DefaultNancyBootstrapper
     {
@@ -17,16 +16,22 @@ namespace Sandra.Snow.Barbato
             base.ConfigureApplicationContainer(container);
 
             var githubProvider =
-                new GitHubProvider(new ProviderParams() {Key = GithubConsumerKey, Secret = GithubConsumerSecret});
+                new GitHubProvider(new ProviderParams() { Key = GithubConsumerKey, Secret = GithubConsumerSecret });
 
             var authenticationService = new AuthenticationService();
 
             authenticationService.AddProvider(githubProvider);
 
             container.Register<IAuthenticationService>(authenticationService);
-
         }
 
-      
+        protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
+        {
+            base.ApplicationStartup(container, pipelines);
+#if DEBUG
+            StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
+            StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
+#endif
+        }
     }
 }

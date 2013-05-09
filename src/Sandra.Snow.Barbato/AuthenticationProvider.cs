@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.Barbato 
+﻿namespace Sandra.Snow.Barbato
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@
             {
                 model.AuthenticatedClient = new AuthenticatedClient("github")
                     {
-                        AccessToken = "jfksdljflksjdfsldkfjlskjf",
+                        AccessToken = "123",
                         AccessTokenExpiresOn = DateTime.MinValue,
                         UserInformation =
                             new UserInformation()
@@ -42,11 +42,24 @@
 
             var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
 
-            var viewModel =
-                response.Data.Select(
-                    x => new RepoModel {Name=x.name, AvatarUrl = x.owner.avatar_url, Description = x.description, HtmlUrl= x.html_url, UpdatedAt= x.updated_at, CloneUrl= x.clone_url});
+            var repoDetail =
+                response.Data
+                .Where(x => x.fork == false)
+                .Select(
+                    x =>
+                    new RepoDetail
+                        {
+                            Name = x.name,
+                            AvatarUrl = x.owner.avatar_url,
+                            Description = x.description,
+                            HtmlUrl = x.html_url,
+                            UpdatedAt = x.updated_at,
+                            CloneUrl = x.clone_url
+                        });
 
-            
+            var viewModel = new RepoModel() { Username = model.AuthenticatedClient.UserInformation.UserName };
+            viewModel.Repos = repoDetail;
+
             return nancyModule.Negotiate.WithView("AuthenticateCallback").WithModel(viewModel);
         }
 
