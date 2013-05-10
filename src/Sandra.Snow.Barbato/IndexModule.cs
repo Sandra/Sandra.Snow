@@ -1,10 +1,13 @@
 ﻿namespace Sandra.Snow.Barbato
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Nancy;
     using System.Configuration;
     using System.Diagnostics;
     using System.IO;
     using Nancy.ModelBinding;
+    using RestSharp;
     using Sandra.Snow.Barbato.Model;
 
     public class IndexModule : NancyModule
@@ -63,6 +66,39 @@
                 };
 
             Get["/"] = parameters => { return View["Index"]; };
+
+            Get["/repos/{githubuser}"] = parameters =>
+            {
+
+                var githubUser = (string)parameters.githubuser;
+
+                var client = new RestClient("https://api.github.com");
+
+                var request = new RestRequest("users/" + githubUser + "/repos");
+                request.AddHeader("Accept", "application/json");
+
+                var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
+
+                var repoDetail =
+                    response.Data
+                    .Where(x => x.fork == false)
+                    .Select(
+                        x =>
+                        new RepoDetail
+                        {
+                            Name = x.name,
+                            AvatarUrl = x.owner.avatar_url,
+                            Description = x.description,
+                            HtmlUrl = x.html_url,
+                            UpdatedAt = x.updated_at,
+                            CloneUrl = x.clone_url
+                        });
+
+                var viewModel = new RepoModel() { Username = githubUser };
+                viewModel.Repos = repoDetail;
+
+                return View["Repos", viewModel];
+            };
         }
     }
 }

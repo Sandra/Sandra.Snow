@@ -101,7 +101,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Views\index.cshtml" />
-    <Content Include="Views\AuthenticateCallback.cshtml">
+    <Content Include="Views\Repos.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\_Layout.cshtml">

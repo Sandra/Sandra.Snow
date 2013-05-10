@@ -5,6 +5,7 @@
     using System.Linq;
     using Nancy;
     using Nancy.Authentication.WorldDomination;
+    using Nancy.Responses;
     using RestSharp;
     using Model;
     using WorldDomination.Web.Authentication;
@@ -33,34 +34,11 @@
                                 }
                     };
             }
+
             var githubUser = model.AuthenticatedClient.UserInformation.UserName;
+            return nancyModule.Response.AsRedirect("/repos/"+githubUser, RedirectResponse.RedirectType.Temporary);
 
-            var client = new RestClient("https://api.github.com");
-
-            var request = new RestRequest("users/" + githubUser + "/repos");
-            request.AddHeader("Accept", "application/json");
-
-            var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
-
-            var repoDetail =
-                response.Data
-                .Where(x => x.fork == false)
-                .Select(
-                    x =>
-                    new RepoDetail
-                        {
-                            Name = x.name,
-                            AvatarUrl = x.owner.avatar_url,
-                            Description = x.description,
-                            HtmlUrl = x.html_url,
-                            UpdatedAt = x.updated_at,
-                            CloneUrl = x.clone_url
-                        });
-
-            var viewModel = new RepoModel() { Username = model.AuthenticatedClient.UserInformation.UserName };
-            viewModel.Repos = repoDetail;
-
-            return nancyModule.Negotiate.WithView("AuthenticateCallback").WithModel(viewModel);
+          
         }
 
         public dynamic OnRedirectToAuthenticationProviderError(NancyModule nancyModule, string errorMessage)
