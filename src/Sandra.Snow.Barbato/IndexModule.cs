@@ -69,36 +69,39 @@
 
             Get["/repos/{githubuser}"] = parameters =>
             {
-
-                var githubUser = (string)parameters.githubuser;
-
-                var client = new RestClient("https://api.github.com");
-
-                var request = new RestRequest("users/" + githubUser + "/repos");
-                request.AddHeader("Accept", "application/json");
-
-                var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
-
-                var repoDetail =
-                    response.Data
-                    .Where(x => x.fork == false)
-                    .Select(
-                        x =>
-                        new RepoDetail
-                        {
-                            Name = x.name,
-                            AvatarUrl = x.owner.avatar_url,
-                            Description = x.description,
-                            HtmlUrl = x.html_url,
-                            UpdatedAt = x.updated_at,
-                            CloneUrl = x.clone_url
-                        });
-
-                var viewModel = new RepoModel() { Username = githubUser };
-                viewModel.Repos = repoDetail;
-
-                return View["Repos", viewModel];
+                return View["Repos"];
             };
+
+            Get["getrepodata/{githubuser}"] = parameters =>
+                {
+                    var githubUser = (string)parameters.githubuser;
+
+                    var client = new RestClient("https://api.github.com");
+
+                    var request = new RestRequest("users/" + githubUser + "/repos");
+                    request.AddHeader("Accept", "application/json");
+
+                    var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
+
+                    var repoDetail =
+                        response.Data
+                        .Where(x => x.fork == false)
+                        .Select(
+                            x =>
+                            new RepoDetail
+                            {
+                                Name = x.name,
+                                AvatarUrl = x.owner.avatar_url,
+                                Description = x.description,
+                                HtmlUrl = x.html_url,
+                                UpdatedAt = x.updated_at,
+                                CloneUrl = x.clone_url
+                            });
+
+                    var viewModel = new RepoModel {Username = githubUser, Repos = repoDetail};
+
+                    return viewModel;
+                };
         }
     }
 }

@@ -11,13 +11,13 @@
    width: 512px; margin: 0 auto;
 }
 
-.repoform{ margin: 10px 0;}
-.repoform h3{ padding: 0;margin: 0;}
 
-.repoform:hover{ background: pink;cursor: pointer;}
+
 
 .avatar{ width: 80px;float: left;position: relative;display: block;}
 
 .repo{ width: 720px;float: left;position: relative;display: block;}
+
+.repo h3{ padding: 0;margin: 0;}
 
 .clear{ clear: both;}

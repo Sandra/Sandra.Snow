@@ -1,15 +1,15 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="barbato">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../Content/normalize.css"/>
-    <link rel="stylesheet" href="../Content/main.css"/>
+    <link rel="stylesheet" href="/Content/normalize.css"/>
+    <link rel="stylesheet" href="/Content/main.css"/>
     
     <title>Sandra.Snow.Barbato</title>
 </head>
 <body>
-    <div id="main">
+    <div id="main" ng-view>
         @RenderBody()
     </div>
     

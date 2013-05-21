@@ -1,0 +1,14 @@
+﻿repos
+<div ng-repeat="item in items.Repos">   
+     <div class="avatar">
+          <img ng-src="{{item.AvatarUrl}}" alt="Avatar" />
+      </div>
+      <div class="repo">
+          <h3>{{item.Name}}</h3>
+          <p>{{item.Description}}</p>
+          <p><span>{{item.UpdatedAt}}</span></p>
+      </div>
+      <div class="clear"></div>
+      <input type="hidden" value="{{item.CloneUrl" name="cloneurl" />
+      <input type="hidden" value="{{Username}}" name="username"/>
+</div>

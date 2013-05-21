@@ -1,34 +1,10 @@
-﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.Barbato.Model.RepoModel>
-@{
+﻿@{
     Layout = "_Layout.cshtml";
 }
 
 @section DocumentReady{
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
-    <script src="../Content/Scripts/jquery-2.0.0.min.js"></script>
-    <script language="javascript">
-        $(document).ready(function () {
-            $('.repoform').click(function() {
-                this.submit();
-            })
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular-resource.js"></script>
+    <script src="/Content/Scripts/app.js"></script>
+    <script src="/Content/Scripts/repos.js"></script>
 }
-
-@foreach (var item in Model.Repos)
-{
-    <form action="/#/selected" method="POST" class="repoform">
-        <div class="avatar">
-            <img src="@item.AvatarUrl" />
-        </div>
-        <div class="repo">
-            <h3>@item.Name</h3>
-            <p>@item.Description</p>
-            <p><span>@item.UpdatedAt</span></p>
-        </div>
-        <div class="clear"></div>
-        <input type="hidden" value="@item.CloneUrl" name="cloneurl" />
-        <input type="hidden" value="@Model.Username" name="username"/>
-    </form>
-}
-
