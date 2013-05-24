@@ -1,5 +1,5 @@
-﻿repos
-<div ng-repeat="item in items.Repos">   
+﻿<h1>{{items.Username}}, you've been busy!</h1>
+<a class="repoItems" href="#/{{items.Username}}/{{item.Name}}" ng-repeat="item in items.Repos">   
      <div class="avatar">
           <img ng-src="{{item.AvatarUrl}}" alt="Avatar" />
       </div>
@@ -8,7 +8,7 @@
           <p>{{item.Description}}</p>
           <p><span>{{item.UpdatedAt}}</span></p>
       </div>
-      <div class="clear"></div>
-      <input type="hidden" value="{{item.CloneUrl" name="cloneurl" />
+      <br/>
+      <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
       <input type="hidden" value="{{Username}}" name="username"/>
-</div>
+</a>

@@ -12,11 +12,12 @@
 }
 
 
+a.repoItems:hover{ background-color: pink; color: aqua;}
+a.repoItems{ color: yellow;margin-bottom: 10px;}
 
+.avatar{ width: 80px;position: relative;display: inline-block;}
 
-.avatar{ width: 80px;float: left;position: relative;display: block;}
-
-.repo{ width: 720px;float: left;position: relative;display: block;}
+.repo{ width: 720px;position: relative;display: inline-block;}
 
 .repo h3{ padding: 0;margin: 0;}
 

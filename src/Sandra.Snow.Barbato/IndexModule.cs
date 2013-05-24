@@ -67,7 +67,7 @@
 
             Get["/"] = parameters => { return View["Index"]; };
 
-            Get["/repos/{githubuser}"] = parameters =>
+            Get["/repos"] = parameters =>
             {
                 return View["Repos"];
             };

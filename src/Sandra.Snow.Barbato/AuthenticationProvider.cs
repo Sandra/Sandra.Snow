@@ -36,7 +36,7 @@
             }
 
             var githubUser = model.AuthenticatedClient.UserInformation.UserName;
-            return nancyModule.Response.AsRedirect("/repos/"+githubUser, RedirectResponse.RedirectType.Temporary);
+            return nancyModule.Response.AsRedirect("/repos/#"+githubUser, RedirectResponse.RedirectType.Temporary);
 
           
         }
