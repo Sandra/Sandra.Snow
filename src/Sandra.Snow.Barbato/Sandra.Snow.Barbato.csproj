@@ -92,7 +92,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="IndexModule.cs" />
     <Compile Include="Model\GithubHookModel.cs" />
     <Compile Include="Model\GithubUserRepos.cs" />

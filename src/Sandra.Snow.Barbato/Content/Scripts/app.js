@@ -28,6 +28,9 @@
 
                 console.log('json requested');
                 $http.get('http://localhost:12008/getrepodata/' + githubUser).success(function (data) {
+                    data.Repos.forEach(function (element) {
+                        element.UpdatedAt = moment(element.UpdatedAt).fromNow();
+                    });
                     deferred.resolve(data);
                     repoList = data;
                 }).error(function () {

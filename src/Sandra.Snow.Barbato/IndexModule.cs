@@ -96,7 +96,7 @@
                                 AvatarUrl = x.owner.avatar_url,
                                 Description = x.description,
                                 HtmlUrl = x.html_url,
-                                UpdatedAt = DateTime.Parse(x.updated_at).ToRelativeTime(),
+                                UpdatedAt = x.pushed_at,
                                 CloneUrl = x.clone_url
                             });
 
