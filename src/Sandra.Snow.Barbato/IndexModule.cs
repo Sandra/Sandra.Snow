@@ -1,7 +1,9 @@
 ﻿namespace Sandra.Snow.Barbato
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using Nancy;
     using System.Configuration;
     using System.Diagnostics;
@@ -94,11 +96,11 @@
                                 AvatarUrl = x.owner.avatar_url,
                                 Description = x.description,
                                 HtmlUrl = x.html_url,
-                                UpdatedAt = x.updated_at,
+                                UpdatedAt = DateTime.Parse(x.updated_at).ToRelativeTime(),
                                 CloneUrl = x.clone_url
                             });
 
-                    var viewModel = new RepoModel {Username = githubUser, Repos = repoDetail};
+                    var viewModel = new RepoModel { Username = githubUser, Repos = repoDetail };
 
                     return viewModel;
                 };

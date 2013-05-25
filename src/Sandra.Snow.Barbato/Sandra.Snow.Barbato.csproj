@@ -80,10 +80,7 @@
     <Content Include="Content\main.css" />
     <Content Include="Content\nancy-logo.png" />
     <Content Include="Content\normalize.css" />
-    <None Include="Content\Scripts\jquery-2.0.0.intellisense.js" />
     <Content Include="Content\Scripts\app.js" />
-    <Content Include="Content\Scripts\jquery-2.0.0.js" />
-    <Content Include="Content\Scripts\jquery-2.0.0.min.js" />
     <Content Include="Content\Scripts\repos.js" />
     <Content Include="Content\Scripts\selectedrepo.js" />
     <Content Include="Content\templates\repoDetail.html" />
@@ -95,6 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="IndexModule.cs" />
     <Compile Include="Model\GithubHookModel.cs" />
     <Compile Include="Model\GithubUserRepos.cs" />
@@ -112,7 +110,6 @@
     <Content Include="Views\_Layout.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Content\Scripts\jquery-2.0.0.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
