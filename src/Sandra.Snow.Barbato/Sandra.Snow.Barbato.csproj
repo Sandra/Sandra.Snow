@@ -92,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="Model\DeploymentModel.cs" />
+    <Compile Include="Model\DeploymentRepository.cs" />
+    <Compile Include="Model\IDeploymentRepository.cs" />
     <Compile Include="IndexModule.cs" />
     <Compile Include="Model\GithubHookModel.cs" />
     <Compile Include="Model\GithubUserRepos.cs" />

@@ -9,12 +9,13 @@
     using System.Diagnostics;
     using System.IO;
     using Nancy.ModelBinding;
+    using Nancy.Validation;
     using RestSharp;
     using Sandra.Snow.Barbato.Model;
 
     public class IndexModule : NancyModule
     {
-        public IndexModule(IRootPathProvider rootPathProvider, IUserRepository userRepository)
+        public IndexModule(IRootPathProvider rootPathProvider, IUserRepository userRepository, IDeploymentRepository deploymentRepository)
         {
             Post["/"] = parameters =>
                 {
@@ -96,13 +97,26 @@
                                 AvatarUrl = x.owner.avatar_url,
                                 Description = x.description,
                                 HtmlUrl = x.html_url,
-                                UpdatedAt = x.pushed_at,
+                                UpdatedAt = DateTime.Parse(x.pushed_at).ToRelativeTime(),
                                 CloneUrl = x.clone_url
                             });
 
                     var viewModel = new RepoModel { Username = githubUser, Repos = repoDetail };
 
                     return viewModel;
+                };
+
+            Post["initializedeployment"] = parameters =>
+                {
+                    var model = this.BindAndValidate<DeploymentModel>();
+                    if (!this.ModelValidationResult.IsValid)
+                    {
+                        
+                    }
+
+                   
+
+                    return "deployed";
                 };
         }
     }

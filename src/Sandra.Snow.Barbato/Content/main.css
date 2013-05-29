@@ -22,3 +22,5 @@ a.repoItems{ color: yellow;margin-bottom: 10px;}
 .repo h3{ padding: 0;margin: 0;}
 
 .clear{ clear: both;}
+
+.error { color: red;border: 1px solid red;}

@@ -28,20 +28,20 @@
 
                 console.log('json requested');
                 $http.get('http://localhost:12008/getrepodata/' + githubUser).success(function (data) {
-                    data.Repos.forEach(function (element) {
-                        element.UpdatedAt = moment(element.UpdatedAt).fromNow();
-                    });
                     deferred.resolve(data);
                     repoList = data;
                 }).error(function () {
                     deferred.reject();
                 });
                 return deferred.promise;
-
             },
 
             getItem: function (repoName) {
                 return repoList.Repos.filter(function (x) { return x.Name === repoName })[0];
+            },
+            
+            initializeDeployment: function(data) {
+                $http.post('http://localhost:12008/initializedeployment', data).success(function () { console.log('deployed') });
             }
         };
 
