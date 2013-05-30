@@ -1,0 +1,26 @@
+﻿body {
+    background:#333 url('bg.jpg') 0 0 repeat;
+    color: #fff;
+}
+
+
+
+#main{ width: 800px; margin: 0 auto;}
+
+#login{
+   width: 512px; margin: 0 auto;
+}
+
+
+a.repoItems:hover{ background-color: pink; color: aqua;}
+a.repoItems{ color: yellow;margin-bottom: 10px;}
+
+.avatar{ width: 80px;position: relative;display: inline-block;}
+
+.repo{ width: 720px;position: relative;display: inline-block;}
+
+.repo h3{ padding: 0;margin: 0;}
+
+.clear{ clear: both;}
+
+.error { color: red;border: 1px solid red;}

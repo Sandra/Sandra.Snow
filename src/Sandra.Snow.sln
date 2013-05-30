@@ -11,12 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41B572
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Sandra.Snow.Barbato\Sandra.Snow.Barbato.csproj", "{ED638DD5-E755-4B7A-940D-5C94AB425686}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".stuffz", ".stuffz", "{9A198C3E-49DC-4295-8539-62CD29B1C377}"
-	ProjectSection(SolutionItems) = preProject
-		.stuffz\AssemblyInfoVersion.cs = .stuffz\AssemblyInfoVersion.cs
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Sandra.Snow.Barbato\Sandra.Snow.Barbato.csproj", "{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +23,10 @@ Global
 		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
