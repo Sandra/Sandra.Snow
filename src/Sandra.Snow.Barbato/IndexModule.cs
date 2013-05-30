@@ -118,6 +118,15 @@
 
                     return "deployed";
                 };
+
+            Post["/alreadyregistered"] = parameters =>
+                {
+                    string repo = (string) Request.Form.repo;
+
+                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered();
+
+                    return alreadyRegistered;
+                };
         }
     }
 }

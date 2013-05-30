@@ -2,5 +2,6 @@
 {
     public interface IDeploymentRepository
     {
+        bool IsUserAndRepoRegistered();
     }
 }

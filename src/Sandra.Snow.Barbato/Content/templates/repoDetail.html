@@ -18,7 +18,8 @@
 
     <div id="azure" ng-show="item.deploymentType=='azure'">
         <label for="azurerepo">Azure Git Repo</label>
-        <input type="text" name="azurerepo" ng-model="item.azurerepo" ng-class="{error: myForm.azurerepo.$invalid}" ng-required="item.deploymentType=='azure'" />
+        <input type="text" name="azurerepo" ng-model="item.azurerepo" ui-event="{ blur : 'blurCallback()' }" />
+        <span ng-show="item.azurerepotaken">Already registered!</span>
     </div>
 
     <div id="ftp" ng-show="item.deploymentType=='ftp'">

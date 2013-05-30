@@ -80,6 +80,7 @@
     <Content Include="Content\main.css" />
     <Content Include="Content\nancy-logo.png" />
     <Content Include="Content\normalize.css" />
+    <Content Include="Content\Scripts\angular-ui-utils.js" />
     <Content Include="Content\Scripts\app.js" />
     <Content Include="Content\Scripts\repos.js" />
     <Content Include="Content\Scripts\selectedrepo.js" />
