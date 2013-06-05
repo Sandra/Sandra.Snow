@@ -35,7 +35,7 @@
                 var deferred = $q.defer();
 
                 console.log('json requested');
-                $http.get('http://localhost:12008/getrepodata/' + githubUser).success(function (data) {
+                $http.get('/getrepodata/' + githubUser).success(function (data) {
                     deferred.resolve(data);
                     repoList = data;
                 }).error(function () {
@@ -83,21 +83,6 @@
                     ctrl.$setValidity(yourFieldName, true);
                     scope.$apply();
                 });
-            }
-        };
-    });
-
-
-    app.directive('validationsummary', function () {
-        return {
-            restrict: 'E',
-            scope: true,
-            
-            controller: 'SelectedRepoController', // controller to be passed into directive linking function
-            link: function (scope, elem, attr, ctrl) {
-                console.log('sdf');
-
-
             }
         };
     });

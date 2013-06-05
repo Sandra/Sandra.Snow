@@ -22,12 +22,12 @@
                     username: $scope.item.userName
                 };
                 
-                $http.post('http://localhost:12008/alreadyregistered', data).success(function (data) {
+                $http.post('/alreadyregistered', data).success(function (data) {
                     if (data.isValid) {
                         $scope.item.serversidevalid = true;
                         $scope.item.deploying = true;
                         
-                        $http.post('http://localhost:12008/initializedeployment', data).success(function() {
+                        $http.post('/initializedeployment', $scope.item).success(function() {
                             $scope.item.deploying = false;
                             $location.path($location.path() + "/complete");
                             console.log('deployed');
