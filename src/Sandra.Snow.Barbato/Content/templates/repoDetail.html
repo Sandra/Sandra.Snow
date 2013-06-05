@@ -8,6 +8,7 @@
     <p><span>{{item.UpdatedAt}}</span></p>
 </div>
 <br />
+
 <form name="myForm" ng-submit="saveDeployment()">
     <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
     <input type="hidden" value="{{Username}}" name="username" />
@@ -18,13 +19,13 @@
 
     <div id="azure" ng-show="item.deploymentType=='azure'">
         <label for="azurerepo">Azure Git Repo</label>
-        <input type="text" name="azurerepo" ng-model="item.azurerepo" ui-event="{ blur : 'blurCallback()' }" />
-        <span ng-show="item.azurerepotaken">Already registered!</span>
+        <input type="text" name="azurerepo" ng-model="item.azurerepo" ng-class="{error: myForm.azurerepo.$invalid}" ng-required="item.deploymentType=='azure'" ng-change="myForm.azurerepo.$setValidity('azurerepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
     </div>
 
     <div id="ftp" ng-show="item.deploymentType=='ftp'">
         <label for="ftpserver">FTP Server</label>
-        <input type="text" name="ftpserver" ng-model="item.ftpserver" ng-class="{error: myForm.ftpserver.$invalid}" ng-required="item.deploymentType=='ftp'"  />
+        <input type="text" name="ftpserver" ng-model="item.ftpserver" ng-class="{error: myForm.ftpserver.$invalid}" ng-required="item.deploymentType=='ftp'" ng-change="myForm.ftpserver.$setValidity('ftpserver',true);myForm.azurerepo.$setValidity('azurerepo',true);" />
+        
 
         <label for="ftppath">FTP Path</label>
         <input type="text" name="ftppath" ng-model="item.ftppath" ng-class="{error: myForm.ftppath.$invalid}" ng-required="item.deploymentType=='ftp'" />
@@ -35,7 +36,9 @@
         <label for="ftppassword">FTP Password</label>
         <input type="password" name="ftppassword" ng-model="item.ftppassword" ng-class="{error: myForm.ftppassword.$invalid}" ng-required="item.deploymentType=='ftp'"/>
     </div>
-   
+    
+    <span ng-show="item.serversidevalid==false">Already registered!</span>
+    
     <input type="submit" value="Save" ng-disabled="myForm.$invalid"/>
 
 </form>

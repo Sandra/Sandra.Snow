@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="Model\AlreadyRegisteredModel.cs" />
     <Compile Include="Model\DeploymentModel.cs" />
     <Compile Include="Model\DeploymentRepository.cs" />
     <Compile Include="Model\IDeploymentRepository.cs" />

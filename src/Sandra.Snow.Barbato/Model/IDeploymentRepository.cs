@@ -2,6 +2,6 @@
 {
     public interface IDeploymentRepository
     {
-        bool IsUserAndRepoRegistered();
+        bool IsUserAndRepoRegistered(bool azureDeployment, string repo, string username);
     }
 }

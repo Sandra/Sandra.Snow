@@ -111,21 +111,22 @@
                     var model = this.BindAndValidate<DeploymentModel>();
                     if (!this.ModelValidationResult.IsValid)
                     {
-                        
-                    }
 
-                   
+                    }
 
                     return "deployed";
                 };
 
             Post["/alreadyregistered"] = parameters =>
                 {
-                    string repo = (string) Request.Form.repo;
+                    var model = this.Bind<AlreadyRegisteredModel>();
 
-                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered();
+                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered(model.AzureDeployment, model.Repo, model.Username);
 
-                    return alreadyRegistered;
+                    var keys = new List<string>();
+                    keys.Add(model.AzureDeployment ? "azurerepo" : "ftpserver");
+
+                    return new { isValid = !alreadyRegistered, keys = keys };
                 };
         }
     }
