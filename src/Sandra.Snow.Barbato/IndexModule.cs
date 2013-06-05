@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using Nancy;
     using System.Configuration;
     using System.Diagnostics;
@@ -108,11 +109,17 @@
 
             Post["initializedeployment"] = parameters =>
                 {
-                    var model = this.BindAndValidate<DeploymentModel>();
+                    var model = this.Bind<DeploymentModel>();
                     if (!this.ModelValidationResult.IsValid)
                     {
 
                     }
+                    else
+                    {
+                        deploymentRepository.AddDeployment(model);
+                    }
+
+                    Thread.Sleep(2500);
 
                     return "deployed";
                 };

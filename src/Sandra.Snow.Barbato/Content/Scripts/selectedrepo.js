@@ -2,7 +2,7 @@
     'use strict';
 
     app.controller(
-        'SelectedRepoController', function ($scope, $routeParams, repoService, $http) {
+        'SelectedRepoController', function ($scope, $routeParams, repoService, $http, $location) {
             $scope.item = repoService.getItem($routeParams.selectedRepo);
             $scope.item.userName = $routeParams.githubUser;
             $scope.item.deploymentType = 'azure';
@@ -12,6 +12,7 @@
             $scope.item.ftppassword = '';
             $scope.item.azurerepo = '';
             $scope.item.serversidevalid = true;
+            $scope.item.deploying = false;
 
             $scope.saveDeployment = function () {
 
@@ -24,8 +25,13 @@
                 $http.post('http://localhost:12008/alreadyregistered', data).success(function (data) {
                     if (data.isValid) {
                         $scope.item.serversidevalid = true;
-                        repoService.initializeDeployment($scope.item);
-                        console.log('deployed');
+                        $scope.item.deploying = true;
+                        
+                        $http.post('http://localhost:12008/initializedeployment', data).success(function() {
+                            $scope.item.deploying = false;
+                            $location.path($location.path() + "/complete");
+                            console.log('deployed');
+                        });                        
                     } else {
                         $scope.item.serversidevalid = false;
                         for (var i = 0; i < data.keys.length; i++) {

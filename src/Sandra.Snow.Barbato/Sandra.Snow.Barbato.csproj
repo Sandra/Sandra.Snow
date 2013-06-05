@@ -82,8 +82,10 @@
     <Content Include="Content\normalize.css" />
     <Content Include="Content\Scripts\angular-ui-utils.js" />
     <Content Include="Content\Scripts\app.js" />
+    <Content Include="Content\Scripts\complete.js" />
     <Content Include="Content\Scripts\repos.js" />
     <Content Include="Content\Scripts\selectedrepo.js" />
+    <Content Include="Content\templates\complete.html" />
     <Content Include="Content\templates\repoDetail.html" />
     <Content Include="Content\templates\repos.html" />
     <Content Include="Web.config" />

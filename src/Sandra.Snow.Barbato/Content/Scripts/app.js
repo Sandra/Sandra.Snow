@@ -19,6 +19,10 @@
                        controller: 'SelectedRepoController',
                        templateUrl: '/Content/templates/repoDetail.html'
                    }).
+                   when('/:githubUser/:selectedRepo/complete', {
+                       controller: 'CompleteController',
+                       templateUrl: '/Content/templates/complete.html'
+                   }).
                    otherwise({ redirectTo: '/' });
            });
 
