@@ -21,27 +21,33 @@
                     repo: $scope.item.deploymentType === 'azure' ? $scope.item.azurerepo : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
-                
-                $http.post('/alreadyregistered', data).success(function (data) {
-                    if (data.isValid) {
+
+                $http.post('/alreadyregistered', data).success(function (responsedata) {
+                    if (responsedata.isValid) {
                         $scope.item.serversidevalid = true;
                         $scope.item.deploying = true;
-                        
-                        $http.post('/initializedeployment', $scope.item).success(function() {
-                            $scope.item.deploying = false;
-                            $location.path($location.path() + "/complete");
-                            console.log('deployed');
-                        });                        
-                    } else {
+
+                      $http.post('/initializedeployment', $scope.item)
+                            .success(function () {
+                                $scope.item.deploying = false;
+                                $location.path($location.path() + "/complete");
+                                console.log('deployed');
+                            })
+                            .error(function () {
+                                $scope.item.deploying = false;
+                                console.log('error');
+                            });
+                    }
+                    else {
                         $scope.item.serversidevalid = false;
-                        for (var i = 0; i < data.keys.length; i++) {
-                            $scope.myForm[data.keys[0]].$setValidity(data.keys[0], false);
+                        for (var i = 0; i < responsedata.keys.length; i++) {
+                            $scope.myForm[responsedata.keys[0]].$setValidity(responsedata.keys[0], false);
                         }
                     }
                 });
             };
 
-            $scope.test = function() {
+            $scope.test = function () {
                 $scope.myForm.azurerepo.$setValidity(true);
                 $scope.$apply();
             };
@@ -81,14 +87,14 @@
 
                 alreadyRegistered(false);
             };
-            
+
             $scope.checkValidity = function (fieldName, fieldValue, callback) {
                 var data = {
                     azureDeployment: fieldName === 'azurerepo',
                     repo: fieldName === 'azurerepo' ? $scope.item.azurerepo : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
-                
+
                 $http.post('http://localhost:12008/alreadyregistered', data).success(function (res) {
                     return callback(res);
                 });
@@ -106,7 +112,7 @@
                 .success(function (data, status, headers, config) {
                     if (data === 'true') {
                         $scope.myForm.azurerepo.$setValidity('azurerepo', false);
-                       
+
                     } else {
                         $scope.myForm.azurerepo.$setValidity(true);
                     }

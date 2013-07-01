@@ -4,5 +4,6 @@
     {
         bool IsUserAndRepoRegistered(bool azureDeployment, string repo, string username);
         void AddDeployment(DeploymentModel model);
+        DeploymentModel GetDeployment(string username);
     }
 }

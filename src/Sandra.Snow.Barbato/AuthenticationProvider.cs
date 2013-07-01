@@ -12,6 +12,13 @@
 
     public class AuthenticationProvider : IAuthenticationCallbackProvider
     {
+        private readonly IUserRepository userRepository;
+
+        public AuthenticationProvider(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         public dynamic Process(NancyModule nancyModule, AuthenticateCallbackData model)
         {
             if (model.AuthenticatedClient == null)
@@ -35,10 +42,15 @@
                     };
             }
 
-            var githubUser = model.AuthenticatedClient.UserInformation.UserName;
-            return nancyModule.Response.AsRedirect("/repos/#"+githubUser, RedirectResponse.RedirectType.Temporary);
+            if (!userRepository.UserRegistered(model.AuthenticatedClient.AccessToken))
+            {
+                userRepository.AddOAuthToken(model.AuthenticatedClient.AccessToken, model.AuthenticatedClient.UserInformation.Email, model.AuthenticatedClient.UserInformation.UserName);
+            }
 
-          
+            var githubUser = model.AuthenticatedClient.UserInformation.UserName;
+            return nancyModule.Response.AsRedirect("/repos/#" + githubUser, RedirectResponse.RedirectType.Temporary);
+
+
         }
 
         public dynamic OnRedirectToAuthenticationProviderError(NancyModule nancyModule, string errorMessage)

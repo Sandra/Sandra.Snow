@@ -18,5 +18,10 @@ namespace Sandra.Snow.Barbato.Model
         {
             deployments.Add(model);
         }
+
+        public DeploymentModel GetDeployment(string username)
+        {
+            return deployments.FirstOrDefault(x => x.Username == username);
+        }
     }
 }

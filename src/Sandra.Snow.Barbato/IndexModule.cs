@@ -16,8 +16,15 @@
 
     public class IndexModule : NancyModule
     {
-        public IndexModule(IRootPathProvider rootPathProvider, IUserRepository userRepository, IDeploymentRepository deploymentRepository)
+        private readonly IUserRepository userRepository;
+        private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
+        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
+        private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
+
+        public IndexModule(IUserRepository userRepository, IDeploymentRepository deploymentRepository)
         {
+            this.userRepository = userRepository;
+
             Post["/"] = parameters =>
                 {
                     var payloadModel = this.Bind<GithubHookModel.RootObject>();
@@ -29,42 +36,9 @@
                     if (!userRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
                         return HttpStatusCode.Forbidden;
 
-                    var gitLocation = ConfigurationManager.AppSettings["GitLocation"];
+                    var deploymentModel = deploymentRepository.GetDeployment(githubhookfromUsername);
 
-                    var repoPath = rootPathProvider.GetRootPath() + ".git";
-                    if (!Directory.Exists(repoPath))
-                    {
-                        var cloneProcess =
-                            Process.Start(gitLocation + " clone " + payloadModel.repository.url + " " + repoPath);
-                        if (cloneProcess != null)
-                            cloneProcess.WaitForExit();
-                    }
-                    else
-                    {
-                        //Shell out to git.exe as LibGit2Sharp doesnt support Merge yet
-                        var pullProcess =
-                            Process.Start(gitLocation + " --git-dir=\"" + repoPath + "\" pull upstream master");
-                        if (pullProcess != null)
-                            pullProcess.WaitForExit();
-                    }
-
-                    //Run the PreCompiler
-
-                    var addProcess = Process.Start(gitLocation + " --git-dir=\"" + repoPath + "\" add -A");
-                    if (addProcess != null)
-                        addProcess.WaitForExit();
-
-                    var commitProcess =
-                        Process.Start(gitLocation + " --git-dir=\"" + repoPath +
-                                      "\" commit -a -m \"Static Content Regenerated\"");
-                    if (commitProcess != null)
-                        commitProcess.WaitForExit();
-
-                    var pushProcess =
-                        Process.Start("C:\\Program Files (x86)\\Git\bin\\git.exe --git-dir=\"" + repoPath +
-                                      "\" push upstream master");
-                    if (pushProcess != null)
-                        pushProcess.WaitForExit();
+                    DeployBlog(deploymentModel);
 
                     return 200;
                 };
@@ -109,15 +83,15 @@
 
             Post["initializedeployment"] = parameters =>
                 {
-                    var model = this.Bind<DeploymentModel>();
+                    var model = this.BindAndValidate<DeploymentModel>();
                     if (!this.ModelValidationResult.IsValid)
                     {
+                        return 400;
+                    }
 
-                    }
-                    else
-                    {
-                        deploymentRepository.AddDeployment(model);
-                    }
+                    deploymentRepository.AddDeployment(model);
+
+                    DeployBlog(model);
 
                     Thread.Sleep(2500);
 
@@ -135,6 +109,97 @@
 
                     return new { isValid = !alreadyRegistered, keys = keys };
                 };
+        }
+
+        private void DeployBlog(DeploymentModel model)
+        {
+            CloneFromGithub(model.CloneUrl, model.Username);
+
+            LetItSnow();
+
+            PushToGithub();
+
+            PublishToGitFTP(model);
+
+            DeleteRepoPathContents(repoPath);
+        }
+
+        private void CloneFromGithub(string cloneUrl, string username)
+        {
+            var token = userRepository.GetToken(username);
+            if (token == string.Empty)
+                throw new Exception("No auth token found for user " + username);
+
+            token = token + "@";
+
+            //Clone via https
+            cloneUrl = cloneUrl.Insert(8, token);
+
+            var cloneProcess =
+                Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
+
+            if (cloneProcess != null)
+                cloneProcess.WaitForExit();
+        }
+
+        private void LetItSnow()
+        {
+        }
+
+        private void PushToGithub()
+        {
+            var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" add -A");
+            if (addProcess != null)
+                addProcess.WaitForExit();
+
+            var commitProcess =
+                Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" commit -a -m \"Static Content Regenerated\"");
+            if (commitProcess != null)
+                commitProcess.WaitForExit();
+
+            var pushProcess =
+                Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" push origin master");
+            if (pushProcess != null)
+                pushProcess.WaitForExit();
+
+           
+        }
+
+        private void DeleteRepoPathContents(string folderName)
+        {
+            var repoPathDir = new DirectoryInfo(folderName);
+
+            foreach (FileInfo fi in repoPathDir.GetFiles())
+            {
+                fi.IsReadOnly = false;
+                fi.Delete();
+            }
+
+            foreach (DirectoryInfo di in repoPathDir.GetDirectories())
+            {
+                DeleteRepoPathContents(di.FullName);
+                di.Delete();
+            }
+        }
+
+        private void PublishToGitFTP(DeploymentModel model)
+        {
+            if (model.AzureDeployment)
+            {
+                var remoteProcess =
+                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.AzureRepo);
+                if (remoteProcess != null)
+                    remoteProcess.WaitForExit();
+
+                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" push blog master");
+                if (pushProcess != null)
+                    pushProcess.WaitForExit();
+
+            }
+            else
+            {
+
+            }
         }
     }
 }

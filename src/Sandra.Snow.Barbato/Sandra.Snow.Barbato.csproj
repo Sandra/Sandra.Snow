@@ -45,12 +45,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.17.1\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Authentication.WorldDomination">
-      <HintPath>..\packages\Nancy.Authentication.WorldDomination.0.19.1\lib\net40\Nancy.Authentication.WorldDomination.dll</HintPath>
+    <Reference Include="Nancy.Authentication.WorldDomination, Version=0.19.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.Authentication.WorldDomination.0.19.2\lib\net40\Nancy.Authentication.WorldDomination.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Hosting.Aspnet, Version=0.17.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Hosting.Aspnet.0.17.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Validation.DataAnnotations">
+      <HintPath>..\packages\Nancy.Validation.DataAnnotations.0.17.1\lib\net40\Nancy.Validation.DataAnnotations.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.ViewEngines.Razor, Version=0.17.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,6 +64,7 @@
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Razor.Unofficial">
       <HintPath>..\packages\System.Web.Razor.Unofficial.2.0.2\lib\net40\System.Web.Razor.Unofficial.dll</HintPath>
@@ -67,11 +72,13 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="WorldDomination.Web.Authentication">
-      <HintPath>..\packages\WorldDomination.Web.Authentication.0.19.1\lib\net40\WorldDomination.Web.Authentication.dll</HintPath>
+    <Reference Include="WorldDomination.Web.Authentication, Version=0.19.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WorldDomination.Web.Authentication.0.19.2\lib\net40\WorldDomination.Web.Authentication.dll</HintPath>
     </Reference>
-    <Reference Include="WorldDomination.Web.Authentication.ExtraProviders">
-      <HintPath>..\packages\WorldDomination.Web.Authentication.ExtraProviders.0.19.1\lib\net40\WorldDomination.Web.Authentication.ExtraProviders.dll</HintPath>
+    <Reference Include="WorldDomination.Web.Authentication.ExtraProviders, Version=0.19.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WorldDomination.Web.Authentication.ExtraProviders.0.19.4\lib\net40\WorldDomination.Web.Authentication.ExtraProviders.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +112,7 @@
     <Compile Include="Model\GithubUserRepos.cs" />
     <Compile Include="Model\IUserRepository.cs" />
     <Compile Include="Model\RepoModel.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
