@@ -21,7 +21,7 @@
         {
             get { return DeploymentType == "azure"; }
         }
-
+        
         public string DeploymentType { get; set; }
         
         public string AzureRepo { get; set; }

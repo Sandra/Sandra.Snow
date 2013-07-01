@@ -183,10 +183,22 @@
             }
         }
 
-        private void PublishToGitFTP(DeploymentModel model)
+        public void PublishToGitFTP(DeploymentModel model)
         {
             if (model.AzureDeployment)
             {
+                var colonPos = model.AzureRepo.LastIndexOf(':')+1;
+                var atPos = model.AzureRepo.IndexOf('@');
+
+                var sub = model.AzureRepo.Substring(colonPos, atPos-colonPos);
+
+                var escaped = string.Join("\\", sub.ToCharArray());
+
+                escaped = "\\" + escaped;
+
+                model.AzureRepo = model.AzureRepo.Remove(colonPos, atPos-colonPos);
+                model.AzureRepo = model.AzureRepo.Insert(colonPos, escaped);
+
                 var remoteProcess =
                      Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.AzureRepo);
                 if (remoteProcess != null)
