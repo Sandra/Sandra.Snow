@@ -3,16 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading;
+    using FtpLib;
     using Nancy;
     using System.Configuration;
     using System.Diagnostics;
     using System.IO;
     using Nancy.ModelBinding;
-    using Nancy.Validation;
     using RestSharp;
-    using Sandra.Snow.Barbato.Model;
+    using Model;
 
     public class IndexModule : NancyModule
     {
@@ -20,6 +19,8 @@
         private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
         private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
         private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
+        private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
+        private FtpConnection ftp;
 
         public IndexModule(IUserRepository userRepository, IDeploymentRepository deploymentRepository)
         {
@@ -162,7 +163,7 @@
             if (pushProcess != null)
                 pushProcess.WaitForExit();
 
-           
+
         }
 
         private void DeleteRepoPathContents(string folderName)
@@ -198,7 +199,54 @@
             }
             else
             {
+                using (ftp = new FtpConnection(model.FTPServer, model.FTPUsername, model.FTPPassword))
+                {
+                    try
+                    {
+                        ftp.Open();
+                        ftp.Login();
 
+                        if (!string.IsNullOrWhiteSpace(model.FTPPath))
+                        {
+                            if (!ftp.DirectoryExists(model.FTPPath))
+                            {
+                                ftp.CreateDirectory(model.FTPPath);
+                            }
+
+                            ftp.SetCurrentDirectory(model.FTPPath);
+                        }
+
+                        FtpBlogFiles(snowPublishPath, model.FTPPath);
+                    }
+                    catch (Exception ex)
+                    {
+                      
+                    }
+                }
+            }
+        }
+
+        private void FtpBlogFiles(string dirPath, string uploadPath)
+        {
+            string[] files = Directory.GetFiles(dirPath, "*.*");
+            string[] subDirs = Directory.GetDirectories(dirPath);
+            
+
+            foreach (string file in files)
+            {
+                ftp.PutFile(file, Path.GetFileName(file));
+            }
+
+            foreach (string subDir in subDirs)
+            {
+                if (!ftp.DirectoryExists(uploadPath + "/" + Path.GetFileName(subDir)))
+                {
+                    ftp.CreateDirectory(uploadPath + "/" + Path.GetFileName(subDir));
+                }
+
+                ftp.SetCurrentDirectory(uploadPath + "/" + Path.GetFileName(subDir));
+
+                FtpBlogFiles(subDir, uploadPath + "/" + Path.GetFileName(subDir));
             }
         }
     }
