@@ -1,10 +1,27 @@
 namespace Sandra.Snow.Barbato.Model
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class DeploymentRepository : IDeploymentRepository
     {
-        public bool IsUserAndRepoRegistered()
+        private static List<DeploymentModel> deployments = new List<DeploymentModel>();
+
+        public bool IsUserAndRepoRegistered(bool azureDeployment, string repo, string username)
         {
-            return true;
+            return
+                deployments.Any(
+                    x => azureDeployment ? x.AzureRepo == repo : x.FTPServer == repo && x.Username == username);
+        }
+
+        public void AddDeployment(DeploymentModel model)
+        {
+            deployments.Add(model);
+        }
+
+        public DeploymentModel GetDeployment(string username)
+        {
+            return deployments.FirstOrDefault(x => x.Username == username);
         }
     }
 }

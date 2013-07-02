@@ -3,20 +3,29 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Threading;
+    using FtpLib;
     using Nancy;
     using System.Configuration;
     using System.Diagnostics;
     using System.IO;
     using Nancy.ModelBinding;
-    using Nancy.Validation;
     using RestSharp;
-    using Sandra.Snow.Barbato.Model;
+    using Model;
 
     public class IndexModule : NancyModule
     {
-        public IndexModule(IRootPathProvider rootPathProvider, IUserRepository userRepository, IDeploymentRepository deploymentRepository)
+        private readonly IGithubUserRepository githubUserRepository;
+        private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
+        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
+        private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
+        private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
+        private FtpConnection ftp;
+
+        public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository)
         {
+            this.githubUserRepository = githubUserRepository;
+
             Post["/"] = parameters =>
                 {
                     var payloadModel = this.Bind<GithubHookModel.RootObject>();
@@ -25,45 +34,12 @@
                     var githubhookfromUsername = payloadModel.repository.owner.name;
                     var githubhookfromRepo = payloadModel.repository.url;
 
-                    if (!userRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
+                    if (!githubUserRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
                         return HttpStatusCode.Forbidden;
 
-                    var gitLocation = ConfigurationManager.AppSettings["GitLocation"];
+                    var deploymentModel = deploymentRepository.GetDeployment(githubhookfromUsername);
 
-                    var repoPath = rootPathProvider.GetRootPath() + ".git";
-                    if (!Directory.Exists(repoPath))
-                    {
-                        var cloneProcess =
-                            Process.Start(gitLocation + " clone " + payloadModel.repository.url + " " + repoPath);
-                        if (cloneProcess != null)
-                            cloneProcess.WaitForExit();
-                    }
-                    else
-                    {
-                        //Shell out to git.exe as LibGit2Sharp doesnt support Merge yet
-                        var pullProcess =
-                            Process.Start(gitLocation + " --git-dir=\"" + repoPath + "\" pull upstream master");
-                        if (pullProcess != null)
-                            pullProcess.WaitForExit();
-                    }
-
-                    //Run the PreCompiler
-
-                    var addProcess = Process.Start(gitLocation + " --git-dir=\"" + repoPath + "\" add -A");
-                    if (addProcess != null)
-                        addProcess.WaitForExit();
-
-                    var commitProcess =
-                        Process.Start(gitLocation + " --git-dir=\"" + repoPath +
-                                      "\" commit -a -m \"Static Content Regenerated\"");
-                    if (commitProcess != null)
-                        commitProcess.WaitForExit();
-
-                    var pushProcess =
-                        Process.Start("C:\\Program Files (x86)\\Git\bin\\git.exe --git-dir=\"" + repoPath +
-                                      "\" push upstream master");
-                    if (pushProcess != null)
-                        pushProcess.WaitForExit();
+                    DeployBlog(deploymentModel);
 
                     return 200;
                 };
@@ -111,22 +87,167 @@
                     var model = this.BindAndValidate<DeploymentModel>();
                     if (!this.ModelValidationResult.IsValid)
                     {
-                        
+                        return 400;
                     }
 
-                   
+                    DeployBlog(model);
+
+                    deploymentRepository.AddDeployment(model);
+
+                    Thread.Sleep(2500);
 
                     return "deployed";
                 };
 
             Post["/alreadyregistered"] = parameters =>
                 {
-                    string repo = (string) Request.Form.repo;
+                    var model = this.Bind<AlreadyRegisteredModel>();
 
-                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered();
+                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered(model.AzureDeployment, model.Repo, model.Username);
 
-                    return alreadyRegistered;
+                    var keys = new List<string>();
+                    keys.Add(model.AzureDeployment ? "azurerepo" : "ftpserver");
+
+                    return new { isValid = !alreadyRegistered, keys = keys };
                 };
+        }
+
+        private void DeployBlog(DeploymentModel model)
+        {
+            CloneFromGithub(model.CloneUrl, model.Username);
+
+            LetItSnow();
+
+            PushToGithub();
+
+            PublishToGitFTP(model);
+
+            DeleteRepoPathContents(repoPath);
+        }
+
+        private void CloneFromGithub(string cloneUrl, string username)
+        {
+            var token = githubUserRepository.GetToken(username);
+            if (token == string.Empty)
+                throw new Exception("No auth token found for user " + username);
+
+            token = token + "@";
+
+            //Clone via https
+            cloneUrl = cloneUrl.Insert(8, token);
+
+            var cloneProcess =
+                Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
+
+            if (cloneProcess != null)
+                cloneProcess.WaitForExit();
+        }
+
+        private void LetItSnow()
+        {
+        }
+
+        private void PushToGithub()
+        {
+            var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" add -A");
+            if (addProcess != null)
+                addProcess.WaitForExit();
+
+            var commitProcess =
+                Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" commit -a -m \"Static Content Regenerated\"");
+            if (commitProcess != null)
+                commitProcess.WaitForExit();
+
+            var pushProcess =
+                Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" push origin master");
+            if (pushProcess != null)
+                pushProcess.WaitForExit();
+
+
+        }
+
+        public void PublishToGitFTP(DeploymentModel model)
+        {
+            if (model.AzureDeployment)
+            {
+                var remoteProcess =
+                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.AzureRepo);
+                if (remoteProcess != null)
+                    remoteProcess.WaitForExit();
+
+                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" push -f blog master");
+                if (pushProcess != null)
+                    pushProcess.WaitForExit();
+
+            }
+            else
+            {
+                using (ftp = new FtpConnection(model.FTPServer, model.FTPUsername, model.FTPPassword))
+                {
+                    try
+                    {
+                        ftp.Open();
+                        ftp.Login();
+
+                        if (!string.IsNullOrWhiteSpace(model.FTPPath))
+                        {
+                            if (!ftp.DirectoryExists(model.FTPPath))
+                            {
+                                ftp.CreateDirectory(model.FTPPath);
+                            }
+
+                            ftp.SetCurrentDirectory(model.FTPPath);
+                        }
+
+                        FtpBlogFiles(snowPublishPath, model.FTPPath);
+                    }
+                    catch (Exception ex)
+                    {
+                      
+                    }
+                }
+            }
+        }
+
+        private void FtpBlogFiles(string dirPath, string uploadPath)
+        {
+            string[] files = Directory.GetFiles(dirPath, "*.*");
+            string[] subDirs = Directory.GetDirectories(dirPath);
+            
+
+            foreach (string file in files)
+            {
+                ftp.PutFile(file, Path.GetFileName(file));
+            }
+
+            foreach (string subDir in subDirs)
+            {
+                if (!ftp.DirectoryExists(uploadPath + "/" + Path.GetFileName(subDir)))
+                {
+                    ftp.CreateDirectory(uploadPath + "/" + Path.GetFileName(subDir));
+                }
+
+                ftp.SetCurrentDirectory(uploadPath + "/" + Path.GetFileName(subDir));
+
+                FtpBlogFiles(subDir, uploadPath + "/" + Path.GetFileName(subDir));
+            }
+        }
+
+        private void DeleteRepoPathContents(string folderName)
+        {
+            var repoPathDir = new DirectoryInfo(folderName);
+
+            foreach (FileInfo fi in repoPathDir.GetFiles())
+            {
+                fi.IsReadOnly = false;
+                fi.Delete();
+            }
+
+            foreach (DirectoryInfo di in repoPathDir.GetDirectories())
+            {
+                DeleteRepoPathContents(di.FullName);
+                di.Delete();
+            }
         }
     }
 }
