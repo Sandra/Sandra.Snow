@@ -18,6 +18,9 @@
             var githubProvider =
                 new GitHubProvider(new ProviderParams() { Key = GithubConsumerKey, Secret = GithubConsumerSecret });
 
+            ((WorldDomination.Web.Authentication.ExtraProviders.GitHub.GitHubAuthenticationServiceSettings)
+             githubProvider.DefaultAuthenticationServiceSettings).Scope = "user:email,public_repo";
+
             var authenticationService = new AuthenticationService();
 
             authenticationService.AddProvider(githubProvider);
@@ -33,5 +36,9 @@
             StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
 #endif
         }
+
+      
     }
+
+    
 }
