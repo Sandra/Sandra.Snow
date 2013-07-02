@@ -15,16 +15,16 @@
 
     public class IndexModule : NancyModule
     {
-        private readonly IUserRepository userRepository;
+        private readonly IGithubUserRepository githubUserRepository;
         private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
         private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
         private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
         private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
         private FtpConnection ftp;
 
-        public IndexModule(IUserRepository userRepository, IDeploymentRepository deploymentRepository)
+        public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository)
         {
-            this.userRepository = userRepository;
+            this.githubUserRepository = githubUserRepository;
 
             Post["/"] = parameters =>
                 {
@@ -34,7 +34,7 @@
                     var githubhookfromUsername = payloadModel.repository.owner.name;
                     var githubhookfromRepo = payloadModel.repository.url;
 
-                    if (!userRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
+                    if (!githubUserRepository.UserRegistered(githubhookfromUsername, githubhookfromRepo))
                         return HttpStatusCode.Forbidden;
 
                     var deploymentModel = deploymentRepository.GetDeployment(githubhookfromUsername);
@@ -127,7 +127,7 @@
 
         private void CloneFromGithub(string cloneUrl, string username)
         {
-            var token = userRepository.GetToken(username);
+            var token = githubUserRepository.GetToken(username);
             if (token == string.Empty)
                 throw new Exception("No auth token found for user " + username);
 
@@ -166,23 +166,6 @@
 
         }
 
-        private void DeleteRepoPathContents(string folderName)
-        {
-            var repoPathDir = new DirectoryInfo(folderName);
-
-            foreach (FileInfo fi in repoPathDir.GetFiles())
-            {
-                fi.IsReadOnly = false;
-                fi.Delete();
-            }
-
-            foreach (DirectoryInfo di in repoPathDir.GetDirectories())
-            {
-                DeleteRepoPathContents(di.FullName);
-                di.Delete();
-            }
-        }
-
         public void PublishToGitFTP(DeploymentModel model)
         {
             if (model.AzureDeployment)
@@ -192,7 +175,7 @@
                 if (remoteProcess != null)
                     remoteProcess.WaitForExit();
 
-                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" push blog master");
+                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" push -f blog master");
                 if (pushProcess != null)
                     pushProcess.WaitForExit();
 
@@ -247,6 +230,23 @@
                 ftp.SetCurrentDirectory(uploadPath + "/" + Path.GetFileName(subDir));
 
                 FtpBlogFiles(subDir, uploadPath + "/" + Path.GetFileName(subDir));
+            }
+        }
+
+        private void DeleteRepoPathContents(string folderName)
+        {
+            var repoPathDir = new DirectoryInfo(folderName);
+
+            foreach (FileInfo fi in repoPathDir.GetFiles())
+            {
+                fi.IsReadOnly = false;
+                fi.Delete();
+            }
+
+            foreach (DirectoryInfo di in repoPathDir.GetDirectories())
+            {
+                DeleteRepoPathContents(di.FullName);
+                di.Delete();
             }
         }
     }

@@ -4,13 +4,13 @@
     using System.Linq;
     using Model;
 
-    public class UserRepository : IUserRepository
+    public class GithubUserRepository : IGithubUserRepository
     {
-        private static List<User> users = new List<User>();
+        private static List<GithubUser> users = new List<GithubUser>();
 
-        public bool UserRegistered(string userName, string repoName)
+        public bool UserRegistered(string userName, string repoUrl)
         {
-            return users.Any(x => x.Username == userName && x.Repository == repoName);
+            return users.Any(x => x.Username == userName && x.Repository == repoUrl);
         }
 
         public bool UserRegistered(string token)
@@ -20,7 +20,7 @@
 
         public void AddOAuthToken(string token, string email, string username)
         {
-            users.Add(new User() {Token = token, EMailAddress = email, Username = username});
+            users.Add(new GithubUser() {Token = token, EMailAddress = email, Username = username});
         }
 
         public string GetToken(string username)

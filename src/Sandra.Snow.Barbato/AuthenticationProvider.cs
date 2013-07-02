@@ -12,11 +12,11 @@
 
     public class AuthenticationProvider : IAuthenticationCallbackProvider
     {
-        private readonly IUserRepository userRepository;
+        private readonly IGithubUserRepository githubUserRepository;
 
-        public AuthenticationProvider(IUserRepository userRepository)
+        public AuthenticationProvider(IGithubUserRepository githubUserRepository)
         {
-            this.userRepository = userRepository;
+            this.githubUserRepository = githubUserRepository;
         }
 
         public dynamic Process(NancyModule nancyModule, AuthenticateCallbackData model)
@@ -42,9 +42,9 @@
                     };
             }
 
-            if (!userRepository.UserRegistered(model.AuthenticatedClient.AccessToken))
+            if (!githubUserRepository.UserRegistered(model.AuthenticatedClient.AccessToken))
             {
-                userRepository.AddOAuthToken(model.AuthenticatedClient.AccessToken, model.AuthenticatedClient.UserInformation.Email, model.AuthenticatedClient.UserInformation.UserName);
+                githubUserRepository.AddOAuthToken(model.AuthenticatedClient.AccessToken, model.AuthenticatedClient.UserInformation.Email, model.AuthenticatedClient.UserInformation.UserName);
             }
 
             var githubUser = model.AuthenticatedClient.UserInformation.UserName;

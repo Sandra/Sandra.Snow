@@ -113,10 +113,10 @@
     <Compile Include="IndexModule.cs" />
     <Compile Include="Model\GithubHookModel.cs" />
     <Compile Include="Model\GithubUserRepos.cs" />
-    <Compile Include="Model\IUserRepository.cs" />
+    <Compile Include="Model\IGithubUserRepository.cs" />
     <Compile Include="Model\RepoModel.cs" />
-    <Compile Include="Model\User.cs" />
-    <Compile Include="Model\UserRepository.cs" />
+    <Compile Include="Model\GithubUser.cs" />
+    <Compile Include="Model\GithubUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
