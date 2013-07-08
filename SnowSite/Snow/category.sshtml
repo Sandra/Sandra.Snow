@@ -7,9 +7,12 @@
   </div>
   </header>
 
-  <ul>
+  <ul class="category-list fancy-container orange">
     @Each.CategoriesInPost
-      <li><a href="@Current.Url" title="@Current.Title">@Current.Title</a> <small>(@Current.DateFormatted)</small></li>
+      <li>
+        <a href="@Current.Url" title="@Current.Title">@Current.Title</a> 
+        <small>(@Current.DateFormatted)</small>
+      </li>
     @EndEach
   </ul>
   

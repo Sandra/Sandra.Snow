@@ -7,7 +7,7 @@
   </div>
   </header>
   
-  <ul>
+  <ul class="category-list fancy-container darkishblue">
     @Each.Categories
       <li><a href="/category/@Current.Url" title="@Current.Name">@Current.Name</a></li>
     @EndEach

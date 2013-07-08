@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 
 namespace Sandra.Snow.PreCompiler
 {
+    using Nancy.ViewEngines.Razor;
+
     internal class Program
     {
         private static readonly Regex FileNameRegex =
@@ -60,13 +62,17 @@ namespace Sandra.Snow.PreCompiler
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => GetFileData(x, browserParser)).ToList();
+                var parsedFiles = files.Select(x => GetFileData(x, browserParser))
+                                       .OrderByDescending(x => x.Date)
+                                       .ToList();
+
+                TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
 
                 var browserComposer = new Browser(with =>
                 {
                     with.Module<TestModule>();
                     with.RootPathProvider<StaticPathProvider>();
-                    with.ViewEngine<SuperSimpleViewEngineWrapper>();
+                    with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
                 });
 
                 parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
@@ -102,23 +108,48 @@ namespace Sandra.Snow.PreCompiler
             Console.ReadKey();
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<FileData> parsedFiles, Browser browserComposer)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<FileData> parsedFiles)
         {
-            TestModule.StaticFile = staticFile;
+            var groupedByYear = (from p in parsedFiles
+                                 group p by p.Year
+                                 into g
+                                 select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                          group y by y.Month
+                                                                          into p
+                                                                          select p).ToDictionary(u => u.Key,
+                                                                                                 u =>
+                                                                                                 u.Select(p => p.Post).ToList()));
 
-            switch (staticFile.Property.ToLower())
+            return groupedByYear;
+        }
+
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<FileData> parsedFiles,
+                                               Browser browserComposer)
+        {
+            try
             {
-                case "postspaged":
+                TestModule.StaticFile = staticFile;
+
+                var property = staticFile.Property ?? "";
+
+                switch (property.ToLower())
+                {
+                    case "postspaged":
                     {
                         const int pageSize = 10;
                         var skip = 0;
                         var iteration = 1;
-
                         var currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
+                        var totalPages = (int) Math.Ceiling((double) parsedFiles.Count()/pageSize);
+
+                        TestModule.TotalPages = totalPages;
 
                         while (currentIteration.Any())
                         {
                             TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
+                            TestModule.PageNumber = iteration;
+                            TestModule.HasNextPage = iteration < totalPages;
+                            TestModule.HasPreviousPage = iteration > 2 && totalPages > 1;
 
                             var result = browserComposer.Post("/static");
 
@@ -139,7 +170,7 @@ namespace Sandra.Snow.PreCompiler
 
                         break;
                     }
-                case "categories":
+                    case "categories":
                     {
                         if (staticFile.Mode == ModeEnum.Each)
                         {
@@ -180,6 +211,30 @@ namespace Sandra.Snow.PreCompiler
 
                         break;
                     }
+                    default:
+                    {
+                        if (staticFile.Mode == ModeEnum.Single)
+                        {
+                            var result = browserComposer.Post("/static");
+
+                            var outputFolder = Path.Combine(settings.Output, staticFile.File.Substring(0, staticFile.File.IndexOf('.')));
+
+                            if (!Directory.Exists(outputFolder))
+                            {
+                                Directory.CreateDirectory(outputFolder);
+                            }
+
+                            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+                        }
+
+                        break;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
             }
         }
 
@@ -227,17 +282,24 @@ namespace Sandra.Snow.PreCompiler
 
         private static void ComposeParsedFiles(FileData fileData, string output, Browser browserComposer)
         {
-            TestModule.Data = fileData;
-            var result = browserComposer.Post("/compose");
-
-            var outputFolder = Path.Combine(output, fileData.Year, fileData.Month, fileData.Slug);
-
-            if (!Directory.Exists(outputFolder))
+            try
             {
-                Directory.CreateDirectory(outputFolder);
-            }
+                TestModule.Data = fileData;
+                var result = browserComposer.Post("/compose");
 
-            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+                var outputFolder = Path.Combine(output, fileData.Year.ToString(), fileData.Month.ToString(), fileData.Slug);
+
+                if (!Directory.Exists(outputFolder))
+                {
+                    Directory.CreateDirectory(outputFolder);
+                }
+
+                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private static FileData GetFileData(FileInfo file, Browser browser)
@@ -255,10 +317,9 @@ namespace Sandra.Snow.PreCompiler
             }
 
             var startOfSettingsIndex = rawPost.IndexOf("---", StringComparison.InvariantCultureIgnoreCase);
-            int endOfSettingsIndex = 0;
             if (startOfSettingsIndex >= 0)
             {
-                endOfSettingsIndex = rawPost.IndexOf("---", startOfSettingsIndex + 3,
+                int endOfSettingsIndex = rawPost.IndexOf("---", startOfSettingsIndex + 3,
                                                          StringComparison.InvariantCultureIgnoreCase);
 
                 rawSettings = rawPost.Substring(startOfSettingsIndex + 3, endOfSettingsIndex - 3);
@@ -276,6 +337,7 @@ namespace Sandra.Snow.PreCompiler
             var month = fileNameMatches.Groups["month"].Value;
             var day = fileNameMatches.Groups["day"].Value;
             var slug = fileNameMatches.Groups["slug"].Value;
+            var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
             return new FileData(settings)
             {
@@ -283,17 +345,17 @@ namespace Sandra.Snow.PreCompiler
                 RawSettings = rawSettings,
                 Content = response.Body.AsString(),
                 Settings = settings,
-                Year = year,
-                Month = month,
-                Day = day,
-                Date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture),
+                Year = date.Year,
+                Month = date.Month,
+                Day = date.Day,
+                Date = date,
                 Slug = slug
             };
         }
 
         private static Dictionary<string, object> ParseSettings(string rawSettings)
         {
-            var lines = rawSettings.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = rawSettings.Split(new[] { "\n", "\r", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
             var result = new Dictionary<string, object>();
 
             for (int i = 0; i < lines.Length; i++)
