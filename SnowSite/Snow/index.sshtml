@@ -3,60 +3,36 @@
 
   <ul class="posts">
     @Each.PostsPaged
-  <li>
-      <h1><a href="@Current.Url">@Current.Title</a> <span style="font-size:8pt; font-weight:normal;">(@Current.DateFormatted)</span></h1> 
+    <li class="fancy-container lightblue">
+      <h1>
+        <a href="@Current.Url">@Current.Title</a> 
+        <span>posted on @Current.DateFormatted</span>
+      </h1> 
       @Current.ContentExcerpt
       <p><a href="@Current.Url">Read more...</a></p>
-  </li>
+    </li>
     @EndEach
   </ul> 
 
   <!-- Pagination links -->
   <div id="post-pagination" class="pagination">
 
-    {% if paginator.previous_page %}
+    @If.HasPreviousPage
     <p class="previous">
-      {% if paginator.previous_page == 1 %}
+      <a href="/page@Model.PreviousPage">Previous Page</a>
+    </p>
+    @EndIf
+    @IfNot.HasPreviousPage
+    <p class="previous">
       <a href="/">Previous Page</a>
-      {% else %}
-      <a href="/page{{paginator.previous_page}}">Previous Page</a>
-      {% endif %}
     </p>
-    {% else %}
-    <!--p class="previous disabled">
-      <span>Previous Page</span>
-    </p-->
-    {% endif %}
+    @EndIf
 
-    <!--ul class="pages">
-      <li class="page">
-        {% if paginator.page == 1 %}
-        <span class="current-page">1</span>
-        {% else %}
-        <a href="/">1</a>
-        {% endif %}
-      </li>
-
-      {% for count in (2..paginator.total_pages) %}
-      <li class="page">
-        {% if count == paginator.page %}
-        <span class="current-page">{{count}}</span>
-        {% else %}
-        <a href="/page{{count}}">{{count}}</a>
-        {% endif %}
-      </li>
-      {% endfor %}
-    </ul-->
-
-    {% if paginator.next_page %}
+    @If.HasNextPage
     <p class="next">
-      <a href="/page{{paginator.next_page}}">Next Page</a>
+      <a href="/page@Model.NextPage">Next Page</a>
     </p>
-    {% else %}
-    <!--p class="next disabled">
-      <span>Next Page</span>
-    </p-->
-    {% endif %}
+    @EndIf
 
   </div>
 

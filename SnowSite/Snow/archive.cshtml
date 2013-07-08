@@ -1,0 +1,20 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.PostData>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<h1>Archives</h1>
+
+
+@foreach(var year in Model.PostsGroupedByYearThenMonth)
+{
+   <h1>@year.Key</h1>
+
+   @foreach(var month in year)
+   {
+   
+   	<h2>Month @month.Key</h2>
+   
+   }
+}
