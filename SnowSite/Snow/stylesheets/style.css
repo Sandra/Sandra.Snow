@@ -19,6 +19,7 @@ html {
 
 body {
     background: #fff;
+    background-image: url(images/pw_maze_white.png);
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
@@ -122,8 +123,8 @@ blockquote {
     border-left: 4px #dfdfdf solid;
     padding: 10px 15px;
     border-radius: 12px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     background-color: #f3f3f3;
 }
 
@@ -296,7 +297,7 @@ textarea {
 }
 
 a {
-    color: #26ADE4;
+    color: #00b6e3;
 }
 
     a:visited {
@@ -343,7 +344,6 @@ img.aligncenter {
 
 .assistive-text {
     clip: rect(1px 1px 1px 1px);
-    clip: rect(1px,1px,1px,1px);
     position: absolute!important;
 }
 
@@ -543,7 +543,9 @@ embed, iframe, object {
 }
 
 #content p img {
-  max-width: 665px;
+    max-width: 100%;
+    border: 1px #ccc solid;
+    border-radius: 4px;
 }
 
 #comments {
@@ -591,7 +593,7 @@ ul.children .avatar {
 
 .comment-meta {
     margin-top: -12px;
-    margin-left: 0px;
+    margin-left: 0;
     margin-bottom: 20px;
 }
 
@@ -615,7 +617,7 @@ ul.children .avatar {
 }
 
 .comment-body {
-    margin-left: 0px;
+    margin-left: 0;
     margin-bottom: 40px;
 }
 
@@ -712,9 +714,9 @@ body {
 }
 
 .main-navigation a, #secondary ul li a {
-    padding: 2px 0px;
+    padding: 2px 0;
     text-decoration: none;
-    display: block;
+    display: inline;
 }
 
 #secondary .widget-title {
@@ -804,14 +806,21 @@ h4, h5, h6 {
 
 #masthead {
     float: left;
-    width: 24%;
-    margin-top: 34px;
-    margin-bottom: 40px;
+    width: 21%;
+    margin-top: 15px;
+    margin-bottom: 0;
+    padding: 1%;
 }
+
+  #masthead h2 {
+    font-weight: normal;
+    border-top: 1px #d4d4d4 solid;
+    margin: 10px 0;    
+  }
 
 .site-content, #colophon {
     float: right;
-    width: 70%;
+    width: 75%;
 }
 
 #content {
@@ -821,7 +830,8 @@ h4, h5, h6 {
     clear: left;
     float: left;
     overflow: hidden;
-    width: 24%;
+    width: 21%;
+    padding: 1%;
 }
 
     #secondary form#searchform input[type="text"].field {
@@ -846,17 +856,6 @@ h4, h5, h6 {
         .site-footer a:hover {
             color: #26ADE4;
         }
-/*
-table td {
-    padding: 4px 0;
-    font-weight: 300;
-    border-bottom: solid 1px #eee;
-}
-
-table th {
-    padding: 4px 0;
-    border-bottom: solid 1px #ccc;
-}*/
 
 table {
 	background:#FFF;
@@ -920,22 +919,27 @@ th {
 @media only screen and (max-width : 900px) {
     #page {
         width: auto;
-        padding: 40px;
+        padding: 10px;
         margin: 0 auto;
         position: relative;
     }
 
-    #masthead, .site-content, #colophon {
+    .site-content, #colophon {
         width: 100%;
     }
 
-    #masthead {
+    #masthead,
+    #secondary {
+        width: auto;
         margin-top: 0;
+        float: none;
+        margin-bottom: 0;
+        padding: 15px;
     }
 
     .site-title, .site-description {
-        margin-left: 70px;
         clear: none;
+        margin-bottom: 10px;
     }
 
     .site-logo, .site-logo img {
@@ -943,18 +947,22 @@ th {
         width: 50px;
         height: 50px;
     }
+    
+    #content p img {
+      max-width: 100%;
+    }
 
     .main-navigation {
-        padding-top: 20px;
         width: auto;
         clear: none;
-        margin-left: -10px;
+        float: none;
     }
 
         .main-navigation li {
             display: inline-block;
             width: auto;
-            padding: 5px 10px;
+            padding: 5px 20px 5px 0;
+            float: none;
         }
 
     .main-small-navigation {
@@ -997,7 +1005,10 @@ th {
 
 @media only screen and (max-width : 600px) {
     #masthead {
-        margin-top: 40px;
+        
+    }
+    #secondary {
+      display: none;
     }
 }
 
@@ -1079,10 +1090,56 @@ pre {
     color: #2b91af;
 }
 
+div#post {
+    border: 1px #d4d4d4 solid;
+    border-top: 3px #84d74d solid;
+    margin: 15px 0;
+    padding: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(100,100,100,.2);
+}
+  div#post h1 {
+    margin: 0;
+  }
+
+    div#post h1 span,
+    ul.posts > li > h1 span {
+      font-size: 8pt;
+      font-weight: normal;
+      display: block;
+      border-top: 1px #ccc solid;
+      padding-top: 5px;
+      color: #999;
+    }
+      
 ul.posts {
     list-style: none;
     margin:0;
     padding:0;
+}
+
+  ul.posts > li > h1 {
+    margin-top: 0;
+  }
+    ul.posts > li > h1 a {
+      margin-top: 0;
+      text-decoration: none;
+    }
+   
+    ul.posts > li > h1 span {
+      font-size: 8pt;
+      font-weight: normal;
+      display: block;
+      border-top: 1px #ccc solid;
+      padding-top: 5px;
+      color: #999;
+    }
+    
+ul.archive li {
+  margin-left: 15px;
 }
 
 span.note {
@@ -1095,10 +1152,97 @@ span.note strong {
 }
 
 div.post-note {
-    border: 1px #ccc solid;
-    padding: 3px 7px;
-    margin-bottom:  10px;
+  border-top: 1px #d4d4d4 solid;
+  padding-top: 10px;
+  margin-bottom: 35px;
+  display: block;
+  color: #999;
+  font-size: 8pt;
+}
+div.divider {
+  border-top: 1px #d4d4d4 solid;
+  margin: 40px 0 15px 0;
+}
+
+.category-list li {
+  margin-left: 15px;
+}
+
+.fancy-container {
+  border: 1px #d4d4d4 solid;
+  margin: 15px 0;
+  padding: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(100,100,100,.2);
+}
+
+.darkishblue {
+  border-top: 3px #409abf solid;
+}
+
+.darkishred {
+  border-top: 3px #e05c5c solid;
+}
+
+.lightblue {
+    border-top: 3px #00b6e3 solid;
+}
+
+.lightred {
+    border-top: 3px #ff7575 solid;
+}
+
+.orange {
+    border-top: 3px #ff761b solid;
+}
+
+.lightgreen {
+    border-top: 3px #abe254 solid;
+}
+div.logos {
+    overflow: hidden;
+    margin-bottom: 3px;
+} 
+div.logos a {
+    float: left;
+    line-height: 0px;
+    width: 48px;
+    height: 48px;
     display: block;
-    background: #F8F8F8;
-    border-radius: 5px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+div.logos a:nth-child(4n) {
+    margin-right: 0px;
+}
+
+/* stolen from http://apple.stackexchange.com/questions/400/please-share-your-hidden-os-x-features-or-tips-and-tricks
+   because it's an awesome way to show keyboard keys */
+kbd {
+  white-space: nowrap;
+  color: #000;
+  background: #eee;
+  border-style: solid;
+  border-color: #ccc #aaa #888 #bbb;
+  padding: 2px 6px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2),0 0 0 1px #ffffff inset;
+  -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2),0 0 0 1px #ffffff inset;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2),0 0 0 1px #ffffff inset;
+  background-color: #FAFAFA;
+  border-color: #CCCCCC #CCCCCC #FFFFFF;
+  border-style: solid solid none;
+  border-width: 1px 1px medium;
+  color: #444444;
+  font-family: 'Helvetica Neue',Helvetica,Arial,Sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  display: inline-block;
+  margin-bottom: 5px;
 }

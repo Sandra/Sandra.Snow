@@ -20,10 +20,10 @@ The route is then broken up into segments:
 
 Each segment is checked against a Node Condition in the `TrieNodeFactory` like so
 
-    if (segment.StartsWith("(") && segment.EndsWith(")"))
-    {
-        return new RegExNode(parent, segment, this);
-    }
+	if (segment.StartsWith("(") && segment.EndsWith(")"))
+	{
+	    return new RegExNode(parent, segment, this);
+	}
 
 When a request comes in, the segment is compared to the node for a match and returns true/false + the captured parameter. 
 
