@@ -27,6 +27,8 @@ namespace Sandra.Snow.PreCompiler
         public static bool HasPreviousPage { get; set; }
         public static bool HasNextPage { get; set; }
 
+        public static IList<MonthYear> MonthYear { get; set; }
+
         public TestModule()
         {
             Get["/post/{file}"] = x => View[(string)x.file];
@@ -37,7 +39,8 @@ namespace Sandra.Snow.PreCompiler
                 {
                     PostContent = Data.Content,
                     Layout = Data.Layout,
-                    Title = Data.Title
+                    Title = Data.Title,
+                    MonthYear = MonthYear
                 };
 
                 return View[result.Layout, result];
@@ -55,7 +58,8 @@ namespace Sandra.Snow.PreCompiler
                     HasPreviousPage = HasPreviousPage,
                     HasNextPage = HasNextPage,
                     NextPage = PageNumber + 1,
-                    PreviousPage = PageNumber - 1
+                    PreviousPage = PageNumber - 1,
+                    MonthYear = MonthYear
                 };
 
                 return View[StaticFile.File, model];
@@ -69,6 +73,7 @@ namespace Sandra.Snow.PreCompiler
         public IList<Category> Categories { get; set; }
         public IList<Post> Posts { get; set; }
         public IList<Post> PostsPaged { get; set; }
+        public IList<MonthYear> MonthYear { get; set; }
         public Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }
@@ -77,7 +82,14 @@ namespace Sandra.Snow.PreCompiler
 
         public string GetMonth(int month)
         {
-            return DateTime.ParseExact("2013/" + month + "/1", "yyyy/MM/dd", CultureInfo.InvariantCulture).ToString("MMMM");
+            return DateTime.ParseExact("2013/" + month + "/1", "yyyy/M/d", CultureInfo.InvariantCulture).ToString("MMMM");
         }
+    }
+
+    public class MonthYear
+    {
+        public string Url { get; set; }
+        public string Title { get; set; }
+        public int Count { get; set; }
     }
 }
