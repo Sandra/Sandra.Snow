@@ -67,6 +67,7 @@ namespace Sandra.Snow.PreCompiler
                                        .ToList();
 
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
+                TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
 
                 var browserComposer = new Browser(with =>
                 {
@@ -106,6 +107,28 @@ namespace Sandra.Snow.PreCompiler
 
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Finish processing");
             Console.ReadKey();
+        }
+
+        private static IList<MonthYear> GroupMonthYearArchive(List<FileData> parsedFiles)
+        {
+            var groupedByYear = (from p in parsedFiles
+                                 group p by p.Date.AsYearDate()
+                                 into g
+                                 select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                          group y by y.Date.AsMonthDate()
+                                                                          into p
+                                                                          select p).ToDictionary(u => u.Key,
+                                                                                                 u =>
+                                                                                                 u.Count()));
+
+            return (from s in groupedByYear
+                    from y in s.Value
+                    select new MonthYear
+                    {
+                        Count = y.Value,
+                        Title = y.Key.ToString("MMMM, yyyy"),
+                        Url = "/archive#" + y.Key.ToString("yyyyMMMM")
+                    }).ToList();
         }
 
         private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<FileData> parsedFiles)
@@ -362,7 +385,7 @@ namespace Sandra.Snow.PreCompiler
             {
                 var line = lines[i];
 
-                var setting = line.Split(':');
+                var setting = line.Split(new []{':'}, 2);
 
                 if (setting[1].Trim() == string.Empty)
                 {
@@ -394,6 +417,19 @@ namespace Sandra.Snow.PreCompiler
             }
 
             return result;
+        }
+    }
+
+    public static class DateExtensionHelpers
+    {
+        public static DateTime AsYearDate(this DateTime date)
+        {
+            return new DateTime(date.Year, 1, 1);
+        }
+
+        public static DateTime AsMonthDate(this DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1);
         }
     }
 }

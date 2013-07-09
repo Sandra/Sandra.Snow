@@ -1,4 +1,5 @@
-@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.PostData>
+@using System.Collections.Generic
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
@@ -81,22 +82,15 @@
                     </ul>
                     
                 </aside>
-                <!--aside id="archives-4" class="widget widget_archive">
+                <aside id="archives-4" class="widget widget_archive">
                     <h1 class="widget-title">Archive</h1>
-                    {% assign year = '2015' %}
-                    {% assign month = 'December' %}
-
                     <ul class="posts">
-                      {% for post in site.posts %}
-                        {% capture postmonth %}{{ post.date | date: "%B" }}{% endcapture %}
-                        <!-/- {{ postmonth }} {{ month }} -/->
-                        {% if postmonth != month %}
-                          {% assign month = postmonth %}
-                          <li><a href='/archive#{{ post.date | date: "%Y" }}{{ month }}'>{{ month }} {{ post.date | date: "%Y" }}</a></li>
-                        {% endif %}
-                      {% endfor %}
+                    @foreach(var item in Model.MonthYear)
+                    {
+                          <li><a href="@item.Url">@item.Title</a></li>
+                    }
                     </ul>
-                </aside-->
+                </aside>
             </div>
             <!-- #secondary .widget-area -->
 
