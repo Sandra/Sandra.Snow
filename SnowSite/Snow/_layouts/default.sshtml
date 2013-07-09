@@ -80,22 +80,15 @@
                     </ul>
                     
                 </aside>
-                <!--aside id="archives-4" class="widget widget_archive">
+                <aside id="archives-4" class="widget widget_archive">
                     <h1 class="widget-title">Archive</h1>
-                    {% assign year = '2015' %}
-                    {% assign month = 'December' %}
-
+                    
                     <ul class="posts">
-                      {% for post in site.posts %}
-                        {% capture postmonth %}{{ post.date | date: "%B" }}{% endcapture %}
-                        <!-/- {{ postmonth }} {{ month }} -/->
-                        {% if postmonth != month %}
-                          {% assign month = postmonth %}
-                          <li><a href='/archive#{{ post.date | date: "%Y" }}{{ month }}'>{{ month }} {{ post.date | date: "%Y" }}</a></li>
-                        {% endif %}
-                      {% endfor %}
+                    @Each.MonthYear
+                          <li><a href="@Current.Url">@Current.Title</a></li>
+                    @EndEach
                     </ul>
-                </aside-->
+                </aside>
             </div>
             <!-- #secondary .widget-area -->
 
