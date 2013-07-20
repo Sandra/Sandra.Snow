@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="@Model.GeneratedDate" />
     <title>philliphaydon.com</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
@@ -84,7 +85,7 @@
                     <h1 class="widget-title">Archive</h1>
                     
                     <ul class="posts">
-                    @Each.MonthYear
+                    @Each.MonthYearList
                           <li><a href="@Current.Url">@Current.Title</a></li>
                     @EndEach
                     </ul>

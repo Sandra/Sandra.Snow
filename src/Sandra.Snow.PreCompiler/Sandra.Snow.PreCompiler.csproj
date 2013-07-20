@@ -88,13 +88,15 @@
     <Compile Include="..\.stuffz\AssemblyInfoVersion.cs">
       <Link>Properties\AssemblyInfoVersion.cs</Link>
     </Compile>
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="ComposableContent.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
     <Compile Include="FileData.cs" />
     <Compile Include="IoHelpers.cs" />
     <Compile Include="ModeEnum.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SnowSettings.cs" />

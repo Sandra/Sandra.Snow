@@ -13,7 +13,9 @@ using Newtonsoft.Json;
 
 namespace Sandra.Snow.PreCompiler
 {
+    using Nancy;
     using Nancy.ViewEngines.Razor;
+    using Sandra.Snow.PreCompiler.ViewModels;
 
     internal class Program
     {
@@ -109,7 +111,7 @@ namespace Sandra.Snow.PreCompiler
             Console.ReadKey();
         }
 
-        private static IList<MonthYear> GroupMonthYearArchive(List<FileData> parsedFiles)
+        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<FileData> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -123,7 +125,7 @@ namespace Sandra.Snow.PreCompiler
 
             return (from s in groupedByYear
                     from y in s.Value
-                    select new MonthYear
+                    select new BaseViewModel.MonthYear
                     {
                         Count = y.Value,
                         Title = y.Key.ToString("MMMM, yyyy"),
@@ -134,14 +136,14 @@ namespace Sandra.Snow.PreCompiler
         private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<FileData> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
-                                 group p by p.Year
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Month
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
-                                                                                                 u =>
-                                                                                                 u.Select(p => p.Post).ToList()));
+                                    group p by p.Year
+                                    into g
+                                    select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                            group y by y.Month
+                                                                            into p
+                                                                            select p).ToDictionary(u => u.Key,
+                                                                                                    u =>
+                                                                                                    u.Select(p => p.Post).ToList()));
 
             return groupedByYear;
         }
@@ -176,6 +178,8 @@ namespace Sandra.Snow.PreCompiler
 
                             var result = browserComposer.Post("/static");
 
+                            result.StatusCode.ThrowIfNotSuccessful();
+
                             var folder = skip == 0 ? "" : "page" + iteration;
                             var outputFolder = Path.Combine(settings.Output, folder);
 
@@ -183,6 +187,7 @@ namespace Sandra.Snow.PreCompiler
                             {
                                 Directory.CreateDirectory(outputFolder);
                             }
+
 
                             File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
 
@@ -208,6 +213,8 @@ namespace Sandra.Snow.PreCompiler
                                 //TestModule.Data = fileData;
                                 var result = browserComposer.Post("/static");
 
+                                result.StatusCode.ThrowIfNotSuccessful();
+
                                 var outputFolder = Path.Combine(settings.Output, "category", category.Url);
 
                                 if (!Directory.Exists(outputFolder))
@@ -221,6 +228,8 @@ namespace Sandra.Snow.PreCompiler
                         else if (staticFile.Mode == ModeEnum.Single)
                         {
                             var result = browserComposer.Post("/static");
+
+                            result.StatusCode.ThrowIfNotSuccessful();
 
                             var outputFolder = Path.Combine(settings.Output, "category");
 
@@ -239,6 +248,8 @@ namespace Sandra.Snow.PreCompiler
                         if (staticFile.Mode == ModeEnum.Single)
                         {
                             var result = browserComposer.Post("/static");
+
+                            result.StatusCode.ThrowIfNotSuccessful();
 
                             var outputFolder = Path.Combine(settings.Output, staticFile.File.Substring(0, staticFile.File.IndexOf('.')));
 
@@ -310,7 +321,7 @@ namespace Sandra.Snow.PreCompiler
                 TestModule.Data = fileData;
                 var result = browserComposer.Post("/compose");
 
-                var outputFolder = Path.Combine(output, fileData.Year.ToString(), fileData.Month.ToString(), fileData.Slug);
+                var outputFolder = Path.Combine(output, fileData.Year.ToString(CultureInfo.InvariantCulture), fileData.Date.ToString("MM"), fileData.Slug);
 
                 if (!Directory.Exists(outputFolder))
                 {
@@ -321,7 +332,7 @@ namespace Sandra.Snow.PreCompiler
             }
             catch (Exception ex)
             {
-                throw;
+                Console.Write(ex);
             }
         }
 
@@ -430,6 +441,25 @@ namespace Sandra.Snow.PreCompiler
         public static DateTime AsMonthDate(this DateTime date)
         {
             return new DateTime(date.Year, date.Month, 1);
+        }
+    }
+
+    public static class StatusCodeHelper
+    {
+        public static void ThrowIfNotSuccessful(this HttpStatusCode code)
+        {
+            if (code != HttpStatusCode.OK)
+            {
+                throw new FileProcessingException("Failed to generate some file...");
+            }
+        }
+    }
+
+    public class FileProcessingException : Exception
+    {
+        public FileProcessingException(string message) : base(message)
+        {
+            
         }
     }
 }
