@@ -8,10 +8,7 @@
         }
 
         public string Name { get; set; }
-
-        public string Url
-        {
-            get { return Name.ToLower().Replace(" ", "-"); }
-        }
+        public int Count { get; set; }
+        public string Url { get { return Name.ToLower().Replace(" ", "-"); } }
     }
 }
