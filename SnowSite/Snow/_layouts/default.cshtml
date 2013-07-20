@@ -1,10 +1,11 @@
-@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.PostData>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.ViewModels.ContentViewModel>
 @using System.Collections.Generic
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="@Model.GeneratedDate" />
     <title>philliphaydon.com</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
@@ -85,7 +86,7 @@
                 <aside id="archives-4" class="widget widget_archive">
                     <h1 class="widget-title">Archive</h1>
                     <ul class="posts">
-                    @foreach(var item in Model.MonthYear)
+                    @foreach(var item in Model.MonthYearList)
                     {
                           <li><a href="@item.Url">@item.Title</a></li>
                     }
