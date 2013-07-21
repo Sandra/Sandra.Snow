@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition.Hosting;
     using System.ComponentModel.Composition.Primitives;
     using System.ComponentModel.Composition.ReflectionModel;
     using System.IO;
+    using System.Linq;
     using Sandra.Snow.PreCompiler.StaticFileProcessors;
 
     public class ProcessorFactory
@@ -26,7 +25,6 @@ namespace Sandra.Snow.PreCompiler
             return Processors.SingleOrDefault(x => x.Is(name, mode));
         }
     }
-
 
     public static class MefHelpers
     {
@@ -56,8 +54,8 @@ namespace Sandra.Snow.PreCompiler
             return part.ExportDefinitions.Any(
                 def => def.Metadata.ContainsKey("ExportTypeIdentity") &&
                        def.Metadata["ExportTypeIdentity"].Equals(typeof (T).FullName))
-                       ? ReflectionModelServices.GetPartType(part).Value
-                       : null;
+                ? ReflectionModelServices.GetPartType(part).Value
+                : null;
         }
     }
 }

@@ -1,27 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using MarkdownSharp;
-using Nancy;
-using Nancy.Responses;
-using Nancy.ViewEngines;
-using Nancy.ViewEngines.Markdown;
-using Nancy.ViewEngines.SuperSimpleViewEngine;
-
 namespace Sandra.Snow.PreCompiler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using MarkdownSharp;
+    using Nancy;
+    using Nancy.Responses;
+    using Nancy.ViewEngines;
+    using Nancy.ViewEngines.Markdown;
+    using Nancy.ViewEngines.SuperSimpleViewEngine;
+
     public class CustomMarkDownViewEngine : IViewEngine
     {
         private readonly SuperSimpleViewEngine engineWrapper;
 
-        public IEnumerable<string> Extensions
-        {
-            get { return new[] { "md", "markdown" }; }
-        }
-
         public CustomMarkDownViewEngine(SuperSimpleViewEngine engineWrapper)
         {
             this.engineWrapper = engineWrapper;
+        }
+
+        public IEnumerable<string> Extensions
+        {
+            get { return new[] {"md", "markdown"}; }
         }
 
         public void Initialize(ViewEngineStartupContext viewEngineStartupContext)
@@ -32,14 +32,13 @@ namespace Sandra.Snow.PreCompiler
         {
             var response = new HtmlResponse();
 
-            var html = renderContext.ViewCache.GetOrAdd(viewLocationResult, result =>
-            {
-                return ConvertMarkdown(viewLocationResult);
-            });
+            var html = renderContext.ViewCache.GetOrAdd(
+                viewLocationResult, result => { return ConvertMarkdown(viewLocationResult); });
 
-            var engineHost = new MarkdownViewEngineHost(new NancyViewEngineHost(renderContext), renderContext,
-                                                        this.Extensions);
-            var renderHtml = this.engineWrapper.Render(html, model, engineHost);
+            var engineHost = new MarkdownViewEngineHost(
+                new NancyViewEngineHost(renderContext), renderContext,
+                Extensions);
+            var renderHtml = engineWrapper.Render(html, model, engineHost);
 
             response.Contents = stream =>
             {
@@ -60,7 +59,8 @@ namespace Sandra.Snow.PreCompiler
 
             if (startOfSettingsIndex >= 0)
             {
-                var endOfSettingsIndex = content.IndexOf("---", startOfSettingsIndex + 3, StringComparison.InvariantCultureIgnoreCase);
+                var endOfSettingsIndex = content.IndexOf(
+                    "---", startOfSettingsIndex + 3, StringComparison.InvariantCultureIgnoreCase);
 
                 endOfSettingsIndex += 3;
                 content = content.Substring(endOfSettingsIndex, content.Length - endOfSettingsIndex);

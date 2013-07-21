@@ -2,6 +2,7 @@
 {
     using System.IO;
     using Nancy.Testing;
+    using Sandra.Snow.PreCompiler.Extensions;
 
     public class CategoryProcessor : BaseProcessor
     {
