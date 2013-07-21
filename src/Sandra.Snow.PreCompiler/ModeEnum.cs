@@ -2,6 +2,7 @@
 {
     public enum ModeEnum
     {
+        None,
         Single,
         Each
     }

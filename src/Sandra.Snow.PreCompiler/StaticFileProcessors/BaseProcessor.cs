@@ -1,40 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sandra.Snow.PreCompiler.StaticFileProcessors
+﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
 {
+    using System.ComponentModel.Composition;
+    using System.Globalization;
+
+    [InheritedExport]
     public abstract class BaseProcessor
     {
         public abstract string ProcessorName { get; }
+        public abstract ModeEnum Mode { get; }
 
-        public bool Is(string processorName)
+        public bool Is(string processorName, ModeEnum mode)
         {
+            if (Mode != mode)
+                return false;
+
             return processorName.ToLower(CultureInfo.InvariantCulture)
                                 .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture));
         }
 
         public abstract void Process(SnowyData snowyData);
-    }
-
-    public class SnowyData
-    {
-        public SnowSettings Settings { get; set; }
-    }
-
-    public class PagedPostProcessor : BaseProcessor
-    {
-        public override string ProcessorName
-        {
-            get { return "PagedPost"; }
-        }
-
-        public override void Process(SnowyData snowyData)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using CsQuery.ExtensionMethods;
-using Nancy.Helpers;
-using Nancy.Testing;
-using Nancy.ViewEngines.SuperSimpleViewEngine;
-using Newtonsoft.Json;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using CsQuery.ExtensionMethods;
     using Nancy;
+    using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
+    using Nancy.ViewEngines.SuperSimpleViewEngine;
+    using Newtonsoft.Json;
+    using Sandra.Snow.PreCompiler.StaticFileProcessors;
     using Sandra.Snow.PreCompiler.ViewModels;
 
     internal class Program
     {
-        private static readonly Regex FileNameRegex =
-            new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
-                      RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private static void Main(string[] args)
         {
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Begin processing");
@@ -64,7 +58,7 @@ namespace Sandra.Snow.PreCompiler
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => GetFileData(x, browserParser))
+                var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser))
                                        .OrderByDescending(x => x.Date)
                                        .ToList();
 
@@ -154,121 +148,32 @@ namespace Sandra.Snow.PreCompiler
             try
             {
                 TestModule.StaticFile = staticFile;
-
+                
                 var property = staticFile.Property ?? "";
 
-                switch (property.ToLower())
+                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.Mode);
+
+                if (processor == null)
                 {
-                    case "postspaged":
-                    {
-                        const int pageSize = 10;
-                        var skip = 0;
-                        var iteration = 1;
-                        var currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
-                        var totalPages = (int) Math.Ceiling((double) parsedFiles.Count()/pageSize);
-
-                        TestModule.TotalPages = totalPages;
-
-                        while (currentIteration.Any())
-                        {
-                            TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
-                            TestModule.PageNumber = iteration;
-                            TestModule.HasNextPage = iteration < totalPages;
-                            TestModule.HasPreviousPage = iteration > 2 && totalPages > 1;
-
-                            var result = browserComposer.Post("/static");
-
-                            result.StatusCode.ThrowIfNotSuccessful();
-
-                            var folder = skip == 0 ? "" : "page" + iteration;
-                            var outputFolder = Path.Combine(settings.Output, folder);
-
-                            if (!Directory.Exists(outputFolder))
-                            {
-                                Directory.CreateDirectory(outputFolder);
-                            }
-
-
-                            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-
-                            skip += pageSize;
-                            iteration++;
-                            currentIteration = parsedFiles.Skip(skip).Take(pageSize).ToList();
-                        }
-
-                        break;
-                    }
-                    case "categories":
-                    {
-                        if (staticFile.Mode == ModeEnum.Each)
-                        {
-                            foreach (var tempCategory in TestModule.Categories)
-                            {
-                                var category = tempCategory;
-
-                                var posts = parsedFiles.Select(x => x.Post).Where(x => x.Categories.Contains(category.Name));
-
-                                TestModule.CategoriesInPost = posts.ToList();
-
-                                //TestModule.Data = fileData;
-                                var result = browserComposer.Post("/static");
-
-                                result.StatusCode.ThrowIfNotSuccessful();
-
-                                var outputFolder = Path.Combine(settings.Output, "category", category.Url);
-
-                                if (!Directory.Exists(outputFolder))
-                                {
-                                    Directory.CreateDirectory(outputFolder);
-                                }
-
-                                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                            }
-                        }
-                        else if (staticFile.Mode == ModeEnum.Single)
-                        {
-                            var result = browserComposer.Post("/static");
-
-                            result.StatusCode.ThrowIfNotSuccessful();
-
-                            var outputFolder = Path.Combine(settings.Output, "category");
-
-                            if (!Directory.Exists(outputFolder))
-                            {
-                                Directory.CreateDirectory(outputFolder);
-                            }
-
-                            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                        }
-
-                        break;
-                    }
-                    default:
-                    {
-                        if (staticFile.Mode == ModeEnum.Single)
-                        {
-                            var result = browserComposer.Post("/static");
-
-                            result.StatusCode.ThrowIfNotSuccessful();
-
-                            var outputFolder = Path.Combine(settings.Output, staticFile.File.Substring(0, staticFile.File.IndexOf('.')));
-
-                            if (!Directory.Exists(outputFolder))
-                            {
-                                Directory.CreateDirectory(outputFolder);
-                            }
-
-                            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                        }
-
-                        break;
-                    }
+                    throw new ProcessorNotFoundException(property.ToLower());
                 }
+
+                processor.Process(new SnowyData
+                {
+                    Settings = settings,
+                    Files = parsedFiles,
+                    Browser = browserComposer,
+                    File = staticFile
+                });
             }
             catch (Exception exception)
             {
+                Console.WriteLine("Error processing static file: ");
+                Console.WriteLine("- " + staticFile.Property);
+                Console.WriteLine("- " + staticFile.File);
+                Console.WriteLine("- " + staticFile.Mode);
+                Console.WriteLine("- Exception:");
                 Console.WriteLine(exception);
-                throw;
             }
         }
 
@@ -336,99 +241,6 @@ namespace Sandra.Snow.PreCompiler
             }
         }
 
-        private static FileData GetFileData(FileInfo file, Browser browser)
-        {
-            var response = browser.Get("/post/" + HttpUtility.UrlEncodeUnicode(file.Name));
-            var rawPost = File.ReadAllText(file.FullName);
-            var fileNameMatches = FileNameRegex.Match(file.Name);
-            var settings = new Dictionary<string, dynamic>();
-            var rawSettings = string.Empty;
-
-            if (!fileNameMatches.Success)
-            {
-                throw new ApplicationException("File " + file.Name +
-                                               " does not match the format {year}-{month}-{day}-{slug}.(md|markdown)");
-            }
-
-            var startOfSettingsIndex = rawPost.IndexOf("---", StringComparison.InvariantCultureIgnoreCase);
-            if (startOfSettingsIndex >= 0)
-            {
-                int endOfSettingsIndex = rawPost.IndexOf("---", startOfSettingsIndex + 3,
-                                                         StringComparison.InvariantCultureIgnoreCase);
-
-                rawSettings = rawPost.Substring(startOfSettingsIndex + 3, endOfSettingsIndex - 3);
-
-                settings = ParseSettings(rawSettings);
-            }
-
-            //var realContent = rawPost.Substring(endOfSettingsIndex, rawPost.Length - endOfSettingsIndex);
-            //var renderedContent = (new Markdown
-            //{
-            //    ExtraMode = true
-            //}).Transform(realContent);
-
-            var year = fileNameMatches.Groups["year"].Value;
-            var month = fileNameMatches.Groups["month"].Value;
-            var day = fileNameMatches.Groups["day"].Value;
-            var slug = fileNameMatches.Groups["slug"].Value;
-            var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
-
-            return new FileData(settings)
-            {
-                FileName = file.Name,
-                RawSettings = rawSettings,
-                Content = response.Body.AsString(),
-                Settings = settings,
-                Year = date.Year,
-                Month = date.Month,
-                Day = date.Day,
-                Date = date,
-                Slug = slug
-            };
-        }
-
-        private static Dictionary<string, object> ParseSettings(string rawSettings)
-        {
-            var lines = rawSettings.Split(new[] { "\n", "\r", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
-            var result = new Dictionary<string, object>();
-
-            for (int i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i];
-
-                var setting = line.Split(new []{':'}, 2);
-
-                if (setting[1].Trim() == string.Empty)
-                {
-                    //This most likely means that the setting has sub-settings
-                    var subSettings = new Dictionary<string, string>();
-                    var counter = i + 1;
-
-                    for (; counter < lines.Length; counter++)
-                    {
-                        var subLine = lines[counter];
-                        var subLineSetting = subLine.Split(':');
-
-                        if (char.IsWhiteSpace(subLine, 0))
-                        {
-                            subSettings.Add(subLineSetting[0].Trim(), subLineSetting[1].Trim());
-                            continue;
-                        }
-
-                        break;
-                    }
-
-                    result.Add(setting[0], subSettings);
-                    i = counter - 1;
-                }
-                else
-                {
-                    result.Add(setting[0].Trim(), setting[1].Trim());
-                }
-            }
-
-            return result;
-        }
     }
 
     public static class DateExtensionHelpers
@@ -458,6 +270,15 @@ namespace Sandra.Snow.PreCompiler
     public class FileProcessingException : Exception
     {
         public FileProcessingException(string message) : base(message)
+        {
+            
+        }
+    }
+
+    public class ProcessorNotFoundException : Exception
+    {
+        public ProcessorNotFoundException(string message)
+            : base(message)
         {
             
         }
