@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Nancy.Conventions;
-using Nancy.ViewEngines;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using System;
+    using System.Collections.Generic;
+    using Nancy.Conventions;
+    using Nancy.ViewEngines;
+
     public class SnowViewLocationConventions : IConvention
     {
         public void Initialise(NancyConventions conventions)

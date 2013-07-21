@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using Nancy.Testing;
+    using Sandra.Snow.PreCompiler.Extensions;
 
     public class PostsPagedProcessor : BaseProcessor
     {
