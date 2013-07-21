@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sandra.Snow.PreCompiler.StaticFileProcessors
 {
+    using Nancy.Testing;
+
     public abstract class BaseProcessor
     {
         public abstract string ProcessorName { get; }
@@ -23,18 +25,7 @@ namespace Sandra.Snow.PreCompiler.StaticFileProcessors
     public class SnowyData
     {
         public SnowSettings Settings { get; set; }
-    }
-
-    public class PagedPostProcessor : BaseProcessor
-    {
-        public override string ProcessorName
-        {
-            get { return "PagedPost"; }
-        }
-
-        public override void Process(SnowyData snowyData)
-        {
-            throw new NotImplementedException();
-        }
+        public Browser Browser { get; set; }
+        public IList<FileData> Files { get; set; }
     }
 }

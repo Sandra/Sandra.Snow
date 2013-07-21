@@ -88,6 +88,9 @@
     <Compile Include="..\.stuffz\AssemblyInfoVersion.cs">
       <Link>Properties\AssemblyInfoVersion.cs</Link>
     </Compile>
+    <Compile Include="PostSettingsParser.cs" />
+    <Compile Include="ProcessorFactory.cs" />
+    <Compile Include="StaticFileProcessors\PostsPagedProcessor.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
