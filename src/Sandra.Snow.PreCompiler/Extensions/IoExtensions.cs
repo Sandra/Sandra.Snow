@@ -1,8 +1,8 @@
-﻿using System.IO;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
-    public static class IoHelpers
+    using System.IO;
+
+    public static class IoExtensions
     {
         public static void Empty(this DirectoryInfo directory)
         {
