@@ -12,6 +12,11 @@
             get { return "postspaged"; }
         }
 
+        public override ModeEnum Mode
+        {
+            get { return ModeEnum.Each; }
+        }
+
         public override void Process(SnowyData snowyData)
         {
             const int pageSize = 10;

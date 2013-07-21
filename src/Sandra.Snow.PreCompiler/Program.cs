@@ -151,88 +151,29 @@
                 
                 var property = staticFile.Property ?? "";
 
-                var processor = ProcessorFactory.Get(property.ToLower());
+                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.Mode);
+
+                if (processor == null)
+                {
+                    throw new ProcessorNotFoundException(property.ToLower());
+                }
 
                 processor.Process(new SnowyData
                 {
                     Settings = settings,
                     Files = parsedFiles,
-                    Browser = browserComposer
+                    Browser = browserComposer,
+                    File = staticFile
                 });
-
-                //    switch ()
-                //    {
-                //        case "categories":
-                //        {
-                //            if (staticFile.Mode == ModeEnum.Each)
-                //            {
-                //                foreach (var tempCategory in TestModule.Categories)
-                //                {
-                //                    var category = tempCategory;
-
-                //                    var posts = parsedFiles.Select(x => x.Post).Where(x => x.Categories.Contains(category.Name));
-
-                //                    TestModule.CategoriesInPost = posts.ToList();
-
-                //                    //TestModule.Data = fileData;
-                //                    var result = browserComposer.Post("/static");
-
-                //                    result.StatusCode.ThrowIfNotSuccessful();
-
-                //                    var outputFolder = Path.Combine(settings.Output, "category", category.Url);
-
-                //                    if (!Directory.Exists(outputFolder))
-                //                    {
-                //                        Directory.CreateDirectory(outputFolder);
-                //                    }
-
-                //                    File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                //                }
-                //            }
-                //            else if (staticFile.Mode == ModeEnum.Single)
-                //            {
-                //                var result = browserComposer.Post("/static");
-
-                //                result.StatusCode.ThrowIfNotSuccessful();
-
-                //                var outputFolder = Path.Combine(settings.Output, "category");
-
-                //                if (!Directory.Exists(outputFolder))
-                //                {
-                //                    Directory.CreateDirectory(outputFolder);
-                //                }
-
-                //                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                //            }
-
-                //            break;
-                //        }
-                //        default:
-                //        {
-                //            if (staticFile.Mode == ModeEnum.Single)
-                //            {
-                //                var result = browserComposer.Post("/static");
-
-                //                result.StatusCode.ThrowIfNotSuccessful();
-
-                //                var outputFolder = Path.Combine(settings.Output, staticFile.File.Substring(0, staticFile.File.IndexOf('.')));
-
-                //                if (!Directory.Exists(outputFolder))
-                //                {
-                //                    Directory.CreateDirectory(outputFolder);
-                //                }
-
-                //                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
-                //            }
-
-                //            break;
-                //        }
-                //    }
             }
             catch (Exception exception)
             {
+                Console.WriteLine("Error processing static file: ");
+                Console.WriteLine("- " + staticFile.Property);
+                Console.WriteLine("- " + staticFile.File);
+                Console.WriteLine("- " + staticFile.Mode);
+                Console.WriteLine("- Exception:");
                 Console.WriteLine(exception);
-                throw;
             }
         }
 
@@ -329,6 +270,15 @@
     public class FileProcessingException : Exception
     {
         public FileProcessingException(string message) : base(message)
+        {
+            
+        }
+    }
+
+    public class ProcessorNotFoundException : Exception
+    {
+        public ProcessorNotFoundException(string message)
+            : base(message)
         {
             
         }
