@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler.Models
 {
     public class Category
     {
@@ -9,6 +9,10 @@
 
         public string Name { get; set; }
         public int Count { get; set; }
-        public string Url { get { return Name.ToLower().Replace(" ", "-"); } }
+
+        public string Url
+        {
+            get { return Name.ToLower().Replace(" ", "-"); }
+        }
     }
 }

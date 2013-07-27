@@ -7,11 +7,13 @@
     using System.Linq;
     using System.Reflection;
     using CsQuery.ExtensionMethods;
-    using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
     using Newtonsoft.Json;
+    using Sandra.Snow.PreCompiler.Exceptions;
+    using Sandra.Snow.PreCompiler.Extensions;
+    using Sandra.Snow.PreCompiler.Models;
     using Sandra.Snow.PreCompiler.StaticFileProcessors;
     using Sandra.Snow.PreCompiler.ViewModels;
 
@@ -241,46 +243,5 @@
             }
         }
 
-    }
-
-    public static class DateExtensionHelpers
-    {
-        public static DateTime AsYearDate(this DateTime date)
-        {
-            return new DateTime(date.Year, 1, 1);
-        }
-
-        public static DateTime AsMonthDate(this DateTime date)
-        {
-            return new DateTime(date.Year, date.Month, 1);
-        }
-    }
-
-    public static class StatusCodeHelper
-    {
-        public static void ThrowIfNotSuccessful(this HttpStatusCode code)
-        {
-            if (code != HttpStatusCode.OK)
-            {
-                throw new FileProcessingException("Failed to generate some file...");
-            }
-        }
-    }
-
-    public class FileProcessingException : Exception
-    {
-        public FileProcessingException(string message) : base(message)
-        {
-            
-        }
-    }
-
-    public class ProcessorNotFoundException : Exception
-    {
-        public ProcessorNotFoundException(string message)
-            : base(message)
-        {
-            
-        }
     }
 }

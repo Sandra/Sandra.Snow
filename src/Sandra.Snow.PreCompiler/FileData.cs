@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Sandra.Snow.PreCompiler.Models;
+
     public class FileData
     {
         public FileData(Dictionary<string, object> settings)
@@ -17,8 +18,9 @@ namespace Sandra.Snow.PreCompiler
                     case "categories":
                     case "category":
                     {
-                        var categories = ((string) setting.Value).Split(new[] {","},
-                                                                        StringSplitOptions.RemoveEmptyEntries);
+                        var categories = ((string) setting.Value).Split(
+                            new[] {","},
+                            StringSplitOptions.RemoveEmptyEntries);
 
                         Categories = categories.Select(x => x.Trim());
                         break;
@@ -36,7 +38,6 @@ namespace Sandra.Snow.PreCompiler
                 }
             }
         }
-
 
         public Post Post
         {

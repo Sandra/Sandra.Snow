@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using Sandra.Snow.PreCompiler.Models;
 
     public class ContentViewModel : BaseViewModel
     {
