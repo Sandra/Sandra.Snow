@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class Post
     {
         public string Title { get; set; }
