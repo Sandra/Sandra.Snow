@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using System.Collections.Generic;
+    using System.IO;
+
     public class SnowSettings
     {
-        private string _posts;
         private string _layouts;
         private string _output;
+        private string _posts;
 
         public SnowSettings()
         {
@@ -38,9 +37,9 @@ namespace Sandra.Snow.PreCompiler
             get { return _output; }
             set { _output = Path.Combine(CurrentDir, value); }
         }
-        
+
         public IList<StaticFile> ProcessStaticFiles { get; set; }
-        
+
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -49,7 +48,7 @@ namespace Sandra.Snow.PreCompiler
                 Layouts = "_layouts",
                 Output = "Website",
                 UrlFormat = "",
-                CopyDirectories = new string[] { },
+                CopyDirectories = new string[] {},
                 ProcessStaticFiles = new List<StaticFile>(),
                 CurrentDir = directory ?? "",
                 CurrentSnowDir = Path.Combine(directory ?? "", "Snow")

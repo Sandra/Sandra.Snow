@@ -89,19 +89,23 @@
     <Compile Include="..\.stuffz\AssemblyInfoVersion.cs">
       <Link>Properties\AssemblyInfoVersion.cs</Link>
     </Compile>
+    <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Exceptions\FileProcessingException.cs" />
     <Compile Include="PostSettingsParser.cs" />
     <Compile Include="ProcessorFactory.cs" />
+    <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
     <Compile Include="StaticFileProcessors\CategoryProcessor.cs" />
     <Compile Include="StaticFileProcessors\StaticFileProcessor.cs" />
     <Compile Include="StaticFileProcessors\PostsPagedProcessor.cs" />
     <Compile Include="StaticFileProcessors\SnowyData.cs" />
+    <Compile Include="Extensions\StatusCodeExtension.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
     <Compile Include="FileData.cs" />
-    <Compile Include="IoHelpers.cs" />
+    <Compile Include="Extensions\IoExtensions.cs" />
     <Compile Include="ModeEnum.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />

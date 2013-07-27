@@ -1,7 +1,7 @@
-﻿using Nancy;
-
-namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler
 {
+    using Nancy;
+
     public class StaticPathProvider : IRootPathProvider
     {
         public static string Path { get; set; }
