@@ -1,6 +1,7 @@
 ﻿namespace Sandra.Snow.PreCompiler
 {
     using Nancy;
+    using Sandra.Snow.PreCompiler.Models;
     using Sandra.Snow.PreCompiler.ViewModels;
     using System;
     using System.Collections.Generic;

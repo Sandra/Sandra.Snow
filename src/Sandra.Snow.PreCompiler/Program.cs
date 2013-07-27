@@ -13,6 +13,7 @@
     using Newtonsoft.Json;
     using Sandra.Snow.PreCompiler.Exceptions;
     using Sandra.Snow.PreCompiler.Extensions;
+    using Sandra.Snow.PreCompiler.Models;
     using Sandra.Snow.PreCompiler.StaticFileProcessors;
     using Sandra.Snow.PreCompiler.ViewModels;
 
