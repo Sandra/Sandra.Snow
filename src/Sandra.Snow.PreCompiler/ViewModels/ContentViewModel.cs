@@ -11,7 +11,6 @@
         public IList<Category> Categories { get; set; }
         public IList<Post> Posts { get; set; }
         public IList<Post> PostsPaged { get; set; }
-        public IList<MonthYear> MonthYearList { get; set; }
         public Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }

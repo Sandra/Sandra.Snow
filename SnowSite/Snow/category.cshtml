@@ -1,0 +1,21 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+  <header>
+  <div class="head-inner">
+    <h1><a href="/category/">Categories</a></h1>
+  </div>
+  </header>
+
+  <ul class="category-list fancy-container orange">
+    @foreach(var catInPost in Model.CategoriesInPost){
+      <li>
+        <a href="@catInPost.Url" title="@catInPost.Title">@catInPost.Title</a> 
+        <small>(@catInPost.DateFormatted)</small>
+      </li>
+    }
+  </ul>
+  

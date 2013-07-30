@@ -1,8 +1,11 @@
 namespace Sandra.Snow.PreCompiler.ViewModels
 {
+    using System.Collections.Generic;
+
     public abstract class BaseViewModel
     {
         public string GeneratedDate { get; set; }
+        public IList<MonthYear> MonthYearList { get; set; }
 
         public class Category
         {
