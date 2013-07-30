@@ -1,5 +1,8 @@
-@Master['default.sshtml']
-@Section['content']
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.ViewModels.ContentViewModel>
+
+@{
+  Layout = "default.cshtml";
+}
 
   <header>
   <div class="head-inner">
@@ -14,5 +17,3 @@
     <p>Not that I'm interesting or anything, but I'll try and write something more in the future.</p>
 
   </div>
-
-@EndSection

@@ -84,9 +84,9 @@
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Post.Url,
-                    Categories = categories
+                    Categories = categories,
+                    MonthYearList = MonthYear
                 };
-
                 return View[result.Layout, result];
             };
         }

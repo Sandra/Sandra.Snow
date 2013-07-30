@@ -9,7 +9,7 @@
         public string PostContent { get; set; }
         public string PostDate { get; set; }
         public string Url { get; set; }
-
+        
         public IEnumerable<Category> Categories { get; set; }
     }
 }
