@@ -1,0 +1,42 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Sandra.Snow.PreCompiler.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+  <ul class="posts">
+    @foreach(var postPaged in Model.PostsPaged) {
+    <li class="fancy-container lightblue">
+      <h1>
+        <a href="@postPaged.Url">@postPaged.Title</a> 
+        <span>posted on @postPaged.DateFormatted</span>
+      </h1> 
+      @postPaged.ContentExcerpt
+      <p><a href="@postPaged.Url">Read more...</a></p>
+    </li>
+    }
+  </ul> 
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+    @if (Model.HasPreviousPage) {
+    <p class="previous">
+      <a href="/page@(Model.PreviousPage)">Previous Page</a>
+    </p>
+    }
+
+    @if (!Model.HasPreviousPage) {
+    <p class="previous">
+      <a href="/">Previous Page</a>
+    </p>
+    }
+
+    @if (Model.HasNextPage) {
+    <p class="next">
+      <a href="/page@(Model.NextPage)">Next Page</a>
+    </p>
+    }
+
+  </div>
+
