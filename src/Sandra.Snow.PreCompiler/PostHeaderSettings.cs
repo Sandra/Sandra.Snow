@@ -5,9 +5,9 @@
     using System.Linq;
     using Sandra.Snow.PreCompiler.Models;
 
-    public class FileData
+    public class PostHeaderSettings
     {
-        public FileData(Dictionary<string, object> settings)
+        public PostHeaderSettings(Dictionary<string, object> settings)
         {
             Categories = Enumerable.Empty<string>();
 

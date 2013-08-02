@@ -107,7 +107,7 @@
             Console.ReadKey();
         }
 
-        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<FileData> parsedFiles)
+        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -129,7 +129,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<FileData> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                     group p by p.Year
@@ -144,7 +144,7 @@
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<FileData> parsedFiles,
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles,
                                                Browser browserComposer)
         {
             try
@@ -221,14 +221,14 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(FileData fileData, string output, Browser browserComposer)
+        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer)
         {
             try
             {
-                TestModule.Data = fileData;
+                TestModule.Data = postHeaderSettings;
                 var result = browserComposer.Post("/compose");
 
-                var outputFolder = Path.Combine(output, fileData.Year.ToString(CultureInfo.InvariantCulture), fileData.Date.ToString("MM"), fileData.Slug);
+                var outputFolder = Path.Combine(output, postHeaderSettings.Year.ToString(CultureInfo.InvariantCulture), postHeaderSettings.Date.ToString("MM"), postHeaderSettings.Slug);
 
                 if (!Directory.Exists(outputFolder))
                 {
@@ -242,6 +242,5 @@
                 Console.Write(ex);
             }
         }
-
     }
 }
