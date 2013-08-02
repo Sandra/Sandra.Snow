@@ -8,6 +8,11 @@
 
         public static IHtmlString RenderGravatarImage<T>(this HtmlHelpers<T> html, string email, int size = 0)
         {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return html.Raw("");
+            }
+
             var url = email.EmailToGravatar(size);
             var result = string.Format(ImageFormat, url);
 

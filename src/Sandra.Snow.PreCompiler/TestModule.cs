@@ -85,7 +85,9 @@
                     GeneratedDate = GeneratedDate,
                     Url = Data.Post.Url,
                     Categories = categories,
-                    MonthYearList = MonthYear
+                    MonthYearList = MonthYear,
+                    Author = Data.Post.Author,
+                    Email = Data.Post.Email
                 };
 
                 return View[result.Layout, result];

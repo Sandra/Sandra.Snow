@@ -8,6 +8,16 @@
         public string Title { get; set; }
         public string Content { get; set; }
 
+        /// <summary>
+        /// Default author
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
+        /// Default author email
+        /// </summary>
+        public string Email { get; set; }
+
         public string ContentExcerpt
         {
             get { return Content.Split(new[] {"<!--excerpt-->"}, StringSplitOptions.None)[0]; }

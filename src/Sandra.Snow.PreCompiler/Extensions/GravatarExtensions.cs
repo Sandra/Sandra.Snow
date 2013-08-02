@@ -12,7 +12,7 @@
         {
             var alg = HashAlgorithm.Create("MD5");
 
-            if (alg == null)
+            if (alg == null || string.IsNullOrWhiteSpace(email))
             {
                 return string.Empty;
             }

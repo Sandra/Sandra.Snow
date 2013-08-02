@@ -19,5 +19,18 @@
 
             Assert.Equal(expected, actual.ToHtmlString());
         }
+
+        [Fact]
+        public void Given_An_Empty_Email_Should_Return_Empty_String()
+        {
+            const string testEmail = "";
+            const string expected = "";
+
+            var htmlHelper = A.Fake<HtmlHelpers<dynamic>>();
+
+            var actual = htmlHelper.RenderGravatarImage(testEmail);
+
+            Assert.Equal(expected, actual.ToHtmlString());
+        }
     }
 }

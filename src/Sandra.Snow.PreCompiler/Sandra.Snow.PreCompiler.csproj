@@ -96,6 +96,7 @@
     <Compile Include="PostSettingsParser.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
+    <Compile Include="RazorConfig.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
     <Compile Include="StaticFileProcessors\CategoryProcessor.cs" />
     <Compile Include="StaticFileProcessors\StaticFileProcessor.cs" />

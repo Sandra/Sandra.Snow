@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Reflection;
     using CsQuery.ExtensionMethods;
+    using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
@@ -60,7 +61,7 @@
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser))
+                var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser, settings))
                                        .OrderByDescending(x => x.Date)
                                        .ToList();
 
@@ -100,7 +101,6 @@
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw;
             }
 
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Finish processing");
@@ -227,6 +227,11 @@
             {
                 TestModule.Data = postHeaderSettings;
                 var result = browserComposer.Post("/compose");
+
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
+                }
 
                 var outputFolder = Path.Combine(output, postHeaderSettings.Year.ToString(CultureInfo.InvariantCulture), postHeaderSettings.Date.ToString("MM"), postHeaderSettings.Slug);
 

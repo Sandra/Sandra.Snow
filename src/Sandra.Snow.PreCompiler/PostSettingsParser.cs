@@ -14,7 +14,7 @@
             new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public static PostHeaderSettings GetFileData(FileInfo file, Browser browser)
+        public static PostHeaderSettings GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
         {
             var response = browser.Get("/post/" + HttpUtility.UrlEncodeUnicode(file.Name));
             var rawPost = File.ReadAllText(file.FullName);
@@ -52,7 +52,7 @@
             var slug = fileNameMatches.Groups["slug"].Value;
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-            return new PostHeaderSettings(settings)
+            return new PostHeaderSettings(settings, snowSettings)
             {
                 FileName = file.Name,
                 RawSettings = rawSettings,
