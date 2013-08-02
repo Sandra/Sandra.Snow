@@ -15,6 +15,16 @@
             CurrentSnowDir = string.Empty;
         }
 
+        /// <summary>
+        /// Default author
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
+        /// Default author email
+        /// </summary>
+        public string Email { get; set; }
+
         public string CurrentDir { get; private set; }
         public string CurrentSnowDir { get; set; }
         public string UrlFormat { get; set; }
@@ -51,7 +61,10 @@
                 CopyDirectories = new string[] {},
                 ProcessStaticFiles = new List<StaticFile>(),
                 CurrentDir = directory ?? "",
-                CurrentSnowDir = Path.Combine(directory ?? "", "Snow")
+                CurrentSnowDir = Path.Combine(directory ?? "", "Snow"),
+
+                Author = string.Empty,
+                Email = string.Empty
             };
         }
     }

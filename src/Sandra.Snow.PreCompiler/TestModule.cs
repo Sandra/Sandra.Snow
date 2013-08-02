@@ -9,7 +9,7 @@
 
     internal class TestModule : NancyModule
     {
-        public static string Date = DateTime.Now.ToString("O");
+        private static readonly string Date = DateTime.Now.ToString("O");
         public static string GeneratedDate
         {
             get { return Date; }
@@ -87,6 +87,7 @@
                     Categories = categories,
                     MonthYearList = MonthYear
                 };
+
                 return View[result.Layout, result];
             };
         }

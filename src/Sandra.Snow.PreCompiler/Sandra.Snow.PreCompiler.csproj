@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Exceptions\FileProcessingException.cs" />
+    <Compile Include="Extensions\GravatarExtensions.cs" />
     <Compile Include="PostSettingsParser.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
