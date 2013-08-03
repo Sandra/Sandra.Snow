@@ -11,7 +11,7 @@
         <a href="@postPaged.Url">@postPaged.Title</a> 
         <span>posted on @postPaged.DateFormatted</span>
       </h1> 
-      @postPaged.ContentExcerpt
+      @Html.Raw(postPaged.ContentExcerpt)
       <p><a href="@postPaged.Url">Read more...</a></p>
     </li>
     }
