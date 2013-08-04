@@ -91,9 +91,12 @@
     </Compile>
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Exceptions\FileProcessingException.cs" />
+    <Compile Include="Extensions\GravatarExtensions.cs" />
+    <Compile Include="Extensions\RazorHelpers.cs" />
     <Compile Include="PostSettingsParser.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
+    <Compile Include="RazorConfig.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
     <Compile Include="StaticFileProcessors\CategoryProcessor.cs" />
     <Compile Include="StaticFileProcessors\StaticFileProcessor.cs" />
@@ -104,7 +107,7 @@
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
-    <Compile Include="FileData.cs" />
+    <Compile Include="PostHeaderSettings.cs" />
     <Compile Include="Extensions\IoExtensions.cs" />
     <Compile Include="ModeEnum.cs" />
     <Compile Include="Models\Post.cs" />

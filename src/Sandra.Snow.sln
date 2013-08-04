@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Sand
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato.Tests", "Sandra.Snow.Barbato.Tests\Sandra.Snow.Barbato.Tests.csproj", "{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.PreCompiler.Tests", "Sandra.Snow.PreCompiler.Tests\Sandra.Snow.PreCompiler.Tests.csproj", "{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

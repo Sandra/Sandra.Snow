@@ -9,14 +9,14 @@
 
     internal class TestModule : NancyModule
     {
-        public static string Date = DateTime.Now.ToString("O");
+        private static readonly string Date = DateTime.Now.ToString("O");
         public static string GeneratedDate
         {
             get { return Date; }
         }
 
         //Data changes on iterations
-        public static FileData Data { get; set; }
+        public static PostHeaderSettings Data { get; set; }
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
@@ -85,8 +85,11 @@
                     GeneratedDate = GeneratedDate,
                     Url = Data.Post.Url,
                     Categories = categories,
-                    MonthYearList = MonthYear
+                    MonthYearList = MonthYear,
+                    Author = Data.Post.Author,
+                    Email = Data.Post.Email
                 };
+
                 return View[result.Layout, result];
             };
         }

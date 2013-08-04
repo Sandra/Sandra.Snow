@@ -5,10 +5,13 @@
     using System.Linq;
     using Sandra.Snow.PreCompiler.Models;
 
-    public class FileData
+    public class PostHeaderSettings
     {
-        public FileData(Dictionary<string, object> settings)
+        public PostHeaderSettings(Dictionary<string, object> settings, SnowSettings defaults)
         {
+            Author = defaults.Author;
+            Email = defaults.Email;
+
             Categories = Enumerable.Empty<string>();
 
             foreach (var setting in settings)
@@ -35,6 +38,16 @@
                         Layout = (string) setting.Value;
                         break;
                     }
+                    case "author":
+                    {
+                        Author = (string)setting.Value;
+                        break;
+                    }
+                    case "email":
+                    {
+                        Email = (string)setting.Value;
+                        break;
+                    }
                 }
             }
         }
@@ -49,10 +62,22 @@
                     Categories = Categories,
                     Content = Content,
                     Date = Date,
-                    Url = string.Format("/{0}/{1}/{2}/", Year, Date.ToString("MM"), Slug)
+                    Url = string.Format("/{0}/{1}/{2}/", Year, Date.ToString("MM"), Slug),
+                    Author = Author,
+                    Email = Email
                 };
             }
         }
+
+        /// <summary>
+        /// Default author
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
+        /// Default author email
+        /// </summary>
+        public string Email { get; set; }
 
         public IEnumerable<string> Categories { get; set; }
 
