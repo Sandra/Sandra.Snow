@@ -22,7 +22,7 @@
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Begin processing");
+            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Begin processing");
 
             try
             {
@@ -103,7 +103,7 @@
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToShortTimeString() + " : Finish processing");
+            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
             Console.ReadKey();
         }
 
@@ -151,13 +151,13 @@
             {
                 TestModule.StaticFile = staticFile;
                 
-                var property = staticFile.Property ?? "";
+                var processorName = staticFile.ProcessorName ?? "";
 
-                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.Mode);
+                var processor = ProcessorFactory.Get(processorName.ToLower(), staticFile.Mode);
 
                 if (processor == null)
                 {
-                    throw new ProcessorNotFoundException(property.ToLower());
+                    throw new ProcessorNotFoundException(processorName.ToLower());
                 }
 
                 processor.Process(new SnowyData
@@ -171,7 +171,7 @@
             catch (Exception exception)
             {
                 Console.WriteLine("Error processing static file: ");
-                Console.WriteLine("- " + staticFile.Property);
+                Console.WriteLine("- " + staticFile.ProcessorName);
                 Console.WriteLine("- " + staticFile.File);
                 Console.WriteLine("- " + staticFile.Mode);
                 Console.WriteLine("- Exception:");
