@@ -2,7 +2,7 @@
 {
     public class StaticFile
     {
-        public ModeEnum Mode { get; set; }
+        public bool IterateModel { get; set; }
         public string File { get; set; }
         public string Property { get; set; }
     }
