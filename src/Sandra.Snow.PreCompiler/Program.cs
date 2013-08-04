@@ -153,7 +153,7 @@
                 
                 var property = staticFile.Property ?? "";
 
-                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.Mode);
+                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.IterateModel);
 
                 if (processor == null)
                 {
@@ -173,7 +173,7 @@
                 Console.WriteLine("Error processing static file: ");
                 Console.WriteLine("- " + staticFile.Property);
                 Console.WriteLine("- " + staticFile.File);
-                Console.WriteLine("- " + staticFile.Mode);
+                Console.WriteLine("- " + staticFile.IterateModel);
                 Console.WriteLine("- Exception:");
                 Console.WriteLine(exception);
             }

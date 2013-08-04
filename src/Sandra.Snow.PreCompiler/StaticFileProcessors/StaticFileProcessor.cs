@@ -11,9 +11,9 @@
             get { return ""; }
         }
 
-        public override ModeEnum Mode
+        public override bool IterateModel
         {
-            get{ return ModeEnum.Single; }
+            get { return false; }
         }
 
         public override void Process(SnowyData snowyData)
