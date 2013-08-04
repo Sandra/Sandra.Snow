@@ -13,9 +13,9 @@
             get { return "posts"; }
         }
 
-        public override ModeEnum Mode
+        public override bool IterateModel
         {
-            get { return ModeEnum.Each; }
+            get { return true; }
         }
 
         public override void Process(SnowyData snowyData)

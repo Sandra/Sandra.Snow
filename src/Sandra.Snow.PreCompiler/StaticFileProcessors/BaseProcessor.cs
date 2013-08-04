@@ -7,15 +7,14 @@
     public abstract class BaseProcessor
     {
         public abstract string ProcessorName { get; }
-        public abstract ModeEnum Mode { get; }
+        public abstract bool IterateModel { get; }
 
-        public bool Is(string processorName, ModeEnum mode)
+        public bool Is(string processorName, bool iterateModel)
         {
-            if (Mode != mode)
-                return false;
-
-            return processorName.ToLower(CultureInfo.InvariantCulture)
-                                .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture));
+            return
+                processorName.ToLower(CultureInfo.InvariantCulture)
+                             .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture)) &&
+                iterateModel == IterateModel;
         }
 
         public abstract void Process(SnowyData snowyData);

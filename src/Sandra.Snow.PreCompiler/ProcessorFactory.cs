@@ -20,9 +20,9 @@
                                    .ToList();
         }
 
-        public static BaseProcessor Get(string name, ModeEnum mode)
+        public static BaseProcessor Get(string name, bool iterateModel)
         {
-            return Processors.SingleOrDefault(x => x.Is(name, mode));
+            return Processors.SingleOrDefault(x => x.Is(name, iterateModel));
         }
     }
 
