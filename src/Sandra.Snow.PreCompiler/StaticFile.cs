@@ -4,6 +4,6 @@
     {
         public bool IterateModel { get; set; }
         public string File { get; set; }
-        public string Property { get; set; }
+        public string ProcessorName { get; set; }
     }
 }
