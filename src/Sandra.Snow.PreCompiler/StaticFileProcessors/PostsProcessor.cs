@@ -6,11 +6,11 @@
     using Nancy.Testing;
     using Sandra.Snow.PreCompiler.Extensions;
 
-    public class PostsPagedProcessor : BaseProcessor
+    public class PostsProcessor : BaseProcessor
     {
         public override string ProcessorName
         {
-            get { return "postspaged"; }
+            get { return "posts"; }
         }
 
         public override ModeEnum Mode
