@@ -152,12 +152,7 @@
                 TestModule.StaticFile = staticFile;
                 
                 var processorName = staticFile.ProcessorName ?? "";
-
-<<<<<<< HEAD
-                var processor = ProcessorFactory.Get(property.ToLower(), staticFile.IterateModel);
-=======
-                var processor = ProcessorFactory.Get(processorName.ToLower(), staticFile.Mode);
->>>>>>> ddbbc93a6d99352d302672835cc5d3c1793c173b
+                var processor = ProcessorFactory.Get(processorName.ToLower(), staticFile.IterateModel);
 
                 if (processor == null)
                 {
