@@ -145,6 +145,9 @@
 
         private void LetItSnow()
         {
+            var snowProcess = Process.Start("PreCompiler/Sandra.Snow.PreCompiler.exe config=\"" + repoPath + "\"");
+            if(snowProcess!=null)
+                snowProcess.WaitForExit();
         }
 
         private void PushToGithub()
