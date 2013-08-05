@@ -98,6 +98,20 @@
     <Content Include="Content\templates\complete.html" />
     <Content Include="Content\templates\repoDetail.html" />
     <Content Include="Content\templates\repos.html" />
+    <Content Include="PreCompiler\CsQuery.dll" />
+    <Content Include="PreCompiler\CsQuery.xml" />
+    <Content Include="PreCompiler\MarkdownSharp.dll" />
+    <Content Include="PreCompiler\MarkdownSharp.pdb" />
+    <Content Include="PreCompiler\MarkdownSharp.xml" />
+    <Content Include="PreCompiler\Nancy.dll" />
+    <Content Include="PreCompiler\Nancy.Testing.dll" />
+    <Content Include="PreCompiler\Nancy.ViewEngines.Markdown.dll" />
+    <Content Include="PreCompiler\Nancy.ViewEngines.Razor.dll" />
+    <Content Include="PreCompiler\Newtonsoft.Json.dll" />
+    <Content Include="PreCompiler\Newtonsoft.Json.xml" />
+    <Content Include="PreCompiler\Sandra.Snow.PreCompiler.exe" />
+    <Content Include="PreCompiler\System.Web.Razor.Unofficial.dll" />
+    <Content Include="PreCompiler\System.Web.Razor.Unofficial.pdb" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +142,7 @@
     <Content Include="Views\_Layout.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="PreCompiler\Sandra.Snow.PreCompiler.exe.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

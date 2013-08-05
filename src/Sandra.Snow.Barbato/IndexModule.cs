@@ -16,15 +16,20 @@
     public class IndexModule : NancyModule
     {
         private readonly IGithubUserRepository githubUserRepository;
+        private readonly IRootPathProvider rootPathProvider;
         private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
         private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
         private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
         private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
+        private readonly string snowPreCompilerPath;
         private FtpConnection ftp;
 
-        public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository)
+        public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository, IRootPathProvider rootPathProvider)
         {
             this.githubUserRepository = githubUserRepository;
+            this.rootPathProvider = rootPathProvider;
+
+            this.snowPreCompilerPath = rootPathProvider.GetRootPath() + "PreCompiler\\Sandra.Snow.Precompiler.exe";
 
             Post["/"] = parameters =>
                 {
@@ -64,7 +69,7 @@
 
                     var repoDetail =
                         response.Data
-                        .Where(x => x.fork == false)
+                        //.Where(x => x.fork == false)
                         .Select(
                             x =>
                             new RepoDetail
@@ -145,6 +150,9 @@
 
         private void LetItSnow()
         {
+            var snowProcess = Process.Start(snowPreCompilerPath, " config=" + repoPath + "\\");
+            if (snowProcess != null)
+                snowProcess.WaitForExit();
         }
 
         private void PushToGithub()
@@ -203,7 +211,7 @@
                     }
                     catch (Exception ex)
                     {
-                      
+
                     }
                 }
             }
@@ -213,7 +221,7 @@
         {
             string[] files = Directory.GetFiles(dirPath, "*.*");
             string[] subDirs = Directory.GetDirectories(dirPath);
-            
+
 
             foreach (string file in files)
             {
