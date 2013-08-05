@@ -99,14 +99,6 @@
                 }
 
                 Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
-
-                bool autoKill = commands.ContainsKey("autokill");
-
-                if (!autoKill)
-                {
-                    Console.ReadKey();
-                }
-
             }
             catch (Exception ex)
             {
