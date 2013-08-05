@@ -97,25 +97,32 @@
                     Console.WriteLine("Paused - press any key");
                     Console.ReadKey();
                 }
+
+                Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
+
+                bool autoKill = commands.ContainsKey("autokill");
+
+                if (!autoKill)
+                {
+                    Console.ReadKey();
+                }
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
-            Console.ReadKey();
         }
 
         private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Date.AsMonthDate()
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Date.AsMonthDate()
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                                                  u =>
                                                                                                  u.Count()));
 
@@ -132,12 +139,12 @@
         private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
-                                    group p by p.Year
-                                    into g
-                                    select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                            group y by y.Month
-                                                                            into p
-                                                                            select p).ToDictionary(u => u.Key,
+                                 group p by p.Year
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Month
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                                                     u =>
                                                                                                     u.Select(p => p.Post).ToList()));
 
@@ -150,7 +157,7 @@
             try
             {
                 TestModule.StaticFile = staticFile;
-                
+
                 var processorName = staticFile.ProcessorName ?? "";
                 var processor = ProcessorFactory.Get(processorName.ToLower(), staticFile.IterateModel);
 
