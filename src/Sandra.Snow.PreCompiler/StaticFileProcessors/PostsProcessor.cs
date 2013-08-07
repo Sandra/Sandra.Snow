@@ -33,13 +33,13 @@
                 TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
                 TestModule.PageNumber = iteration;
                 TestModule.HasNextPage = iteration < totalPages;
-                TestModule.HasPreviousPage = iteration > 2 && totalPages > 1;
+                TestModule.HasPreviousPage = iteration > 1 && totalPages > 1;
 
                 var result = snowyData.Browser.Post("/static");
 
                 result.StatusCode.ThrowIfNotSuccessful();
 
-                var folder = skip == 0 ? "" : "page" + iteration;
+                var folder = skip <= 1 ? "" : "page" + iteration;
                 var outputFolder = Path.Combine(snowyData.Settings.Output, folder);
 
                 if (!Directory.Exists(outputFolder))

@@ -20,20 +20,28 @@
   <!-- Pagination links -->
   <div id="post-pagination" class="pagination">
 
-    @if (Model.HasPreviousPage) {
-    <p class="previous">
-      <a href="/page@(Model.PreviousPage)">Previous Page</a>
-    </p>
+   
+     @if (Model.HasPreviousPage) {
+      if (Model.PreviousPage == 1) {
+      <p class="previous">
+        <a href="/">Previous Page</a>
+      </p>
+      }
+      else {
+      <p class="previous">
+        <a href="/page@(Model.PreviousPage)">Previous Page</a>
+        </p>
+      }
     }
 
     @if (!Model.HasPreviousPage) {
-    <p class="previous">
-      <a href="/">Previous Page</a>
-    </p>
+    
+      <!--<a href="/">Previous Page</a>-->
+    
     }
 
     @if (Model.HasNextPage) {
-    <p class="next">
+    <p class="previous">
       <a href="/page@(Model.NextPage)">Next Page</a>
     </p>
     }
