@@ -79,7 +79,7 @@
                 var result = new PostViewModel
                 {
                     PostContent = Data.Content,
-                    PostDate = Data.Post.DateFormatted,
+                    PostDate = Data.Post.Date,
                     Layout = Data.Layout,
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,

@@ -8,7 +8,7 @@
     <h1>@Model.Title</h1>
 
     <div class="post-note">
-      posted on @Model.PostDate
+      posted on @Model.PostDate.ToString("dd MMM yyyy")
       @foreach (var category in Model.Categories) {
        @:| <a href="/category/@category.Url">@category.Name</a>
       }
