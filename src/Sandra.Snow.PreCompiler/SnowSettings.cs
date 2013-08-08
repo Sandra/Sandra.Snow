@@ -49,6 +49,8 @@
         }
 
         public IList<StaticFile> ProcessStaticFiles { get; set; }
+        
+        public string SiteUrl { get; set; }
 
         public static SnowSettings Default(string directory)
         {

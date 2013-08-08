@@ -7,7 +7,6 @@
     using System.Linq;
     using System.Reflection;
     using CsQuery.ExtensionMethods;
-    using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
@@ -36,14 +35,14 @@
                 }
                 else
                 {
-                    currentDir = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                    currentDir = Path.GetDirectoryName(typeof (Program).Assembly.Location);
                 }
 
                 var settings = CreateSettings(currentDir);
 
                 StaticPathProvider.Path = settings.CurrentSnowDir;
 
-                var extensions = new HashSet<string>(new[] { ".md", ".markdown" }, StringComparer.OrdinalIgnoreCase);
+                var extensions = new HashSet<string>(new[] {".md", ".markdown"}, StringComparer.OrdinalIgnoreCase);
                 var files = new DirectoryInfo(settings.Posts).EnumerateFiles()
                                                              .Where(x => extensions.Contains(x.Extension));
 
@@ -54,12 +53,13 @@
 
                 new DirectoryInfo(settings.Output).Empty();
 
-                var browserParser = new Browser(with =>
-                {
-                    with.Module<TestModule>();
-                    with.RootPathProvider<StaticPathProvider>();
-                    with.ViewEngine<CustomMarkDownViewEngine>();
-                });
+                var browserParser = new Browser(
+                    with =>
+                    {
+                        with.Module<TestModule>();
+                        with.RootPathProvider<StaticPathProvider>();
+                        with.ViewEngine<CustomMarkDownViewEngine>();
+                    });
 
                 var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser, settings))
                                        .OrderByDescending(x => x.Date)
@@ -67,13 +67,15 @@
 
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
                 TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
+                TestModule.Settings = settings;
 
-                var browserComposer = new Browser(with =>
-                {
-                    with.Module<TestModule>();
-                    with.RootPathProvider<StaticPathProvider>();
-                    with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
-                });
+                var browserComposer = new Browser(
+                    with =>
+                    {
+                        with.Module<TestModule>();
+                        with.RootPathProvider<StaticPathProvider>();
+                        with.ViewEngines(typeof (SuperSimpleViewEngineWrapper), typeof (RazorViewEngine));
+                    });
 
                 parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
@@ -109,42 +111,48 @@
         private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
-                                 group p by p.Date.AsYearDate()
-                                     into g
-                                     select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                              group y by y.Date.AsMonthDate()
-                                                                                  into p
-                                                                                  select p).ToDictionary(u => u.Key,
-                                                                                                 u =>
-                                                                                                 u.Count()));
+                group p by p.Date.AsYearDate()
+                into g
+                select g).ToDictionary(
+                    x => x.Key, x => (from y in x
+                        group y by y.Date.AsMonthDate()
+                        into p
+                        select p).ToDictionary(
+                            u => u.Key,
+                            u =>
+                                u.Count()));
 
             return (from s in groupedByYear
-                    from y in s.Value
-                    select new BaseViewModel.MonthYear
-                    {
-                        Count = y.Value,
-                        Title = y.Key.ToString("MMMM, yyyy"),
-                        Url = "/archive#" + y.Key.ToString("yyyyMMMM")
-                    }).ToList();
+                from y in s.Value
+                select new BaseViewModel.MonthYear
+                {
+                    Count = y.Value,
+                    Title = y.Key.ToString("MMMM, yyyy"),
+                    Url = "/archive#" + y.Key.ToString("yyyyMMMM")
+                }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(
+            IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
-                                 group p by p.Year
-                                     into g
-                                     select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                              group y by y.Month
-                                                                                  into p
-                                                                                  select p).ToDictionary(u => u.Key,
-                                                                                                    u =>
-                                                                                                    u.Select(p => p.Post).ToList()));
+                group p by p.Year
+                into g
+                select g).ToDictionary(
+                    x => x.Key, x => (from y in x
+                        group y by y.Month
+                        into p
+                        select p).ToDictionary(
+                            u => u.Key,
+                            u =>
+                                u.Select(p => p.Post).ToList()));
 
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles,
-                                               Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings,
+            IList<PostHeaderSettings> parsedFiles,
+            Browser browserComposer)
         {
             try
             {
@@ -158,13 +166,14 @@
                     throw new ProcessorNotFoundException(processorName.ToLower());
                 }
 
-                processor.Process(new SnowyData
-                {
-                    Settings = settings,
-                    Files = parsedFiles,
-                    Browser = browserComposer,
-                    File = staticFile
-                });
+                processor.Process(
+                    new SnowyData
+                    {
+                        Settings = settings,
+                        Files = parsedFiles,
+                        Browser = browserComposer,
+                        File = staticFile
+                    });
             }
             catch (Exception exception)
             {
@@ -219,26 +228,33 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer)
+        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output,
+            Browser browserComposer)
         {
             try
             {
                 TestModule.Data = postHeaderSettings;
                 var result = browserComposer.Post("/compose");
+                var body = result.Body.AsString();
 
-                if (result.StatusCode != HttpStatusCode.OK)
+                //if (result.StatusCode != HttpStatusCode.OK)
+                //Crappy check because Nancy returns 200 on a compilation error :(
+                if (body.Contains("<title>Razor Compilation Error</title>") &&
+                    body.Contains("<p>We tried, we really did, but we just can't compile your view.</p>"))
                 {
                     throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
                 }
 
-                var outputFolder = Path.Combine(output, postHeaderSettings.Year.ToString(CultureInfo.InvariantCulture), postHeaderSettings.Date.ToString("MM"), postHeaderSettings.Slug);
+                var outputFolder = Path.Combine(
+                    output, postHeaderSettings.Year.ToString(CultureInfo.InvariantCulture),
+                    postHeaderSettings.Date.ToString("MM"), postHeaderSettings.Slug);
 
                 if (!Directory.Exists(outputFolder))
                 {
                     Directory.CreateDirectory(outputFolder);
                 }
 
-                File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+                File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
             }
             catch (Exception ex)
             {

@@ -5,15 +5,16 @@
 
     public class PostViewModel : BaseViewModel
     {
-        public string Layout { get; set; }
-        public string Title { get; set; }
-        public string PostContent { get; set; }
-        public DateTime PostDate { get; set; }
-        public string Url { get; set; }
-
-        public string Email { get; set; }
-        public string Author { get; set; }
-        
-        public IEnumerable<Category> Categories { get; set; }
+        public virtual string Layout { get; set; }
+        public virtual string Title { get; set; }
+        public virtual string PostContent { get; set; }
+        public virtual DateTime PostDate { get; set; }
+        public virtual string Url { get; set; }
+               
+        public virtual string Email { get; set; }
+        public virtual string Author { get; set; }
+               
+        public virtual IEnumerable<Category> Categories { get; set; }
+        public virtual SnowSettings Settings { get; set; }
     }
 }

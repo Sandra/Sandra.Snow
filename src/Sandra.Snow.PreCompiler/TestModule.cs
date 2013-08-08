@@ -33,6 +33,8 @@
         public static bool HasPreviousPage { get; set; }
         public static bool HasNextPage { get; set; }
 
+        public static SnowSettings Settings { get; set; }
+
         public static IList<BaseViewModel.MonthYear> MonthYear { get; set; }
 
         public TestModule()
@@ -87,7 +89,8 @@
                     Categories = categories,
                     MonthYearList = MonthYear,
                     Author = Data.Post.Author,
-                    Email = Data.Post.Email
+                    Email = Data.Post.Email,
+                    Settings = Settings
                 };
 
                 return View[result.Layout, result];
