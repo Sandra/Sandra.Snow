@@ -3,8 +3,8 @@
     using System;
     using FakeItEasy;
     using Nancy.ViewEngines.Razor;
-    using Sandra.Snow.PreCompiler.Extensions;
-    using Sandra.Snow.PreCompiler.ViewModels;
+    using PreCompiler.Extensions;
+    using ViewModels;
     using Xunit;
 
     public class RazorExtensionsTests
