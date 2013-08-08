@@ -59,7 +59,7 @@
                 Posts = "_posts",
                 Layouts = "_layouts",
                 Output = "Website",
-                UrlFormat = "",
+                UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
                 ProcessStaticFiles = new List<StaticFile>(),
                 CurrentDir = directory ?? "",
