@@ -86,7 +86,7 @@
                     {
                         with.Module<TestModule>();
                         with.RootPathProvider<StaticPathProvider>();
-                        with.ViewEngines(typeof (SuperSimpleViewEngineWrapper), typeof (RazorViewEngine));
+                        with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
                     });
 
                 parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer, settings.UrlFormat));
@@ -124,11 +124,11 @@
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Date.AsMonthDate()
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Date.AsMonthDate()
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                               u => u.Count()));
 
             return (from s in groupedByYear
@@ -141,24 +141,21 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(
-            IEnumerable<PostHeaderSettings> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Month
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Month
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                               u => u.Select(p => p.Post).ToList()));
 
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings,
-            IList<PostHeaderSettings> parsedFiles,
-            Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -233,8 +230,7 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output,
-            Browser browserComposer, string urlFormat)
+        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer, string urlFormat)
         {
             try
             {
@@ -256,7 +252,7 @@
                     urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
                 }
                 var outputFolder = Path.Combine(output, urlFormat);
-                
+
                 if (!Directory.Exists(outputFolder))
                 {
                     Directory.CreateDirectory(outputFolder);
@@ -268,29 +264,6 @@
             {
                 Console.Write(ex);
             }
-        }
-
-        private static string MakeTitleCharactersSafe(string title)
-        {
-            foreach (var character in Path.GetInvalidFileNameChars())
-            {
-                title = title.Replace(character, '-');
-            }
-
-            foreach (var character in title)
-            {
-                if (character == ' ')
-                {
-                    title = title.Replace(' ', '-');
-                }
-
-                if (character == '.')
-                {
-                    title = title.Replace('.', '-');
-                }
-            }
-
-            return title.ToLower();
         }
 
         private static string DayFull(string url, DateTime replaceDate, string slug)
