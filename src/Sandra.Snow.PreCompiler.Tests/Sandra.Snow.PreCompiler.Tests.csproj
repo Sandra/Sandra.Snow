@@ -62,10 +62,17 @@
     <Compile Include="Extensions\GravatarExtensionsTests.cs" />
     <Compile Include="Extensions\RazorExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingParsers\PostHeaderParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Content Include="SettingParsers\TestFiles\series-sample-test-1.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SettingParsers\TestFiles\series-sample-test-2.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>

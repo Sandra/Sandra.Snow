@@ -19,7 +19,6 @@
             var response = browser.Get("/post/" + HttpUtility.UrlEncodeUnicode(file.Name));
             var rawPost = File.ReadAllText(file.FullName);
             var fileNameMatches = FileNameRegex.Match(file.Name);
-            var settings = new Dictionary<string, dynamic>();
             var rawSettings = string.Empty;
 
             if (!fileNameMatches.Success)
@@ -28,23 +27,8 @@
                                                " does not match the format {year}-{month}-{day}-{slug}.(md|markdown)");
             }
 
-            //Get the Header info from a Post Markdown File
-            //Find the first index of ---
-            var startOfSettingsIndex = rawPost.IndexOf("---", StringComparison.InvariantCultureIgnoreCase);
-            if (startOfSettingsIndex >= 0)
-            {
-                //Find the second index of --- after the first
-                var endOfSettingsIndex = rawPost.IndexOf("---", startOfSettingsIndex + 3,
-                                                         StringComparison.InvariantCultureIgnoreCase);
-
-                //If we find the 2nd index, parse the settings
-                //Otherwise we assume there's no header or settings...
-                if (endOfSettingsIndex >= 0)
-                {
-                    rawSettings = rawPost.Substring(startOfSettingsIndex + 3, endOfSettingsIndex - 3);
-                    settings = ParseSettings(rawSettings);
-                }
-            }
+            var result = ParseDataFromFile(rawPost);
+            var settings = ParseSettings(result.Item1);
 
             var year = fileNameMatches.Groups["year"].Value;
             var month = fileNameMatches.Groups["month"].Value;
@@ -66,8 +50,43 @@
             };
         }
 
+        public static Tuple<string, string> ParseDataFromFile(string rawPost)
+        {
+            var settings = string.Empty;
+            var post = string.Empty;
+
+            //Get the Header info from a Post Markdown File
+            //Find the first index of ---
+            var startOfSettingsIndex = rawPost.IndexOf("---", StringComparison.InvariantCultureIgnoreCase);
+            if (startOfSettingsIndex >= 0)
+            {
+                //Find the second index of --- after the first
+                var endOfSettingsIndex = rawPost.IndexOf("---", startOfSettingsIndex + 3,
+                    StringComparison.InvariantCultureIgnoreCase);
+
+                //If we find the 2nd index, parse the settings
+                //Otherwise we assume there's no header or settings...
+                if (endOfSettingsIndex >= 0)
+                {
+                    settings = rawPost.Substring(startOfSettingsIndex, endOfSettingsIndex + 3);
+                    post = rawPost.Substring(endOfSettingsIndex + 3, rawPost.Length - (endOfSettingsIndex + 3));
+                }
+            }
+            else
+            {
+                post = rawPost;
+            }
+
+            return new Tuple<string, string>(settings, post);
+        }
+
         private static Dictionary<string, object> ParseSettings(string rawSettings)
         {
+            if (string.IsNullOrWhiteSpace(rawSettings))
+            {
+                return new Dictionary<string, object>();
+            }
+
             var lines = rawSettings.Split(new[] { "\n", "\r", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
             var result = new Dictionary<string, object>();
 
