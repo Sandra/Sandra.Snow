@@ -234,6 +234,16 @@
         {
             try
             {
+                foreach (var s in UrlFormatParser)
+                {
+                    urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
+                }
+
+                if (!urlFormat.StartsWith("/"))  //Need this for the Model but not the directory below
+                    urlFormat = "/" + urlFormat;
+
+                postHeaderSettings.Slug = urlFormat;
+
                 TestModule.Data = postHeaderSettings;
                 var result = browserComposer.Post("/compose");
                 var body = result.Body.AsString();
@@ -246,12 +256,7 @@
                     throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
                 }
 
-
-                foreach (var s in UrlFormatParser)
-                {
-                    urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
-                }
-                var outputFolder = Path.Combine(output, urlFormat);
+                var outputFolder = Path.Combine(output, urlFormat.Substring(1)); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {
