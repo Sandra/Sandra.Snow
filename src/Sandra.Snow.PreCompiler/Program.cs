@@ -60,7 +60,7 @@
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser, settings))
+                var parsedFiles = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
                                        .OrderByDescending(x => x.Date)
                                        .ToList();
 

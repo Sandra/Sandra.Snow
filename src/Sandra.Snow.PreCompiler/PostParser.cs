@@ -8,7 +8,7 @@
     using Nancy.Helpers;
     using Nancy.Testing;
 
-    public class PostSettingsParser
+    public class PostParser
     {
         private static readonly Regex FileNameRegex =
             new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",

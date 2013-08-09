@@ -93,7 +93,7 @@
     <Compile Include="Exceptions\FileProcessingException.cs" />
     <Compile Include="Extensions\GravatarExtensions.cs" />
     <Compile Include="Extensions\RazorHelpers.cs" />
-    <Compile Include="PostSettingsParser.cs" />
+    <Compile Include="PostParser.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />

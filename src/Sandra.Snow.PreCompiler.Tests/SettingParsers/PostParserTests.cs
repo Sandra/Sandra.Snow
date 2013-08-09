@@ -3,7 +3,7 @@
     using System.IO;
     using Xunit;
 
-    public class PostHeaderParserTests
+    public class PostParserTests
     {
         [Fact]
         public void Given_Location_To_Markdown_Files_Should_Be_Able_To_Open()
@@ -37,7 +37,7 @@ series:
 title: some title
 ---";
 
-            var result = PostSettingsParser.ParseDataFromFile(fileData);
+            var result = PostParser.ParseDataFromFile(fileData);
 
             Assert.Equal(expected, result.Item1);
         }
@@ -52,7 +52,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Donec porttitor non velit nec feugiat.";
 
-            var result = PostSettingsParser.ParseDataFromFile(fileData);
+            var result = PostParser.ParseDataFromFile(fileData);
 
             Assert.Equal(expected, result.Item2);
         }
@@ -65,7 +65,7 @@ Donec porttitor non velit nec feugiat.";
 
 Donec porttitor non velit nec feugiat.";
 
-            var result = PostSettingsParser.ParseDataFromFile(fileData);
+            var result = PostParser.ParseDataFromFile(fileData);
 
             Assert.Equal(string.Empty, result.Item1);
             Assert.Equal(expected, result.Item2);
