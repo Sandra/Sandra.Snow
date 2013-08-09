@@ -11,7 +11,8 @@
             //Test exists to satistify my own ego to know if these files can be opened for testing. 
             var files = new[]
             {
-                "SettingParsers/TestFiles/series-sample-test-1.md"
+                "SettingParsers/TestFiles/series-sample-test-1.md",
+                "SettingParsers/TestFiles/series-sample-test-2.md",
             };
 
             foreach (var s in files)

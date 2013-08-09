@@ -2,7 +2,7 @@
 {
     using System;
     using Nancy.ViewEngines.Razor;
-    using Sandra.Snow.PreCompiler.ViewModels;
+    using ViewModels;
 
     public static class RazorHelpers
     {

@@ -1,11 +1,11 @@
 ﻿namespace Sandra.Snow.PreCompiler
 {
-    using Nancy;
-    using Sandra.Snow.PreCompiler.Models;
-    using Sandra.Snow.PreCompiler.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Models;
+    using Nancy;
+    using ViewModels;
 
     internal class TestModule : NancyModule
     {
