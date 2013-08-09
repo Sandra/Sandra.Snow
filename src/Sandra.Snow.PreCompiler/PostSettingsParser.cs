@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.IO;
     using System.Text.RegularExpressions;
+    using Extensions;
     using Nancy.Helpers;
     using Nancy.Testing;
 
@@ -49,7 +50,7 @@
             var year = fileNameMatches.Groups["year"].Value;
             var month = fileNameMatches.Groups["month"].Value;
             var day = fileNameMatches.Groups["day"].Value;
-            var slug = fileNameMatches.Groups["slug"].Value;
+            var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
             return new PostHeaderSettings(settings, snowSettings)
