@@ -19,6 +19,19 @@
 
     internal class Program
     {
+        private static readonly SortedList<int, Func<string, DateTime, string, string>> UrlFormatParser = new SortedList<int, Func<string, DateTime, string, string>>
+                {
+                    {0, DayFull},
+                    {1, DayAbbreviated},
+                    {2, Day},
+                    {3, MonthFull},
+                    {4, MonthAbbreviated},
+                    {5, Month},
+                    {6, YearFull},
+                    {7, Year},
+                    {8, Slug}
+                };
+
         private static void Main(string[] args)
         {
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Begin processing");
@@ -68,14 +81,15 @@
                 TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
                 TestModule.Settings = settings;
 
-                var browserComposer = new Browser(with =>
-                {
-                    with.Module<TestModule>();
-                    with.RootPathProvider<StaticPathProvider>();
-                    with.ViewEngines(typeof (SuperSimpleViewEngineWrapper), typeof (RazorViewEngine));
-                });
+                var browserComposer = new Browser(
+                    with =>
+                    {
+                        with.Module<TestModule>();
+                        with.RootPathProvider<StaticPathProvider>();
+                        with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
+                    });
 
-                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
+                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer, settings.UrlFormat));
 
                 var categories = parsedFiles.SelectMany(x => x.Categories)
                                             .Distinct()
@@ -110,11 +124,11 @@
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Date.AsMonthDate()
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Date.AsMonthDate()
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                               u => u.Count()));
 
             return (from s in groupedByYear
@@ -127,24 +141,21 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(
-            IEnumerable<PostHeaderSettings> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Month
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
+                                     into g
+                                     select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                              group y by y.Month
+                                                                                  into p
+                                                                                  select p).ToDictionary(u => u.Key,
                                                                               u => u.Select(p => p.Post).ToList()));
 
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings,
-            IList<PostHeaderSettings> parsedFiles,
-            Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -219,11 +230,20 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output,
-            Browser browserComposer)
+        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer, string urlFormat)
         {
             try
             {
+                foreach (var s in UrlFormatParser)
+                {
+                    urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
+                }
+
+                if (!urlFormat.StartsWith("/"))  //Need this for the Model but not the directory below
+                    urlFormat = "/" + urlFormat;
+
+                postHeaderSettings.Slug = urlFormat;
+
                 TestModule.Data = postHeaderSettings;
                 var result = browserComposer.Post("/compose");
                 var body = result.Body.AsString();
@@ -236,7 +256,7 @@
                     throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
                 }
 
-                var outputFolder = Path.Combine(output, postHeaderSettings.Year.ToString(CultureInfo.InvariantCulture), postHeaderSettings.Date.ToString("MM"), postHeaderSettings.Slug);
+                var outputFolder = Path.Combine(output, urlFormat.Substring(1)); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {
@@ -249,6 +269,51 @@
             {
                 Console.Write(ex);
             }
+        }
+
+        private static string DayFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("dddd", replaceDate.ToString("dddd"));
+        }
+
+        private static string DayAbbreviated(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("ddd", replaceDate.ToString("ddd"));
+        }
+
+        private static string Day(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("dd", replaceDate.ToString("dd"));
+        }
+
+        private static string Month(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MM", replaceDate.ToString("MM"));
+        }
+
+        private static string MonthAbbreviated(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MMM", replaceDate.ToString("MMM"));
+        }
+
+        private static string MonthFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MMMM", replaceDate.ToString("MMMM"));
+        }
+
+        private static string Slug(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("slug", slug);
+        }
+
+        private static string YearFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("yyyy", replaceDate.ToString("yyyy"));
+        }
+
+        private static string Year(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("yy", replaceDate.ToString("yy"));
         }
     }
 }
