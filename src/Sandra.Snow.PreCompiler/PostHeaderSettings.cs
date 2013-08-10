@@ -62,7 +62,7 @@
                     Categories = Categories,
                     Content = Content,
                     Date = Date,
-                    Url = string.Format("/{0}/{1}/{2}/", Year, Date.ToString("MM"), Slug),
+                    Url = Slug,
                     Author = Author,
                     Email = Email
                 };
