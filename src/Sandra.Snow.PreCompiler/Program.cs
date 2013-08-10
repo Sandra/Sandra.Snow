@@ -120,7 +120,7 @@
             }
         }
 
-        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeaderSettings> parsedFiles)
+        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeader> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -141,7 +141,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeader> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
@@ -155,7 +155,7 @@
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles, Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeader> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -230,21 +230,21 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer, string urlFormat)
+        private static void ComposeParsedFiles(PostHeader postHeader, string output, Browser browserComposer, string urlFormat)
         {
             try
             {
                 foreach (var s in UrlFormatParser)
                 {
-                    urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
+                    urlFormat = s.Value.Invoke(urlFormat, postHeader.Date, postHeader.Slug);
                 }
 
                 if (!urlFormat.StartsWith("/"))  //Need this for the Model but not the directory below
                     urlFormat = "/" + urlFormat;
 
-                postHeaderSettings.Slug = urlFormat;
+                postHeader.Slug = urlFormat;
 
-                TestModule.Data = postHeaderSettings;
+                TestModule.Data = postHeader;
                 var result = browserComposer.Post("/compose");
                 var body = result.Body.AsString();
 
@@ -253,7 +253,7 @@
                 if (body.Contains("<title>Razor Compilation Error</title>") &&
                     body.Contains("<p>We tried, we really did, but we just can't compile your view.</p>"))
                 {
-                    throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
+                    throw new FileProcessingException("Processing failed composing " + postHeader.FileName);
                 }
 
                 var outputFolder = Path.Combine(output, urlFormat.Substring(1)); //Outputfolder is incorrect with leading slash on urlFormat

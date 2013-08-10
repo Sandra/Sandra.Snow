@@ -4,8 +4,10 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using Extensions;
+    using Models;
     using Nancy.Helpers;
     using Nancy.Testing;
 
@@ -14,6 +16,14 @@
         private static readonly Regex FileNameRegex =
             new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly IDictionary<string, Func<List<string>, object>>
+            SubSettingParsers = new Dictionary<string, Func<List<string>, object>>();
+
+        static PostParser()
+        {
+            SubSettingParsers.Add("series", SeriesParser);
+        }
 
         public static PostHeaderSettings GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
         {
@@ -95,31 +105,33 @@
 
             for (int i = 0; i < lines.Length; i++)
             {
-                var line = lines[i];
+                var line = lines[i].Trim();
+                var setting = line.Split(new[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries);
 
-                var setting = line.Split(new[] { ':' }, 2);
-
-                if (setting[1].Trim() == string.Empty)
+                if (setting.Length == 1)
                 {
                     //This most likely means that the setting has sub-settings
-                    var subSettings = new Dictionary<string, string>();
                     var counter = i + 1;
+                    var subLines = new List<string>();
+                    var settingName = setting[0];
 
                     for (; counter < lines.Length; counter++)
                     {
                         var subLine = lines[counter];
-                        var subLineSetting = subLine.Split(':');
 
                         if (char.IsWhiteSpace(subLine, 0))
                         {
-                            subSettings.Add(subLineSetting[0].Trim(), subLineSetting[1].Trim());
+                            subLines.Add(subLine);
                             continue;
                         }
 
                         break;
                     }
 
+                    var subSettings = SubSettingParsers[settingName].Invoke(subLines);
+
                     result.Add(setting[0], subSettings);
+
                     i = counter - 1;
                 }
                 else
@@ -129,6 +141,37 @@
             }
 
             return result;
+        }
+
+        private static object SeriesParser(List<string> subLines)
+        {
+            var seriesResult = new Series();
+            var partCount = 1;
+
+            foreach (var lineSplit in subLines.Select(t => t.Split(new[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries)))
+            {
+                switch (lineSplit[0].Trim())
+                {
+                    case "id":
+                    {
+                        seriesResult.Id = lineSplit[1].Trim();
+                        break;
+                    }
+                    case "current":
+                    {
+                        seriesResult.Current = int.Parse(lineSplit[1].Trim());
+                        break;
+                    }
+                    case "part":
+                    {
+                        seriesResult.Parts.Add(partCount, lineSplit[1].Trim());
+                        partCount++;
+                        break;
+                    }
+                }
+            }
+
+            return seriesResult;
         }
     }
 }

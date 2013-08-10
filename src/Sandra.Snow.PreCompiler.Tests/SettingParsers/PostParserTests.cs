@@ -1,6 +1,7 @@
 ﻿namespace Sandra.Snow.PreCompiler.Tests.SettingParsers
 {
     using System.IO;
+    using Models;
     using Xunit;
 
     public class PostParserTests
@@ -13,6 +14,7 @@
             {
                 "SettingParsers/TestFiles/series-sample-test-1.md",
                 "SettingParsers/TestFiles/series-sample-test-2.md",
+                "SettingParsers/TestFiles/series-sample-test-3.md",
             };
 
             foreach (var s in files)
@@ -70,6 +72,60 @@ Donec porttitor non velit nec feugiat.";
 
             Assert.Equal(string.Empty, result.Item1);
             Assert.Equal(expected, result.Item2);
+        }
+
+        [Fact]
+        public void Given_Empty_RawSettings_Should_Return_Empty_Dictionary()
+        {
+            var result = PostParser.ParseSettings("");
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void Given_Header_With_Empty_Settings_Should_Return_Empty_Dictionary()
+        {
+            var result = PostParser.ParseSettings(@"---
+
+---");
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void Given_Header_That_Contains_Two_Properties_With_Values_Should_Map_To_Dictionary_Correctly()
+        {
+            var fileData = File.ReadAllText("SettingParsers/TestFiles/series-sample-test-3.md");
+            var result = PostParser.ParseSettings(fileData);
+
+            Assert.Equal("post", result["layout"]);
+            Assert.Equal("some title", result["title"]);
+        }
+
+        [Fact]
+        public void Given_Header_Which_Contains_Blank_Lines_Should_Only_Parse_Out_Valid_Lines_Correctly()
+        {
+            var fileData = File.ReadAllText("SettingParsers/TestFiles/series-sample-test-4.md");
+            var result = PostParser.ParseSettings(fileData);
+
+            Assert.Equal("post", result["layout"]);
+            Assert.Equal("some title", result["title"]);
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void Given_Header_Which_Contains_Series_Should_Return_Series_Key_With_Series_Object()
+        {
+            var fileData = File.ReadAllText("SettingParsers/TestFiles/series-sample-test-5.md");
+            var result = PostParser.ParseSettings(fileData);
+
+            Assert.True(result.ContainsKey("series"));
+
+            var series = (Series) result["series"];
+
+            Assert.NotEmpty(series.Parts);
+            Assert.Equal("123", series.Id);
+            Assert.Equal(2, series.Current);
         }
     }
 }

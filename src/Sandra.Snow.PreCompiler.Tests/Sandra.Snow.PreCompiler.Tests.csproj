@@ -73,6 +73,15 @@
     <Content Include="SettingParsers\TestFiles\series-sample-test-2.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SettingParsers\TestFiles\series-sample-test-3.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SettingParsers\TestFiles\series-sample-test-4.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SettingParsers\TestFiles\series-sample-test-5.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>

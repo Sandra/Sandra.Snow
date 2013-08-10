@@ -79,23 +79,5 @@
 
             Assert.Equal(expected, htmlHelper.RenderDisqusComments("philliphaydon").ToHtmlString());
         }
-
-        [Fact]
-        public void Given_Empty_RawSettings_Should_Return_Empty_Dictionary()
-        {
-            var result = PostParser.ParseSettings("");
-
-            Assert.Empty(result);
-        }
-
-        [Fact]
-        public void Given_Header_With_Empty_Settings_Should_Return_Empty_Dictionary()
-        {
-            var result = PostParser.ParseSettings(@"---
-
----");
-
-            Assert.Empty(result);
-        }
     }
 }

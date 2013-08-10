@@ -16,7 +16,7 @@
         }
 
         //Data changes on iterations
-        public static PostHeaderSettings Data { get; set; }
+        public static PostHeader Data { get; set; }
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
