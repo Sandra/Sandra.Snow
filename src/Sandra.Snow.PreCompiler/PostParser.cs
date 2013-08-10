@@ -80,12 +80,14 @@
             return new Tuple<string, string>(settings, post);
         }
 
-        private static Dictionary<string, object> ParseSettings(string rawSettings)
+        public static Dictionary<string, object> ParseSettings(string rawSettings)
         {
             if (string.IsNullOrWhiteSpace(rawSettings))
             {
                 return new Dictionary<string, object>();
             }
+
+            rawSettings = rawSettings.Trim('-');
 
             var lines = rawSettings.Split(new[] { "\n", "\r", "\n\r" }, StringSplitOptions.RemoveEmptyEntries);
             var result = new Dictionary<string, object>();
