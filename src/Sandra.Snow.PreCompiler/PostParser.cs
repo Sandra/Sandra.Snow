@@ -47,7 +47,7 @@
             var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-            return new PostHeader(settings, snowSettings)
+            var postHeader = new PostHeader()
             {
                 FileName = file.Name,
                 RawSettings = rawSettings,
@@ -59,6 +59,11 @@
                 Date = date,
                 Slug = slug
             };
+
+            postHeader.SetSnowSettings(snowSettings);
+            postHeader.SetHeaderSettings(settings);
+
+            return postHeader;
         }
 
         public static Tuple<string, string> ParseDataFromFile(string rawPost)

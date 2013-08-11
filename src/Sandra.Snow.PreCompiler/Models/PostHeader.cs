@@ -6,13 +6,19 @@
 
     public class PostHeader
     {
-        public PostHeader(Dictionary<string, object> settings, SnowSettings defaults)
+        public PostHeader()
+        {
+            Categories = Enumerable.Empty<string>();
+        }
+
+        public void SetSnowSettings(SnowSettings defaults)
         {
             Author = defaults.Author;
             Email = defaults.Email;
+        }
 
-            Categories = Enumerable.Empty<string>();
-
+        public void SetHeaderSettings(Dictionary<string, object> settings)
+        {
             foreach (var setting in settings)
             {
                 switch (setting.Key.ToLower())
@@ -20,8 +26,8 @@
                     case "categories":
                     case "category":
                     {
-                        var categories = ((string) setting.Value).Split(
-                            new[] {","},
+                        var categories = ((string)setting.Value).Split(
+                            new[] { "," },
                             StringSplitOptions.RemoveEmptyEntries);
 
                         Categories = categories.Select(x => x.Trim());
@@ -29,12 +35,12 @@
                     }
                     case "title":
                     {
-                        Title = (string) setting.Value;
+                        Title = (string)setting.Value;
                         break;
                     }
                     case "layout":
                     {
-                        Layout = (string) setting.Value;
+                        Layout = (string)setting.Value;
                         break;
                     }
                     case "author":
@@ -49,7 +55,7 @@
                     }
                     case "series":
                     {
-                        Series = (Series) setting.Value;
+                        Series = (Series)setting.Value;
                         break;
                     }
                 }

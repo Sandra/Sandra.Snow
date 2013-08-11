@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\GravatarExtensionsTests.cs" />
+    <Compile Include="Extensions\PostHeaderExtensionsTests.cs" />
     <Compile Include="Extensions\RazorExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingParsers\PostParserTests.cs" />

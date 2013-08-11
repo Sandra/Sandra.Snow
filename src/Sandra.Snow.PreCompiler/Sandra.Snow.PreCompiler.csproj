@@ -93,6 +93,7 @@
     <Compile Include="Exceptions\FileProcessingException.cs" />
     <Compile Include="Extensions\GravatarExtensions.cs" />
     <Compile Include="Extensions\RazorHelpers.cs" />
+    <Compile Include="Extensions\PostHeaderExtensions.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="PostParser.cs" />
     <Compile Include="Extensions\SlugExtensions.cs" />

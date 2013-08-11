@@ -77,6 +77,8 @@
                                        .OrderByDescending(x => x.Date)
                                        .ToList();
 
+                parsedFiles.UpdatePartsToLatestInSeries();
+
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
                 TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
                 TestModule.Settings = settings;
