@@ -18,19 +18,6 @@
 
     internal class Program
     {
-        private static readonly SortedList<int, Func<string, DateTime, string, string>> UrlFormatParser = new SortedList<int, Func<string, DateTime, string, string>>
-                {
-                    {0, DayFull},
-                    {1, DayAbbreviated},
-                    {2, Day},
-                    {3, MonthFull},
-                    {4, MonthAbbreviated},
-                    {5, Month},
-                    {6, YearFull},
-                    {7, Year},
-                    {8, Slug}
-                };
-
         private static void Main(string[] args)
         {
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Begin processing");
@@ -142,7 +129,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
@@ -261,51 +248,6 @@
             {
                 Console.Write(ex);
             }
-        }
-
-        private static string DayFull(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("dddd", replaceDate.ToString("dddd"));
-        }
-
-        private static string DayAbbreviated(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("ddd", replaceDate.ToString("ddd"));
-        }
-
-        private static string Day(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("dd", replaceDate.ToString("dd"));
-        }
-
-        private static string Month(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("MM", replaceDate.ToString("MM"));
-        }
-
-        private static string MonthAbbreviated(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("MMM", replaceDate.ToString("MMM"));
-        }
-
-        private static string MonthFull(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("MMMM", replaceDate.ToString("MMMM"));
-        }
-
-        private static string Slug(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("slug", slug);
-        }
-
-        private static string YearFull(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("yyyy", replaceDate.ToString("yyyy"));
-        }
-
-        private static string Year(string url, DateTime replaceDate, string slug)
-        {
-            return url.Replace("yy", replaceDate.ToString("yy"));
         }
     }
 }

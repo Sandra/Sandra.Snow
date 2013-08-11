@@ -98,7 +98,6 @@
     <Compile Include="Extensions\PostHeaderExtensions.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="PostParser.cs" />
-    <Compile Include="Extensions\SlugExtensions.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />
