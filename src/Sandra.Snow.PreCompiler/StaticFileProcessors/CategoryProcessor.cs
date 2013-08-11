@@ -1,8 +1,8 @@
 ﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
 {
     using System.IO;
+    using Extensions;
     using Nancy.Testing;
-    using Sandra.Snow.PreCompiler.Extensions;
 
     public class CategoryProcessor : BaseProcessor
     {
@@ -20,7 +20,7 @@
         {
             var result = snowyData.Browser.Post("/static");
 
-            result.StatusCode.ThrowIfNotSuccessful();
+            result.ThrowIfNotSuccessful(snowyData.File.File);
 
             var outputFolder = Path.Combine(snowyData.Settings.Output, "category");
 

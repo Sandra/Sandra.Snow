@@ -26,11 +26,10 @@
                 var posts = snowyData.Files.Where(x => x.Categories.Contains(category.Name));
 
                 TestModule.CategoriesInPost = posts.ToList();
-
-                //TestModule.Data = fileData;
+                
                 var result = snowyData.Browser.Post("/static");
 
-                result.StatusCode.ThrowIfNotSuccessful();
+                result.ThrowIfNotSuccessful(snowyData.File.File);
 
                 var outputFolder = Path.Combine(snowyData.Settings.Output, "category", category.Url);
 

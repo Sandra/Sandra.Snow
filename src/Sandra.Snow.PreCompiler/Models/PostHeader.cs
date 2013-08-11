@@ -64,21 +64,10 @@
 
         public Series Series { get; set; }
 
-        //public Post Post
-        //{
-        //    get
-        //    {
-        //        return new Post
-        //        {
-        //            Title = Title,
-        //            Categories = Categories,
-        //            Content = Content,
-        //            Date = Date,
-        //            Author = Author,
-        //            Email = Email
-        //        };
-        //    }
-        //}
+        public string ContentExcerpt
+        {
+            get { return Content.Split(new[] { "<!--excerpt-->" }, StringSplitOptions.None)[0]; }
+        }
 
         public string Author { get; set; }
         public string Email { get; set; }
@@ -102,22 +91,5 @@
         /// Raw unparsed header from markdown file
         /// </summary>
         public string MarkdownHeader { get; set; }
-    }
-
-    public class BaseData
-    {
-        public IEnumerable<Post> Posts { get; set; }
-        public IEnumerable<string> Categories { get; set; }
-    }
-
-    public class CategoryData : BaseData
-    {
-        public CategoryData(BaseData baseData)
-        {
-            Posts = baseData.Posts;
-            Categories = baseData.Categories;
-        }
-
-        public IEnumerable<Post> PostsInCategory { get; set; }
     }
 }

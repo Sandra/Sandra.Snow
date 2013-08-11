@@ -230,15 +230,10 @@
                 TestModule.Data = postHeader;
                 
                 var result = browserComposer.Post("/compose");
-                var body = result.Body.AsString();
 
-                //if (result.StatusCode != HttpStatusCode.OK)
-                //Crappy check because Nancy returns 200 on a compilation error :(
-                if (body.Contains("<title>Razor Compilation Error</title>") &&
-                    body.Contains("<p>We tried, we really did, but we just can't compile your view.</p>"))
-                {
-                    throw new FileProcessingException("Processing failed composing " + postHeader.FileName);
-                }
+                result.ThrowIfNotSuccessful(postHeader.FileName);
+
+                var body = result.Body.AsString();
 
                 var outputFolder = Path.Combine(output, postHeader.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 

@@ -19,11 +19,6 @@
         /// </summary>
         public string Email { get; set; }
 
-        public string ContentExcerpt
-        {
-            get { return Content.Split(new[] {"<!--excerpt-->"}, StringSplitOptions.None)[0]; }
-        }
-
         public IEnumerable<string> Categories { get; set; }
         public DateTime Date { get; set; }
 
