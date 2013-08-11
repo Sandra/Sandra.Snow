@@ -50,6 +50,7 @@
                     case "series":
                     {
                         Series = (Series) setting.Value;
+                        break;
                     }
                 }
             }
