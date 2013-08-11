@@ -10,7 +10,7 @@
         {
             var groupBySeriesId = (from x in postHeaders
                                   where x.Series != null
-                                  group x by x.Series.Id
+                                  group x by x.Series.Name
                                   into g
                                   select g).ToList();
 

@@ -3,7 +3,7 @@ layout: post
 category: Azure
 title: Setting up Mono on nginx
 series:
-	id: AzureMono
+	name: AzureMono
 	current: 3
 	part: Part 1 - Setting up the Virtual Machine and nginx
 	part: Part 2 - Setting up new Website and Domain on nginx

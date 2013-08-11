@@ -41,7 +41,7 @@
                     Series = new Series
                     {
                         Current = 3,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Part 1" }},
@@ -58,7 +58,7 @@
                     Series = new Series
                     {
                         Current = 2,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Test Part 1" }},
@@ -72,7 +72,7 @@
                     Series = new Series
                     {
                         Current = 1,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Old Parts 1" }},
@@ -122,7 +122,7 @@
                     Series = new Series
                     {
                         Current = 3,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Part 1" }},
@@ -139,7 +139,7 @@
                     Series = new Series
                     {
                         Current = 2,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Test Part 1" }},
@@ -154,7 +154,7 @@
                     Series = new Series
                     {
                         Current = 1,
-                        Id = "123",
+                        Name = "123",
                         Parts = new SortedList<int, Series.Part>
                         {
                             { 1, new Series.Part { Name = "Old Parts 1" }},

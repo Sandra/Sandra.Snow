@@ -159,7 +159,7 @@
                 {
                     case "id":
                     {
-                        seriesResult.Id = lineSplit[1].Trim();
+                        seriesResult.Name = lineSplit[1].Trim();
                         break;
                     }
                     case "current":

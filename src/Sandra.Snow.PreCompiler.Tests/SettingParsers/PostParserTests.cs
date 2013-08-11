@@ -124,7 +124,7 @@ Donec porttitor non velit nec feugiat.";
             var series = (Series) result["series"];
 
             Assert.NotEmpty(series.Parts);
-            Assert.Equal("123", series.Id);
+            Assert.Equal("123", series.Name);
             Assert.Equal(2, series.Current);
         }
     }

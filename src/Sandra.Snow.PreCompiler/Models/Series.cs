@@ -9,7 +9,7 @@
             Parts = new SortedList<int, Part>();
         }
 
-        public string Id { get; set; }
+        public string Name { get; set; }
         public int Current { get; set; }
         public SortedList<int, Part> Parts { get; set; }
 

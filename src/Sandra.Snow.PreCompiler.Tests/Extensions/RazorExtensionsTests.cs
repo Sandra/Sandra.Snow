@@ -103,7 +103,7 @@
             {
                 Series = new Series
                 {
-                    Id = "123",
+                    Name = "123",
                     Current = 1,
                     Parts = new SortedList<int, Series.Part>
                     {
@@ -127,7 +127,7 @@
             {
                 Series = new Series
                 {
-                    Id = "123",
+                    Name = "123",
                     Current = 2,
                     Parts = new SortedList<int, Series.Part>
                     {

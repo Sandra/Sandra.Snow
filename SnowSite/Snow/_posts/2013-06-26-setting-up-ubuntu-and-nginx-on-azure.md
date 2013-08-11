@@ -3,7 +3,7 @@ layout: post
 category: Azure
 title: Setting up Ubuntu and nginx on Azure
 series:
-	id: AzureMono
+	name: AzureMono
 	current: 1
 	part: Part 1 - Setting up the Virtual Machine and nginx
 	part: Part 2 - Setting up new Website and Domain on nginx
