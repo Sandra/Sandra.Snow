@@ -11,7 +11,7 @@
         [Fact]
         public void Given_Empty_Collection_Should_Do_Nothing()
         {
-            var testData = new List<PostHeader>();
+            var testData = new List<Post>();
 
             testData.UpdatePartsToLatestInSeries();
         }
@@ -19,12 +19,12 @@
         [Fact]
         public void Given_Collection_With_No_Series_Should_Not_Throw()
         {
-            var testData = new List<PostHeader>
+            var testData = new List<Post>
             {
-                new PostHeader(),
-                new PostHeader(),
-                new PostHeader(),
-                new PostHeader(),
+                new Post(),
+                new Post(),
+                new Post(),
+                new Post(),
             };
 
             testData.UpdatePartsToLatestInSeries();
@@ -33,9 +33,9 @@
         [Fact]
         public void Given_Collection_With_Series_Should_Update_To_Latest_Parts_On_All()
         {
-            var testData = new List<PostHeader>
+            var testData = new List<Post>
             {
-                new PostHeader
+                new Post
                 {
                     Date = new DateTime(2013, 03, 28),
                     Series = new Series
@@ -51,8 +51,8 @@
                         }
                     }
                 },
-                new PostHeader(),
-                new PostHeader
+                new Post(),
+                new Post
                 {
                     Date = new DateTime(2013, 03, 14),
                     Series = new Series
@@ -66,7 +66,7 @@
                         }
                     }
                 },
-                new PostHeader
+                new Post
                 {
                     Date = new DateTime(2013, 03, 10),
                     Series = new Series
@@ -113,9 +113,9 @@
         [Fact]
         public void Given_Collection_Of_Series_Should_Update_Parts_With_Post_Urls()
         {
-            var testData = new List<PostHeader>
+            var testData = new List<Post>
             {
-                new PostHeader
+                new Post
                 {
                     Url = "/2013/03/part-3-banana",
                     Date = new DateTime(2013, 03, 28),
@@ -132,7 +132,7 @@
                         }
                     }
                 },
-                new PostHeader
+                new Post
                 {
                     Url = "/2013/03/part-2-orange",
                     Date = new DateTime(2013, 03, 14),
@@ -147,7 +147,7 @@
                         }
                     }
                 },
-                new PostHeader
+                new Post
                 {
                     Url = "/2013/03/part-1-apple",
                     Date = new DateTime(2013, 03, 10),

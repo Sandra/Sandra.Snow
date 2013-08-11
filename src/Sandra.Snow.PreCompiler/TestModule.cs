@@ -16,18 +16,18 @@
         }
 
         //Data changes on iterations
-        public static PostHeader Data { get; set; }
+        public static Post Data { get; set; }
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
-        public static IList<PostHeader> PostsPaged { get; set; }
-        public static IList<PostHeader> CategoriesInPost { get; set; }
+        public static IList<Post> PostsPaged { get; set; }
+        public static IList<Post> CategoriesInPost { get; set; }
         public static int PageNumber { get; set; }
 
         //Properties are set and never change...
-        public static IList<PostHeader> Posts { get; set; }
+        public static IList<Post> Posts { get; set; }
         public static IList<Category> Categories { get; set; }
-        public static Dictionary<int, Dictionary<int, List<PostHeader>>> PostsGroupedByYearThenMonth { get; set; }
+        public static Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
         public static int TotalPages { get; set; }
 
         public static bool HasPreviousPage { get; set; }

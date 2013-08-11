@@ -48,7 +48,7 @@
             return value;
         }
 
-        public static void SetPostUrl(this IEnumerable<PostHeader> posts, SnowSettings settings)
+        public static void SetPostUrl(this IEnumerable<Post> posts, SnowSettings settings)
         {
             foreach (var postHeader in posts)
             {

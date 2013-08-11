@@ -108,7 +108,7 @@
             }
         }
 
-        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeader> parsedFiles)
+        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -129,7 +129,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<PostHeader>>> GroupStuff(IEnumerable<PostHeader> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
@@ -143,7 +143,7 @@
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeader> parsedFiles, Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -223,19 +223,19 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeader postHeader, string output, Browser browserComposer)
+        private static void ComposeParsedFiles(Post post, string output, Browser browserComposer)
         {
             try
             {
-                TestModule.Data = postHeader;
+                TestModule.Data = post;
                 
                 var result = browserComposer.Post("/compose");
 
-                result.ThrowIfNotSuccessful(postHeader.FileName);
+                result.ThrowIfNotSuccessful(post.FileName);
 
                 var body = result.Body.AsString();
 
-                var outputFolder = Path.Combine(output, postHeader.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

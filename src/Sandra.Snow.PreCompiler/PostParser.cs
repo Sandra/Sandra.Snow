@@ -25,7 +25,7 @@
             SubSettingParsers.Add("series", SeriesParser);
         }
 
-        public static PostHeader GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
+        public static Post GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
         {
             var response = browser.Get("/post/" + HttpUtility.UrlEncodeUnicode(file.Name));
             var rawPost = File.ReadAllText(file.FullName);
@@ -47,7 +47,7 @@
             var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-            var postHeader = new PostHeader
+            var postHeader = new Post
             {
                 FileName = file.Name,
                 MarkdownHeader = rawSettings,

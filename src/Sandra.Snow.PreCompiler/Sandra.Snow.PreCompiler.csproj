@@ -110,7 +110,7 @@
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
-    <Compile Include="Models\PostHeader.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Extensions\IoExtensions.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="Program.cs" />

@@ -6,7 +6,7 @@
 
     public static class PostHeaderExtensions
     {
-        public static void UpdatePartsToLatestInSeries(this IEnumerable<PostHeader> postHeaders)
+        public static void UpdatePartsToLatestInSeries(this IEnumerable<Post> postHeaders)
         {
             var groupBySeriesId = (from x in postHeaders
                                   where x.Series != null

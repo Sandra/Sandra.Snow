@@ -60,10 +60,10 @@
             return RenderSeries(html, html.Model.Series, className);
         }
 
-        //public static IHtmlString RenderSeries(this HtmlHelpers<ContentViewModel> html)
-        //{
-        //    return RenderSeries(html, html.Model);
-        //}
+        public static IHtmlString RenderSeries(this HtmlHelpers<ContentViewModel> html, Post post, string className = "snow-series")
+        {
+            return RenderSeries(html, post.Series, className);
+        }
 
         private static IHtmlString RenderSeries<T>(HtmlHelpers<T> html, Series series, string className)
         {

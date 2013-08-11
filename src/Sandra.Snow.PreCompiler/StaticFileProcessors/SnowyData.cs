@@ -8,7 +8,7 @@
     {
         public SnowSettings Settings { get; set; }
         public Browser Browser { get; set; }
-        public IList<PostHeader> Files { get; set; }
+        public IList<Post> Files { get; set; }
         public StaticFile File { get; set; }
     }
 }
