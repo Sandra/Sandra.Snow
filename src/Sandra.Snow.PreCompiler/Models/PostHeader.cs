@@ -1,13 +1,12 @@
-﻿namespace Sandra.Snow.PreCompiler
+﻿namespace Sandra.Snow.PreCompiler.Models
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Sandra.Snow.PreCompiler.Models;
 
-    public class PostHeaderSettings
+    public class PostHeader
     {
-        public PostHeaderSettings(Dictionary<string, object> settings, SnowSettings defaults)
+        public PostHeader(Dictionary<string, object> settings, SnowSettings defaults)
         {
             Author = defaults.Author;
             Email = defaults.Email;
@@ -48,9 +47,15 @@
                         Email = (string)setting.Value;
                         break;
                     }
+                    case "series":
+                    {
+                        Series = (Series) setting.Value;
+                    }
                 }
             }
         }
+
+        public Series Series { get; set; }
 
         public Post Post
         {

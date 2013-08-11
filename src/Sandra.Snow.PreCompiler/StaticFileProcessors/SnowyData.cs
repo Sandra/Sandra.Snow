@@ -1,6 +1,7 @@
 ﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
 {
     using System.Collections.Generic;
+    using Models;
     using Nancy.Testing;
 
     public class SnowyData
