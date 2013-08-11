@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -19,18 +18,19 @@
 
     internal class Program
     {
-        private static readonly SortedList<int, Func<string, DateTime, string, string>> UrlFormatParser = new SortedList<int, Func<string, DateTime, string, string>>
-                {
-                    {0, DayFull},
-                    {1, DayAbbreviated},
-                    {2, Day},
-                    {3, MonthFull},
-                    {4, MonthAbbreviated},
-                    {5, Month},
-                    {6, YearFull},
-                    {7, Year},
-                    {8, Slug}
-                };
+        private static readonly SortedList<int, Func<string, DateTime, string, string>> UrlFormatParser = new SortedList
+            <int, Func<string, DateTime, string, string>>
+        {
+            {0, DayFull},
+            {1, DayAbbreviated},
+            {2, Day},
+            {3, MonthFull},
+            {4, MonthAbbreviated},
+            {5, Month},
+            {6, YearFull},
+            {7, Year},
+            {8, Slug}
+        };
 
         private static void Main(string[] args)
         {
@@ -81,13 +81,12 @@
                 TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
                 TestModule.Settings = settings;
 
-                var browserComposer = new Browser(
-                    with =>
-                    {
-                        with.Module<TestModule>();
-                        with.RootPathProvider<StaticPathProvider>();
-                        with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
-                    });
+                var browserComposer = new Browser(with =>
+                {
+                    with.Module<TestModule>();
+                    with.RootPathProvider<StaticPathProvider>();
+                    with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
+                });
 
                 parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer, settings.UrlFormat));
 
@@ -227,6 +226,11 @@
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(settings.SiteUrl))
+            {
+                settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
+            }
+
             return settings;
         }
 
@@ -234,9 +238,9 @@
         {
             try
             {
-                foreach (var s in UrlFormatParser)
+                foreach (var s in UrlFormatParser.OrderBy(x => x.Key).Select(x => x.Value))
                 {
-                    urlFormat = s.Value.Invoke(urlFormat, postHeader.Date, postHeader.Slug);
+                    urlFormat = s.Invoke(urlFormat, postHeader.Date, postHeader.Slug);
                 }
 
                 if (!urlFormat.StartsWith("/"))  //Need this for the Model but not the directory below
