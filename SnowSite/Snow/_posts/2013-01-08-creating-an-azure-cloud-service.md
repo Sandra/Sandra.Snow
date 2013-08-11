@@ -164,7 +164,7 @@ The Package itself, and a cloud configuration file. These will be needed when we
 
 ## Deployement on Azure
 
-<span class="note">**Note:** I've created a new blog post on how to [Publish from Visual Studio](/2013/1/using-publish-to-deploy-azure-cloud-service) for those who don't want to deploy from Azure Portal.</span>
+<span class="note">**Note:** I've created a new blog post on how to [Publish from Visual Studio](/2013/01/using-publish-to-deploy-azure-cloud-service) for those who don't want to deploy from Azure Portal.</span>
 
 Now we need to create the Cloud Service and upload the package. Head on over to the Azure portal, and sign up if you haven't already. Click on Cloud Services:
 

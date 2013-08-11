@@ -1,8 +1,11 @@
 ﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
     using System;
+    using System.Linq;
+    using System.Text;
+    using Models;
     using Nancy.ViewEngines.Razor;
-    using Sandra.Snow.PreCompiler.ViewModels;
+    using ViewModels;
 
     public static class RazorHelpers
     {
@@ -50,6 +53,44 @@
             }
 
             return html.Raw("");
+        }
+
+        public static IHtmlString RenderSeries(this HtmlHelpers<PostViewModel> html, string className = "snow-series")
+        {
+            return RenderSeries(html, html.Model.Series, className);
+        }
+
+        public static IHtmlString RenderSeries(this HtmlHelpers<ContentViewModel> html, Post post, string className = "snow-series")
+        {
+            return RenderSeries(html, post.Series, className);
+        }
+
+        private static IHtmlString RenderSeries<T>(HtmlHelpers<T> html, Series series, string className)
+        {
+            if (series == null || !series.Parts.Any())
+            {
+                return html.Raw("");
+            }
+
+            var result = new StringBuilder();
+
+            result.AppendFormat(@"<ul class=""{0}"">", className);
+
+            foreach (var part in series.Parts)
+            {
+                if (part.Value.HasUrl() && part.Key != series.Current)
+                {
+                    result.AppendFormat(@"<li><a href=""{0}"">{1}</a></li>", part.Value.Url, part.Value.Name);
+                }
+                else
+                {
+                    result.AppendFormat(@"<li>{0}</li>", part.Value.Name);
+                }
+            }
+
+            result.Append("</ul>");
+
+            return html.Raw(result.ToString());
         }
     }
 }

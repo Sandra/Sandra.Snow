@@ -14,7 +14,7 @@
     @foreach(var catInPost in Model.CategoriesInPost){
       <li>
         <a href="@catInPost.Url" title="@catInPost.Title">@catInPost.Title</a> 
-        <small>(@catInPost.DateFormatted)</small>
+        <small>(@catInPost.Date.ToString("dd MMM yyyy"))</small>
       </li>
     }
   </ul>

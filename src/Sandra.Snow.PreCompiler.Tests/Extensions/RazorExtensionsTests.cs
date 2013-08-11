@@ -1,7 +1,9 @@
 ﻿namespace Sandra.Snow.PreCompiler.Tests.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using FakeItEasy;
+    using Models;
     using Nancy.ViewEngines.Razor;
     using PreCompiler.Extensions;
     using ViewModels;
@@ -78,6 +80,65 @@
             };
 
             Assert.Equal(expected, htmlHelper.RenderDisqusComments("philliphaydon").ToHtmlString());
+        }
+
+        [Fact]
+        public void Given_Post_With_No_Series_Should_Return_Empty_String()
+        {
+            var htmlHelper = A.Fake<HtmlHelpers<PostViewModel>>();
+            const string expected = @"";
+
+            htmlHelper.Model = new PostViewModel();
+
+            Assert.Equal(expected, htmlHelper.RenderSeries().ToHtmlString());
+        }
+
+        [Fact]
+        public void Given_First_Post_In_Series_Should_Generate_Unordered_List_With_No_Links()
+        {
+            var htmlHelper = A.Fake<HtmlHelpers<PostViewModel>>();
+            const string expected = @"<ul class=""snow-series""><li>Part 1</li><li>Part 2</li><li>Part 3</li></ul>";
+
+            htmlHelper.Model = new PostViewModel
+            {
+                Series = new Series
+                {
+                    Name = "123",
+                    Current = 1,
+                    Parts = new SortedList<int, Series.Part>
+                    {
+                        { 1, new Series.Part { Name = "Part 1", Url = "/2013/03/part-1" } },
+                        { 2, new Series.Part { Name = "Part 2" } },
+                        { 3, new Series.Part { Name = "Part 3" } }
+                    }
+                }
+            };
+
+            Assert.Equal(expected, htmlHelper.RenderSeries().ToHtmlString());
+        }
+
+        [Fact]
+        public void Given_Second_Post_In_Series_Should_Have_Link_On_First_Part()
+        {
+            var htmlHelper = A.Fake<HtmlHelpers<PostViewModel>>();
+            const string expected = @"<ul class=""snow-series""><li><a href=""/2013/03/part-1"">Part 1</a></li><li>Part 2</li><li>Part 3</li></ul>";
+
+            htmlHelper.Model = new PostViewModel
+            {
+                Series = new Series
+                {
+                    Name = "123",
+                    Current = 2,
+                    Parts = new SortedList<int, Series.Part>
+                    {
+                        { 1, new Series.Part { Name = "Part 1", Url = "/2013/03/part-1" } },
+                        { 2, new Series.Part { Name = "Part 2", Url = "/2013/03/part-2" } },
+                        { 3, new Series.Part { Name = "Part 3" } }
+                    }
+                }
+            };
+
+            Assert.Equal(expected, htmlHelper.RenderSeries().ToHtmlString());
         }
     }
 }

@@ -2,13 +2,15 @@
 layout: post
 category: Azure
 title: Setting up new Website and Domain on nginx
+series:
+	name: AzureMono
+	current: 2
+	part: Part 1 - Setting up the Virtual Machine and nginx
+	part: Part 2 - Setting up new Website and Domain on nginx
+	part: Part 3 - Setting up Mono on nginx
+	part: Part 4 - Setting up a NancyFX website
+	part: Part 5 - Setting up a ServiceStack web service
 ---
-
-* [Part 1 - Setting up the Virtual Machine and nginx](/2013/06/setting-up-ubuntu-and-nginx-on-azure/)
-* Part 2 - Setting up new Website and Domain on nginx
-* [Part 3 - Setting up Mono on nginx](/2013/06/setting-up-mono-on-nginx/)
-* [Part 4 - Setting up a NancyFX website](/2013/07/setting-up-a-nancyfx-website/)
-* [Part 5 - Setting up a ServiceStack web service](/2013/07/setting-up-a-servicestack-service/)
 
 The purpose of series is to be able to create an end-to-end setup of a Linux Server on Azure and deploy a brand new production NancyFX website or ServiceStack service, and not get confused in-between. Like I was when I sussed all this out. :)
 

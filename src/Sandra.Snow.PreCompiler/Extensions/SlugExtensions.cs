@@ -1,10 +1,36 @@
 ﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
+<<<<<<< HEAD
     using System.Text.RegularExpressions;
     using System.Text;
 
     public static class SlugExtensions
     {
+=======
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Text;
+    using Models;
+
+    public static class SlugExtensions
+    {
+        private static readonly SortedList<int, Func<string, DateTime, string, string>> UrlFormatParser = new SortedList
+            <int, Func<string, DateTime, string, string>>
+        {
+            {0, DayFull},
+            {1, DayAbbreviated},
+            {2, Day},
+            {3, MonthFull},
+            {4, MonthAbbreviated},
+            {5, Month},
+            {6, YearFull},
+            {7, Year},
+            {8, Slug}
+        };
+
+>>>>>>> 85a21dfe85d61cbf14288b9703a0b10b9e18080a
         public static string ToUrlSlug(this string value)
         {
 
@@ -30,5 +56,67 @@
             return value;
         }
 
+<<<<<<< HEAD
+=======
+        public static void SetPostUrl(this IEnumerable<Post> posts, SnowSettings settings)
+        {
+            foreach (var postHeader in posts)
+            {
+                var urlFormat = "/" + settings.UrlFormat.Trim('/') + "/";
+
+                foreach (var s in UrlFormatParser.OrderBy(x => x.Key).Select(x => x.Value))
+                {
+                    urlFormat = s.Invoke(urlFormat, postHeader.Date, postHeader.Url);
+                }
+
+                postHeader.Url = urlFormat;
+            }
+        }
+
+        private static string DayFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("dddd", replaceDate.ToString("dddd"));
+        }
+
+        private static string DayAbbreviated(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("ddd", replaceDate.ToString("ddd"));
+        }
+
+        private static string Day(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("dd", replaceDate.ToString("dd"));
+        }
+
+        private static string Month(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MM", replaceDate.ToString("MM"));
+        }
+
+        private static string MonthAbbreviated(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MMM", replaceDate.ToString("MMM"));
+        }
+
+        private static string MonthFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("MMMM", replaceDate.ToString("MMMM"));
+        }
+
+        private static string Slug(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("slug", slug);
+        }
+
+        private static string YearFull(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("yyyy", replaceDate.ToString("yyyy"));
+        }
+
+        private static string Year(string url, DateTime replaceDate, string slug)
+        {
+            return url.Replace("yy", replaceDate.ToString("yy"));
+        }
+>>>>>>> 85a21dfe85d61cbf14288b9703a0b10b9e18080a
     }
 }

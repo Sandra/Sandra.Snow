@@ -2,13 +2,15 @@
 layout: post
 category: Azure
 title: Setting up Ubuntu and nginx on Azure
+series:
+	name: AzureMono
+	current: 1
+	part: Part 1 - Setting up the Virtual Machine and nginx
+	part: Part 2 - Setting up new Website and Domain on nginx
+	part: Part 3 - Setting up Mono on nginx
+	part: Part 4 - Setting up a NancyFX website
+	part: Part 5 - Setting up a ServiceStack web service
 ---
-
-* Part 1 - Setting up the Virtual Machine and nginx
-* [Part 2 - Setting up new Website and Domain](/2013/06/setting-up-a-new-website-and-domain-on-nginx/)
-* [Part 3 - Setting up Mono on nginx](/2013/06/setting-up-mono-on-nginx/)
-* [Part 4 - Setting up a NancyFX website](/2013/07/setting-up-a-nancyfx-website/)
-* [Part 5 - Setting up a ServiceStack web service](/2013/07/setting-up-a-servicestack-service/)
 
 <span class="note">**Note:** I'm breaking this up into 5 parts because otherwise it gets far too long :(</span>
 

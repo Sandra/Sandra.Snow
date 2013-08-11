@@ -3,8 +3,8 @@
     using System;
     using System.IO;
     using System.Linq;
+    using Extensions;
     using Nancy.Testing;
-    using Sandra.Snow.PreCompiler.Extensions;
 
     public class PostsProcessor : BaseProcessor
     {
@@ -30,14 +30,14 @@
 
             while (currentIteration.Any())
             {
-                TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
+                TestModule.PostsPaged = currentIteration.ToList();
                 TestModule.PageNumber = iteration;
                 TestModule.HasNextPage = iteration < totalPages;
                 TestModule.HasPreviousPage = iteration > 1 && totalPages > 1;
 
                 var result = snowyData.Browser.Post("/static");
 
-                result.StatusCode.ThrowIfNotSuccessful();
+                result.ThrowIfNotSuccessful(snowyData.File.File);
 
                 var folder = skip <= 1 ? "" : "page" + iteration;
                 var outputFolder = Path.Combine(snowyData.Settings.Output, folder);

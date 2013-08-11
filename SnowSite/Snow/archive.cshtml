@@ -16,7 +16,7 @@
     <ul class="archive fancy-container darkishred">
     @foreach(var post in month.Value)
     {
-      <li><a href="@post.Url">@post.Title</a> (<span>@post.DateFormatted</span>)</li>
+      <li><a href="@post.Url">@post.Title</a> (<span>@post.Date.ToString("dd MMM yyyy")</span>)</li>
     }
     </ul>
   }

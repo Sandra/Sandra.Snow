@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -73,23 +72,25 @@
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => PostSettingsParser.GetFileData(x, browserParser, settings))
+                var parsedFiles = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
                                        .OrderByDescending(x => x.Date)
                                        .ToList();
+
+                parsedFiles.SetPostUrl(settings);
+                parsedFiles.UpdatePartsToLatestInSeries();
 
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
                 TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
                 TestModule.Settings = settings;
 
-                var browserComposer = new Browser(
-                    with =>
-                    {
-                        with.Module<TestModule>();
-                        with.RootPathProvider<StaticPathProvider>();
-                        with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
-                    });
+                var browserComposer = new Browser(with =>
+                {
+                    with.Module<TestModule>();
+                    with.RootPathProvider<StaticPathProvider>();
+                    with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
+                });
 
-                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer, settings.UrlFormat));
+                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
                 var categories = parsedFiles.SelectMany(x => x.Categories)
                                             .Distinct()
@@ -120,7 +121,7 @@
             }
         }
 
-        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<PostHeaderSettings> parsedFiles)
+        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -141,7 +142,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeaderSettings> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
@@ -150,12 +151,12 @@
                                                                               group y by y.Month
                                                                                   into p
                                                                                   select p).ToDictionary(u => u.Key,
-                                                                              u => u.Select(p => p.Post).ToList()));
+                                                                              u => u.ToList()));
 
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<PostHeaderSettings> parsedFiles, Browser browserComposer)
+        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -227,36 +228,27 @@
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(settings.SiteUrl))
+            {
+                settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
+            }
+
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeaderSettings postHeaderSettings, string output, Browser browserComposer, string urlFormat)
+        private static void ComposeParsedFiles(Post post, string output, Browser browserComposer)
         {
             try
             {
-                foreach (var s in UrlFormatParser)
-                {
-                    urlFormat = s.Value.Invoke(urlFormat, postHeaderSettings.Date, postHeaderSettings.Slug);
-                }
-
-                if (!urlFormat.StartsWith("/"))  //Need this for the Model but not the directory below
-                    urlFormat = "/" + urlFormat;
-
-                postHeaderSettings.Slug = urlFormat;
-
-                TestModule.Data = postHeaderSettings;
+                TestModule.Data = post;
+                
                 var result = browserComposer.Post("/compose");
+
+                result.ThrowIfNotSuccessful(post.FileName);
+
                 var body = result.Body.AsString();
 
-                //if (result.StatusCode != HttpStatusCode.OK)
-                //Crappy check because Nancy returns 200 on a compilation error :(
-                if (body.Contains("<title>Razor Compilation Error</title>") &&
-                    body.Contains("<p>We tried, we really did, but we just can't compile your view.</p>"))
-                {
-                    throw new FileProcessingException("Processing failed composing " + postHeaderSettings.FileName);
-                }
-
-                var outputFolder = Path.Combine(output, urlFormat.Substring(1)); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

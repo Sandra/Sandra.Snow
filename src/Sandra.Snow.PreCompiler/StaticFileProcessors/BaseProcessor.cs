@@ -11,10 +11,9 @@
 
         public bool Is(string processorName, bool iterateModel)
         {
-            return
-                processorName.ToLower(CultureInfo.InvariantCulture)
-                             .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture)) &&
-                iterateModel == IterateModel;
+            return processorName.ToLower(CultureInfo.InvariantCulture)
+                                .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture)) &&
+                   iterateModel == IterateModel;
         }
 
         public abstract void Process(SnowyData snowyData);

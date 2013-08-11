@@ -1,11 +1,11 @@
 ﻿namespace Sandra.Snow.PreCompiler
 {
-    using Nancy;
-    using Sandra.Snow.PreCompiler.Models;
-    using Sandra.Snow.PreCompiler.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Models;
+    using Nancy;
+    using ViewModels;
 
     internal class TestModule : NancyModule
     {
@@ -16,7 +16,7 @@
         }
 
         //Data changes on iterations
-        public static PostHeaderSettings Data { get; set; }
+        public static Post Data { get; set; }
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
@@ -72,7 +72,7 @@
             // with a SiteContent property for access to everything
             Post["/compose"] = x =>
             {
-                var categories = Data.Post.Categories.Select(category => new BaseViewModel.Category
+                var categories = Data.Categories.Select(category => new BaseViewModel.Category
                 {
                     Url = category.ToLower().Replace(" ", "-"), 
                     Name = category
@@ -81,16 +81,17 @@
                 var result = new PostViewModel
                 {
                     PostContent = Data.Content,
-                    PostDate = Data.Post.Date,
+                    PostDate = Data.Date,
                     Layout = Data.Layout,
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
-                    Url = Data.Post.Url,
+                    Url = Data.Url,
                     Categories = categories,
                     MonthYearList = MonthYear,
-                    Author = Data.Post.Author,
-                    Email = Data.Post.Email,
-                    Settings = Settings
+                    Author = Data.Author,
+                    Email = Data.Email,
+                    Settings = Settings,
+                    Series = Data.Series
                 };
 
                 return View[result.Layout, result];

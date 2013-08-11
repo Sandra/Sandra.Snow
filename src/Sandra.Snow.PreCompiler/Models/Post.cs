@@ -2,34 +2,94 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Post
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public Post()
+        {
+            Categories = Enumerable.Empty<string>();
+        }
 
-        /// <summary>
-        /// Default author
-        /// </summary>
-        public string Author { get; set; }
+        public void SetSnowSettings(SnowSettings defaults)
+        {
+            Author = defaults.Author;
+            Email = defaults.Email;
+        }
 
-        /// <summary>
-        /// Default author email
-        /// </summary>
-        public string Email { get; set; }
+        public void SetHeaderSettings(Dictionary<string, object> settings)
+        {
+            foreach (var setting in settings)
+            {
+                switch (setting.Key.ToLower())
+                {
+                    case "categories":
+                    case "category":
+                    {
+                        var categories = ((string)setting.Value).Split(
+                            new[] { "," },
+                            StringSplitOptions.RemoveEmptyEntries);
+
+                        Categories = categories.Select(x => x.Trim());
+                        break;
+                    }
+                    case "title":
+                    {
+                        Title = (string)setting.Value;
+                        break;
+                    }
+                    case "layout":
+                    {
+                        Layout = (string)setting.Value;
+                        break;
+                    }
+                    case "author":
+                    {
+                        Author = (string)setting.Value;
+                        break;
+                    }
+                    case "email":
+                    {
+                        Email = (string)setting.Value;
+                        break;
+                    }
+                    case "series":
+                    {
+                        Series = (Series)setting.Value;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public Series Series { get; set; }
 
         public string ContentExcerpt
         {
-            get { return Content.Split(new[] {"<!--excerpt-->"}, StringSplitOptions.None)[0]; }
+            get { return Content.Split(new[] { "<!--excerpt-->" }, StringSplitOptions.None)[0]; }
         }
 
-        public string Url { get; set; }
+        public string Author { get; set; }
+        public string Email { get; set; }
+
         public IEnumerable<string> Categories { get; set; }
+
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string Layout { get; set; }
+        public IDictionary<string, dynamic> Settings { get; set; }
+        public string FileName { get; set; }
+
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Day { get; set; }
+        public string Url { get; set; }
+
         public DateTime Date { get; set; }
 
-        public string DateFormatted
-        {
-            get { return Date.ToString("dd MMM yyyy"); }
-        }
+        /// <summary>
+        /// Raw unparsed header from markdown file
+        /// </summary>
+        public string MarkdownHeader { get; set; }
     }
 }

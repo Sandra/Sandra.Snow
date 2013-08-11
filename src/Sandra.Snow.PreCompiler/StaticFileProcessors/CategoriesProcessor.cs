@@ -2,8 +2,8 @@
 {
     using System.IO;
     using System.Linq;
+    using Extensions;
     using Nancy.Testing;
-    using Sandra.Snow.PreCompiler.Extensions;
 
     public class CategoriesProcessor : BaseProcessor
     {
@@ -23,14 +23,13 @@
             {
                 var category = tempCategory;
 
-                var posts = snowyData.Files.Select(x => x.Post).Where(x => x.Categories.Contains(category.Name));
+                var posts = snowyData.Files.Where(x => x.Categories.Contains(category.Name));
 
                 TestModule.CategoriesInPost = posts.ToList();
-
-                //TestModule.Data = fileData;
+                
                 var result = snowyData.Browser.Post("/static");
 
-                result.StatusCode.ThrowIfNotSuccessful();
+                result.ThrowIfNotSuccessful(snowyData.File.File);
 
                 var outputFolder = Path.Combine(snowyData.Settings.Output, "category", category.Url);
 

@@ -95,6 +95,10 @@
     <Compile Include="Extensions\RazorHelpers.cs" />
     <Compile Include="Extensions\SlugExtensions.cs" />
     <Compile Include="PostSettingsParser.cs" />
+    <Compile Include="Extensions\PostHeaderExtensions.cs" />
+    <Compile Include="Models\Series.cs" />
+    <Compile Include="PostParser.cs" />
+    <Compile Include="Extensions\SlugExtensions.cs" />
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />
@@ -108,9 +112,8 @@
     <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="CustomMarkdownViewEngine.cs" />
-    <Compile Include="PostHeaderSettings.cs" />
-    <Compile Include="Extensions\IoExtensions.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Extensions\IoExtensions.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
