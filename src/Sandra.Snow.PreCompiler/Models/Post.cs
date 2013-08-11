@@ -7,6 +7,7 @@
     {
         public string Title { get; set; }
         public string Content { get; set; }
+        public Series Series { get; set; }
 
         /// <summary>
         /// Default author

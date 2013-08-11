@@ -20,6 +20,18 @@
                     .Select(x => x.Series)
                     .First();
 
+                //Fix up all the Parts to have the latest URLs if they exist
+                foreach (var part in latestSeries.Parts)
+                {
+                    var post = f.FirstOrDefault(x => x.Series.Current == part.Key);
+
+                    if (post != null)
+                    {
+                        part.Value.Url = post.Post.Url;
+                    }
+                }
+
+                //Assign the latest parts to all posts
                 foreach (var ff in f)
                 {
                     ff.Series.Parts = latestSeries.Parts;

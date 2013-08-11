@@ -74,21 +74,14 @@
                     Categories = Categories,
                     Content = Content,
                     Date = Date,
-                    Url = Slug,
+                    Url = Url,
                     Author = Author,
                     Email = Email
                 };
             }
         }
 
-        /// <summary>
-        /// Default author
-        /// </summary>
         public string Author { get; set; }
-
-        /// <summary>
-        /// Default author email
-        /// </summary>
         public string Email { get; set; }
 
         public IEnumerable<string> Categories { get; set; }
@@ -103,7 +96,7 @@
         public int Year { get; set; }
         public int Month { get; set; }
         public int Day { get; set; }
-        public string Slug { get; set; }
+        public string Url { get; set; }
 
         public DateTime Date { get; set; }
     }

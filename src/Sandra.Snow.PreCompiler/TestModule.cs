@@ -85,7 +85,7 @@
                     Layout = Data.Layout,
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
-                    Url = Data.Post.Url,
+                    Url = Data.Url,
                     Categories = categories,
                     MonthYearList = MonthYear,
                     Author = Data.Post.Author,

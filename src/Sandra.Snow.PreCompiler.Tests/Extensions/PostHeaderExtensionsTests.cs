@@ -42,12 +42,12 @@
                     {
                         Current = 3,
                         Id = "123",
-                        Parts = new SortedList<int, string>
+                        Parts = new SortedList<int, Series.Part>
                         {
-                            { 1, "Part 1" },
-                            { 2, "Part 2" },
-                            { 3, "Part 3" },
-                            { 4, "Part 4" },
+                            { 1, new Series.Part { Name = "Part 1" }},
+                            { 2, new Series.Part { Name = "Part 2" }},
+                            { 3, new Series.Part { Name = "Part 3" }},
+                            { 4, new Series.Part { Name = "Part 4" }},
                         }
                     }
                 },
@@ -59,10 +59,10 @@
                     {
                         Current = 2,
                         Id = "123",
-                        Parts = new SortedList<int, string>
+                        Parts = new SortedList<int, Series.Part>
                         {
-                            { 1, "Test Part 1" },
-                            { 2, "Test Part 2" },
+                            { 1, new Series.Part { Name = "Test Part 1" }},
+                            { 2, new Series.Part { Name = "Test Part 2" }},
                         }
                     }
                 },
@@ -73,12 +73,12 @@
                     {
                         Current = 1,
                         Id = "123",
-                        Parts = new SortedList<int, string>
+                        Parts = new SortedList<int, Series.Part>
                         {
-                            { 1, "Old Parts 1" },
-                            { 2, "Old Parts 2" },
-                            { 3, "Old Parts 3" },
-                            { 4, "Old Parts 4" },
+                            { 1, new Series.Part { Name = "Old Parts 1" }},
+                            { 2, new Series.Part { Name = "Old Parts 2" }},
+                            { 3, new Series.Part { Name = "Old Parts 3" }},
+                            { 4, new Series.Part { Name = "Old Parts 4" }},
                         }
                     }
                 },
@@ -94,20 +94,84 @@
             Assert.Equal(2, testData[2].Series.Current);
             Assert.Equal(1, testData[3].Series.Current);
 
-            Assert.Equal("Part 1", testData[0].Series.Parts[1]);
-            Assert.Equal("Part 2", testData[0].Series.Parts[2]);
-            Assert.Equal("Part 3", testData[0].Series.Parts[3]);
-            Assert.Equal("Part 4", testData[0].Series.Parts[4]);
+            Assert.Equal("Part 1", testData[0].Series.Parts[1].Name);
+            Assert.Equal("Part 2", testData[0].Series.Parts[2].Name);
+            Assert.Equal("Part 3", testData[0].Series.Parts[3].Name);
+            Assert.Equal("Part 4", testData[0].Series.Parts[4].Name);
 
-            Assert.Equal("Part 1", testData[2].Series.Parts[1]);
-            Assert.Equal("Part 2", testData[2].Series.Parts[2]);
-            Assert.Equal("Part 3", testData[2].Series.Parts[3]);
-            Assert.Equal("Part 4", testData[2].Series.Parts[4]);
+            Assert.Equal("Part 1", testData[2].Series.Parts[1].Name);
+            Assert.Equal("Part 2", testData[2].Series.Parts[2].Name);
+            Assert.Equal("Part 3", testData[2].Series.Parts[3].Name);
+            Assert.Equal("Part 4", testData[2].Series.Parts[4].Name);
 
-            Assert.Equal("Part 1", testData[3].Series.Parts[1]);
-            Assert.Equal("Part 2", testData[3].Series.Parts[2]);
-            Assert.Equal("Part 3", testData[3].Series.Parts[3]);
-            Assert.Equal("Part 4", testData[3].Series.Parts[4]);
+            Assert.Equal("Part 1", testData[3].Series.Parts[1].Name);
+            Assert.Equal("Part 2", testData[3].Series.Parts[2].Name);
+            Assert.Equal("Part 3", testData[3].Series.Parts[3].Name);
+            Assert.Equal("Part 4", testData[3].Series.Parts[4].Name);
+        }
+
+        [Fact]
+        public void Given_Collection_Of_Series_Should_Update_Parts_With_Post_Urls()
+        {
+            var testData = new List<PostHeader>
+            {
+                new PostHeader
+                {
+                    Url = "/2013/03/part-3-banana",
+                    Date = new DateTime(2013, 03, 28),
+                    Series = new Series
+                    {
+                        Current = 3,
+                        Id = "123",
+                        Parts = new SortedList<int, Series.Part>
+                        {
+                            { 1, new Series.Part { Name = "Part 1" }},
+                            { 2, new Series.Part { Name = "Part 2" }},
+                            { 3, new Series.Part { Name = "Part 3" }},
+                            { 4, new Series.Part { Name = "Part 4" }},
+                        }
+                    }
+                },
+                new PostHeader
+                {
+                    Url = "/2013/03/part-2-orange",
+                    Date = new DateTime(2013, 03, 14),
+                    Series = new Series
+                    {
+                        Current = 2,
+                        Id = "123",
+                        Parts = new SortedList<int, Series.Part>
+                        {
+                            { 1, new Series.Part { Name = "Test Part 1" }},
+                            { 2, new Series.Part { Name = "Test Part 2" }},
+                        }
+                    }
+                },
+                new PostHeader
+                {
+                    Url = "/2013/03/part-1-apple",
+                    Date = new DateTime(2013, 03, 10),
+                    Series = new Series
+                    {
+                        Current = 1,
+                        Id = "123",
+                        Parts = new SortedList<int, Series.Part>
+                        {
+                            { 1, new Series.Part { Name = "Old Parts 1" }},
+                            { 2, new Series.Part { Name = "Old Parts 2" }},
+                            { 3, new Series.Part { Name = "Old Parts 3" }},
+                            { 4, new Series.Part { Name = "Old Parts 4" }},
+                        }
+                    }
+                },
+            };
+
+            testData.UpdatePartsToLatestInSeries();
+
+            Assert.Equal("/2013/03/part-1-apple", testData[0].Series.Parts[1].Url);
+            Assert.Equal("/2013/03/part-2-orange", testData[0].Series.Parts[2].Url);
+            Assert.Equal("/2013/03/part-3-banana", testData[0].Series.Parts[3].Url);
+            Assert.False(testData[0].Series.Parts[4].HasUrl());
         }
     }
 }

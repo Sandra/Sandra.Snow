@@ -6,6 +6,7 @@ namespace Sandra.Snow.PreCompiler.ViewModels
     {
         public string GeneratedDate { get; set; }
         public IList<MonthYear> MonthYearList { get; set; }
+        public IList<Category> Categories { get; set; }
 
         public class Category
         {

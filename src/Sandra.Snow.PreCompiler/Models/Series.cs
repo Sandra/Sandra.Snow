@@ -6,11 +6,22 @@
     {
         public Series()
         {
-            Parts = new SortedList<int, string>();
+            Parts = new SortedList<int, Part>();
         }
 
         public string Id { get; set; }
         public int Current { get; set; }
-        public SortedList<int, string> Parts { get; set; }
+        public SortedList<int, Part> Parts { get; set; }
+
+        public class Part
+        {
+            public string Name { get; set; }
+            public string Url { get; set; }
+
+            public bool HasUrl()
+            {
+                return !string.IsNullOrWhiteSpace(Url);
+            }
+        }
     }
 }

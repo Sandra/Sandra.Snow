@@ -1,7 +1,7 @@
 ﻿namespace Sandra.Snow.PreCompiler.ViewModels
 {
     using System;
-    using System.Collections.Generic;
+    using Models;
 
     public class PostViewModel : BaseViewModel
     {
@@ -14,7 +14,7 @@
         public virtual string Email { get; set; }
         public virtual string Author { get; set; }
                
-        public virtual IEnumerable<Category> Categories { get; set; }
         public virtual SnowSettings Settings { get; set; }
+        public Series Series { get; set; }
     }
 }

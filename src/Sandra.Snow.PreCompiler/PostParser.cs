@@ -47,7 +47,7 @@
             var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-            var postHeader = new PostHeader()
+            var postHeader = new PostHeader
             {
                 FileName = file.Name,
                 RawSettings = rawSettings,
@@ -57,7 +57,7 @@
                 Month = date.Month,
                 Day = date.Day,
                 Date = date,
-                Slug = slug
+                Url = slug
             };
 
             postHeader.SetSnowSettings(snowSettings);
@@ -169,7 +169,10 @@
                     }
                     case "part":
                     {
-                        seriesResult.Parts.Add(partCount, lineSplit[1].Trim());
+                        seriesResult.Parts.Add(partCount, new Series.Part
+                        {
+                            Name = lineSplit[1].Trim()
+                        });
                         partCount++;
                         break;
                     }
