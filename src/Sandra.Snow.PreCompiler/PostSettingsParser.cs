@@ -6,6 +6,7 @@
     using System.IO;
     using System.Text.RegularExpressions;
     using Extensions;
+    using Models;
     using Nancy.Helpers;
     using Nancy.Testing;
 
@@ -15,7 +16,7 @@
             new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public static PostHeaderSettings GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
+        public static Post GetFileData(FileInfo file, Browser browser, SnowSettings snowSettings)
         {
             var response = browser.Get("/post/" + HttpUtility.UrlEncodeUnicode(file.Name));
             var rawPost = File.ReadAllText(file.FullName);
@@ -53,18 +54,23 @@
             var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-            return new PostHeaderSettings(settings, snowSettings)
+            var result = new Post
             {
                 FileName = file.Name,
-                RawSettings = rawSettings,
+                MarkdownHeader = rawSettings,
                 Content = response.Body.AsString(),
                 Settings = settings,
                 Year = date.Year,
                 Month = date.Month,
                 Day = date.Day,
                 Date = date,
-                Slug = slug
+                Url = slug
             };
+
+            result.SetSnowSettings(snowSettings);
+            result.SetHeaderSettings(settings);
+
+            return result;
         }
 
         private static Dictionary<string, object> ParseSettings(string rawSettings)

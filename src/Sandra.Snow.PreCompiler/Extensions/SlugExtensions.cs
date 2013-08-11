@@ -1,12 +1,5 @@
 ﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
-<<<<<<< HEAD
-    using System.Text.RegularExpressions;
-    using System.Text;
-
-    public static class SlugExtensions
-    {
-=======
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -30,7 +23,6 @@
             {8, Slug}
         };
 
->>>>>>> 85a21dfe85d61cbf14288b9703a0b10b9e18080a
         public static string ToUrlSlug(this string value)
         {
 
@@ -56,8 +48,6 @@
             return value;
         }
 
-<<<<<<< HEAD
-=======
         public static void SetPostUrl(this IEnumerable<Post> posts, SnowSettings settings)
         {
             foreach (var postHeader in posts)
@@ -117,6 +107,5 @@
         {
             return url.Replace("yy", replaceDate.ToString("yy"));
         }
->>>>>>> 85a21dfe85d61cbf14288b9703a0b10b9e18080a
     }
 }
