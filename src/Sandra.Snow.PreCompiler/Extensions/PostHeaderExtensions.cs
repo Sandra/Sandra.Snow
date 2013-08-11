@@ -27,7 +27,7 @@
 
                     if (post != null)
                     {
-                        part.Value.Url = post.Post.Url;
+                        part.Value.Url = post.Url;
                     }
                 }
 

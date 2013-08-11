@@ -50,7 +50,7 @@
             var postHeader = new PostHeader
             {
                 FileName = file.Name,
-                RawSettings = rawSettings,
+                MarkdownHeader = rawSettings,
                 Content = response.Body.AsString(),
                 Settings = settings,
                 Year = date.Year,

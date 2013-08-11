@@ -30,7 +30,7 @@
 
             while (currentIteration.Any())
             {
-                TestModule.PostsPaged = currentIteration.Select(x => x.Post).ToList();
+                TestModule.PostsPaged = currentIteration.ToList();
                 TestModule.PageNumber = iteration;
                 TestModule.HasNextPage = iteration < totalPages;
                 TestModule.HasPreviousPage = iteration > 1 && totalPages > 1;

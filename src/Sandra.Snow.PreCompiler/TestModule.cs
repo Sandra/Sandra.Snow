@@ -20,14 +20,14 @@
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
-        public static IList<Post> PostsPaged { get; set; }
-        public static IList<Post> CategoriesInPost { get; set; }
+        public static IList<PostHeader> PostsPaged { get; set; }
+        public static IList<PostHeader> CategoriesInPost { get; set; }
         public static int PageNumber { get; set; }
 
         //Properties are set and never change...
-        public static IList<Post> Posts { get; set; }
+        public static IList<PostHeader> Posts { get; set; }
         public static IList<Category> Categories { get; set; }
-        public static Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
+        public static Dictionary<int, Dictionary<int, List<PostHeader>>> PostsGroupedByYearThenMonth { get; set; }
         public static int TotalPages { get; set; }
 
         public static bool HasPreviousPage { get; set; }
@@ -72,7 +72,7 @@
             // with a SiteContent property for access to everything
             Post["/compose"] = x =>
             {
-                var categories = Data.Post.Categories.Select(category => new BaseViewModel.Category
+                var categories = Data.Categories.Select(category => new BaseViewModel.Category
                 {
                     Url = category.ToLower().Replace(" ", "-"), 
                     Name = category
@@ -81,16 +81,17 @@
                 var result = new PostViewModel
                 {
                     PostContent = Data.Content,
-                    PostDate = Data.Post.Date,
+                    PostDate = Data.Date,
                     Layout = Data.Layout,
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
                     Categories = categories,
                     MonthYearList = MonthYear,
-                    Author = Data.Post.Author,
-                    Email = Data.Post.Email,
-                    Settings = Settings
+                    Author = Data.Author,
+                    Email = Data.Email,
+                    Settings = Settings,
+                    Series = Data.Series
                 };
 
                 return View[result.Layout, result];

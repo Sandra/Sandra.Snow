@@ -64,22 +64,21 @@
 
         public Series Series { get; set; }
 
-        public Post Post
-        {
-            get
-            {
-                return new Post
-                {
-                    Title = Title,
-                    Categories = Categories,
-                    Content = Content,
-                    Date = Date,
-                    Url = Url,
-                    Author = Author,
-                    Email = Email
-                };
-            }
-        }
+        //public Post Post
+        //{
+        //    get
+        //    {
+        //        return new Post
+        //        {
+        //            Title = Title,
+        //            Categories = Categories,
+        //            Content = Content,
+        //            Date = Date,
+        //            Author = Author,
+        //            Email = Email
+        //        };
+        //    }
+        //}
 
         public string Author { get; set; }
         public string Email { get; set; }
@@ -90,7 +89,6 @@
         public string Content { get; set; }
         public string Layout { get; set; }
         public IDictionary<string, dynamic> Settings { get; set; }
-        public string RawSettings { get; set; }
         public string FileName { get; set; }
 
         public int Year { get; set; }
@@ -99,6 +97,11 @@
         public string Url { get; set; }
 
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Raw unparsed header from markdown file
+        /// </summary>
+        public string MarkdownHeader { get; set; }
     }
 
     public class BaseData

@@ -7,18 +7,18 @@
 
     public class ContentViewModel : BaseViewModel
     {
-        public IList<Post> CategoriesInPost { get; set; }
-        public Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
+        public IList<PostHeader> CategoriesInPost { get; set; }
+        public Dictionary<int, Dictionary<int, List<PostHeader>>> PostsGroupedByYearThenMonth { get; set; }
         
         /// <summary>
         /// All posts
         /// </summary>
-        public IList<Post> Posts { get; set; }
+        public IList<PostHeader> Posts { get; set; }
 
         /// <summary>
         /// Posts in Current Page
         /// </summary>
-        public IList<Post> PostsPaged { get; set; }
+        public IList<PostHeader> PostsPaged { get; set; }
 
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }

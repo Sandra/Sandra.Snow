@@ -77,7 +77,7 @@
                     with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
                 });
 
-                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer, settings.UrlFormat));
+                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
                 var categories = parsedFiles.SelectMany(x => x.Categories)
                                             .Distinct()
@@ -129,7 +129,7 @@
                     }).ToList();
         }
 
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<PostHeader> parsedFiles)
+        private static Dictionary<int, Dictionary<int, List<PostHeader>>> GroupStuff(IEnumerable<PostHeader> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Year
@@ -138,7 +138,7 @@
                                                                               group y by y.Month
                                                                                   into p
                                                                                   select p).ToDictionary(u => u.Key,
-                                                                              u => u.Select(p => p.Post).ToList()));
+                                                                              u => u.ToList()));
 
             return groupedByYear;
         }
@@ -223,7 +223,7 @@
             return settings;
         }
 
-        private static void ComposeParsedFiles(PostHeader postHeader, string output, Browser browserComposer, string urlFormat)
+        private static void ComposeParsedFiles(PostHeader postHeader, string output, Browser browserComposer)
         {
             try
             {
@@ -240,7 +240,7 @@
                     throw new FileProcessingException("Processing failed composing " + postHeader.FileName);
                 }
 
-                var outputFolder = Path.Combine(output, urlFormat.Substring(1)); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFolder = Path.Combine(output, postHeader.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

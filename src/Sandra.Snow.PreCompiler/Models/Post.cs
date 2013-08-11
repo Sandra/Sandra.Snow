@@ -24,7 +24,6 @@
             get { return Content.Split(new[] {"<!--excerpt-->"}, StringSplitOptions.None)[0]; }
         }
 
-        public string Url { get; set; }
         public IEnumerable<string> Categories { get; set; }
         public DateTime Date { get; set; }
 

@@ -4,7 +4,7 @@ category: Azure
 title: Setting up a NancyFX website
 series:
 	id: AzureMono
-	current: 3
+	current: 4
 	part: Part 1 - Setting up the Virtual Machine and nginx
 	part: Part 2 - Setting up new Website and Domain on nginx
 	part: Part 3 - Setting up Mono on nginx
