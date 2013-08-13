@@ -73,7 +73,7 @@
                                       {
                                           Name = g.Key,
                                           Count = g.Count()
-                                      }).ToList();
+                                      }).OrderBy(cat => cat.Name).ToList();
 
                 TestModule.Categories = categories;
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(posts);

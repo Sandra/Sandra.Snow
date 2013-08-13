@@ -11,7 +11,7 @@
   </header>
 
   <ul class="category-list fancy-container orange">
-    @foreach(var catInPost in Model.CategoriesInPost){
+    @foreach(var catInPost in Model.PostsInCategory){
       <li>
         <a href="@catInPost.Url" title="@catInPost.Title">@catInPost.Title</a> 
         <small>(@catInPost.Date.ToString("dd MMM yyyy"))</small>

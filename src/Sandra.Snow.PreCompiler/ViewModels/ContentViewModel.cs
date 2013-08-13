@@ -7,7 +7,7 @@
 
     public class ContentViewModel : BaseViewModel
     {
-        public List<Post> CategoriesInPost { get; set; }
+        public List<Post> PostsInCategory { get; set; }
         public Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
         
         /// <summary>

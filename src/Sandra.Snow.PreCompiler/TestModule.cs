@@ -10,6 +10,7 @@
     internal class TestModule : NancyModule
     {
         private static readonly string Date = DateTime.Now.ToString("O");
+
         public static string GeneratedDate
         {
             get { return Date; }
@@ -21,7 +22,7 @@
 
         //Properties change on iterations
         public static List<Post> PostsPaged { get; set; }
-        public static List<Post> CategoriesInPost { get; set; }
+        public static List<Post> PostsInCategory { get; set; }
         public static Category Category { get; set; }
         public static int PageNumber { get; set; }
 
@@ -41,14 +42,14 @@
         public TestModule()
         {
             // Generates the post from Markdown
-            Get["/post/{file}"] = x => View[(string)x.file];
+            Get["/post/{file}"] = x => View[(string) x.file];
 
             // Generates any static page given all site content
             Post["/static"] = x =>
             {
                 var siteContent = new ContentViewModel
                 {
-                    CategoriesInPost = CategoriesInPost,
+                    PostsInCategory = PostsInCategory,
                     Categories = Categories,
                     Posts = Posts,
                     PostsPaged = PostsPaged,
@@ -77,7 +78,7 @@
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
-                    Categories = Categories,
+                    Categories = Data.Categories.Select(c => new Category {Name = c}).ToList(),
                     MonthYearList = MonthYear,
                     Author = Data.Author,
                     Email = Data.Email,
