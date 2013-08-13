@@ -7,15 +7,13 @@
     public abstract class BaseProcessor
     {
         public abstract string ProcessorName { get; }
-        public abstract bool IterateModel { get; }
 
-        public bool Is(string processorName, bool iterateModel)
+        public bool Is(string processorName)
         {
             return processorName.ToLower(CultureInfo.InvariantCulture)
-                                .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture)) &&
-                   iterateModel == IterateModel;
+                                .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture));
         }
 
-        public abstract void Process(SnowyData snowyData);
+        public abstract void Process(SnowyData snowyData, SnowSettings settings);
     }
 }

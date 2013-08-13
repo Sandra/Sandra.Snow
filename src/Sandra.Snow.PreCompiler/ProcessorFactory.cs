@@ -7,7 +7,7 @@
     using System.ComponentModel.Composition.ReflectionModel;
     using System.IO;
     using System.Linq;
-    using Sandra.Snow.PreCompiler.StaticFileProcessors;
+    using StaticFileProcessors;
 
     public class ProcessorFactory
     {
@@ -20,9 +20,9 @@
                                    .ToList();
         }
 
-        public static BaseProcessor Get(string name, bool iterateModel)
+        public static BaseProcessor Get(string name)
         {
-            return Processors.SingleOrDefault(x => x.Is(name, iterateModel));
+            return Processors.SingleOrDefault(x => x.Is(name));
         }
     }
 
