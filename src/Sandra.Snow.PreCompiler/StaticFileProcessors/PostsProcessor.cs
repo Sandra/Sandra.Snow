@@ -13,12 +13,7 @@
             get { return "posts"; }
         }
 
-        public override bool IterateModel
-        {
-            get { return true; }
-        }
-
-        public override void Process(SnowyData snowyData)
+        public override void Process(SnowyData snowyData, SnowSettings settings)
         {
             const int pageSize = 10;
             var skip = 0;

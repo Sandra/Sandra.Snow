@@ -59,15 +59,25 @@
                     with.ViewEngine<CustomMarkDownViewEngine>();
                 });
 
-                var parsedFiles = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
-                                       .OrderByDescending(x => x.Date)
-                                       .ToList();
+                var posts = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
+                                 .OrderByDescending(x => x.Date)
+                                 .ToList();
 
-                parsedFiles.SetPostUrl(settings);
-                parsedFiles.UpdatePartsToLatestInSeries();
+                posts.SetPostUrl(settings);
+                posts.UpdatePartsToLatestInSeries();
 
-                TestModule.PostsGroupedByYearThenMonth = GroupStuff(parsedFiles);
-                TestModule.MonthYear = GroupMonthYearArchive(parsedFiles);
+                var categories = (from c in posts.SelectMany(x => x.Categories)
+                                  group c by c
+                                      into g
+                                      select new Category
+                                      {
+                                          Name = g.Key,
+                                          Count = g.Count()
+                                      }).ToList();
+
+                TestModule.Categories = categories;
+                TestModule.PostsGroupedByYearThenMonth = GroupStuff(posts);
+                TestModule.MonthYear = GroupMonthYearArchive(posts);
                 TestModule.Settings = settings;
 
                 var browserComposer = new Browser(with =>
@@ -77,15 +87,11 @@
                     with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
                 });
 
-                parsedFiles.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
+                // Compile all Posts
+                posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
-                var categories = parsedFiles.SelectMany(x => x.Categories)
-                                            .Distinct()
-                                            .Select(x => new Category(x));
-
-                TestModule.Categories = categories.ToList();
-
-                settings.ProcessStaticFiles.ForEach(x => ProcessStaticFiles(x, settings, parsedFiles, browserComposer));
+                // Compile all static files
+                settings.ProcessFiles.ForEach(x => ProcessFiles(x, settings, posts, browserComposer));
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
@@ -108,7 +114,7 @@
             }
         }
 
-        private static IList<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
+        private static List<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
@@ -143,14 +149,14 @@
             return groupedByYear;
         }
 
-        private static void ProcessStaticFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
+        private static void ProcessFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
         {
             try
             {
                 TestModule.StaticFile = staticFile;
 
-                var processorName = staticFile.ProcessorName ?? "";
-                var processor = ProcessorFactory.Get(processorName.ToLower(), staticFile.IterateModel);
+                var processorName = staticFile.Loop ?? "";
+                var processor = ProcessorFactory.Get(processorName.ToLower());
 
                 if (processor == null)
                 {
@@ -163,14 +169,13 @@
                     Files = parsedFiles,
                     Browser = browserComposer,
                     File = staticFile
-                });
+                }, settings);
             }
             catch (Exception exception)
             {
                 Console.WriteLine("Error processing static file: ");
-                Console.WriteLine("- " + staticFile.ProcessorName);
+                Console.WriteLine("- " + staticFile.Loop);
                 Console.WriteLine("- " + staticFile.File);
-                Console.WriteLine("- " + staticFile.IterateModel);
                 Console.WriteLine("- Exception:");
                 Console.WriteLine(exception);
             }
@@ -228,7 +233,7 @@
             try
             {
                 TestModule.Data = post;
-                
+
                 var result = browserComposer.Post("/compose");
 
                 result.ThrowIfNotSuccessful(post.FileName);

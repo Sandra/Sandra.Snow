@@ -20,13 +20,14 @@
         public static StaticFile StaticFile { get; set; }
 
         //Properties change on iterations
-        public static IList<Post> PostsPaged { get; set; }
-        public static IList<Post> CategoriesInPost { get; set; }
+        public static List<Post> PostsPaged { get; set; }
+        public static List<Post> CategoriesInPost { get; set; }
+        public static Category Category { get; set; }
         public static int PageNumber { get; set; }
 
         //Properties are set and never change...
-        public static IList<Post> Posts { get; set; }
-        public static IList<Category> Categories { get; set; }
+        public static List<Post> Posts { get; set; }
+        public static List<Category> Categories { get; set; }
         public static Dictionary<int, Dictionary<int, List<Post>>> PostsGroupedByYearThenMonth { get; set; }
         public static int TotalPages { get; set; }
 
@@ -35,7 +36,7 @@
 
         public static SnowSettings Settings { get; set; }
 
-        public static IList<BaseViewModel.MonthYear> MonthYear { get; set; }
+        public static List<BaseViewModel.MonthYear> MonthYear { get; set; }
 
         public TestModule()
         {
@@ -48,12 +49,7 @@
                 var siteContent = new ContentViewModel
                 {
                     CategoriesInPost = CategoriesInPost,
-                    Categories = Categories.Select(y => new BaseViewModel.Category
-                    {
-                        Name = y.Name,
-                        Url = y.Url,
-                        Count = y.Count
-                    }).OrderBy(cat => cat.Name).ToList(),
+                    Categories = Categories,
                     Posts = Posts,
                     PostsPaged = PostsPaged,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
@@ -63,6 +59,7 @@
                     PreviousPage = PageNumber - 1,
                     MonthYearList = MonthYear,
                     GeneratedDate = GeneratedDate,
+                    Category = Category
                 };
 
                 return View[StaticFile.File, siteContent];
@@ -72,12 +69,6 @@
             // with a SiteContent property for access to everything
             Post["/compose"] = x =>
             {
-                var categories = Data.Categories.Select(category => new BaseViewModel.Category
-                    {
-                        Url = category.ToLower().Replace(" ", "-"),
-                        Name = category
-                    }).OrderBy(cat => cat.Name).ToList();
-
                 var result = new PostViewModel
                 {
                     PostContent = Data.Content,
@@ -86,7 +77,7 @@
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
-                    Categories = categories,
+                    Categories = Categories,
                     MonthYearList = MonthYear,
                     Author = Data.Author,
                     Email = Data.Email,
