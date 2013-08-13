@@ -1,7 +1,7 @@
 ---
 layout: post
 series:
-    id: 123
+    name: 123
     current: 1
     part: test part 1
     part: test part 2

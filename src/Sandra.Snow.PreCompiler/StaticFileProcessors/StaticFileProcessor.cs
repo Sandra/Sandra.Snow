@@ -11,12 +11,7 @@
             get { return ""; }
         }
 
-        public override bool IterateModel
-        {
-            get { return false; }
-        }
-
-        public override void Process(SnowyData snowyData)
+        public override void Process(SnowyData snowyData, SnowSettings settings)
         {
             var result = snowyData.Browser.Post("/static");
 

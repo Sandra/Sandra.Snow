@@ -1,5 +1,6 @@
 ﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
 {
+    using System;
     using System.IO;
     using System.Linq;
     using Extensions;
@@ -12,12 +13,7 @@
             get { return "categories"; }
         }
 
-        public override bool IterateModel
-        {
-            get { return true; }
-        }
-
-        public override void Process(SnowyData snowyData)
+        public override void Process(SnowyData snowyData, SnowSettings settings)
         {
             foreach (var tempCategory in TestModule.Categories)
             {
@@ -25,6 +21,7 @@
 
                 var posts = snowyData.Files.Where(x => x.Categories.Contains(category.Name));
 
+                TestModule.Category = category;
                 TestModule.CategoriesInPost = posts.ToList();
                 
                 var result = snowyData.Browser.Post("/static");
