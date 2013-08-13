@@ -157,7 +157,7 @@
             {
                 switch (lineSplit[0].Trim())
                 {
-                    case "id":
+                    case "name":
                     {
                         seriesResult.Name = lineSplit[1].Trim();
                         break;

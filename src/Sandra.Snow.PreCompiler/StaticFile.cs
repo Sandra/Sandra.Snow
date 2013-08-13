@@ -2,8 +2,7 @@
 {
     public class StaticFile
     {
-        public bool IterateModel { get; set; }
         public string File { get; set; }
-        public string ProcessorName { get; set; }
+        public string Loop { get; set; }
     }
 }

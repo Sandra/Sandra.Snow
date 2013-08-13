@@ -48,7 +48,7 @@
             set { _output = Path.Combine(CurrentDir, value); }
         }
 
-        public IList<StaticFile> ProcessStaticFiles { get; set; }
+        public List<StaticFile> ProcessFiles { get; set; }
         
         public string SiteUrl { get; set; }
 
@@ -61,7 +61,7 @@
                 Output = "Website",
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
-                ProcessStaticFiles = new List<StaticFile>(),
+                ProcessFiles = new List<StaticFile>(),
                 CurrentDir = directory ?? "",
                 CurrentSnowDir = Path.Combine(directory ?? "", "Snow"),
 

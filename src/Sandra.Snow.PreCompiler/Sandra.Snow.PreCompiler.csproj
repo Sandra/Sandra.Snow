@@ -102,7 +102,6 @@
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
-    <Compile Include="StaticFileProcessors\CategoryProcessor.cs" />
     <Compile Include="StaticFileProcessors\StaticFileProcessor.cs" />
     <Compile Include="StaticFileProcessors\PostsProcessor.cs" />
     <Compile Include="StaticFileProcessors\SnowyData.cs" />

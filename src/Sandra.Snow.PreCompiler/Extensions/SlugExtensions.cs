@@ -25,7 +25,6 @@
 
         public static string ToUrlSlug(this string value)
         {
-
             //First to lower case
             value = value.ToLowerInvariant();
 
@@ -36,8 +35,11 @@
             //Replace spaces
             value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
 
+            //Replace ampersand
+            value = value.Replace("&", "and");
+
             //Remove invalid chars
-            value = Regex.Replace(value, @"[^a-z0-9\s-_]", "", RegexOptions.Compiled);
+            value = Regex.Replace(value, @"[^a-z0-9\s-_\.]", "", RegexOptions.Compiled);
 
             //Trim dashes from end
             value = value.Trim('-', '_');
