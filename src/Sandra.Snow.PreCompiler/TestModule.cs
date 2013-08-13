@@ -91,7 +91,8 @@
                     Author = Data.Author,
                     Email = Data.Email,
                     Settings = Settings,
-                    Series = Data.Series
+                    Series = Data.Series,
+                    MetaDescription = Data.MetaDescription
                 };
 
                 return View[result.Layout, result];
