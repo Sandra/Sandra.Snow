@@ -53,7 +53,7 @@
                         Name = y.Name,
                         Url = y.Url,
                         Count = y.Count
-                    }).ToList(),
+                    }).OrderBy(cat => cat.Name).ToList(),
                     Posts = Posts,
                     PostsPaged = PostsPaged,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
@@ -73,10 +73,10 @@
             Post["/compose"] = x =>
             {
                 var categories = Data.Categories.Select(category => new BaseViewModel.Category
-                {
-                    Url = category.ToLower().Replace(" ", "-"), 
-                    Name = category
-                }).ToList();
+                    {
+                        Url = category.ToLower().Replace(" ", "-"),
+                        Name = category
+                    }).OrderBy(cat => cat.Name).ToList();
 
                 var result = new PostViewModel
                 {
