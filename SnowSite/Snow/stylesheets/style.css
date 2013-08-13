@@ -1246,3 +1246,7 @@ kbd {
   display: inline-block;
   margin-bottom: 5px;
 }
+
+ul.snow-series {
+  margin: 0 0 1.5em 3em
+}
