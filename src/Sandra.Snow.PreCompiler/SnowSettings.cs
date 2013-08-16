@@ -52,6 +52,8 @@
         
         public string SiteUrl { get; set; }
 
+        public string BlogTitle { get; set; }
+
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings

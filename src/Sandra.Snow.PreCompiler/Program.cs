@@ -225,6 +225,7 @@
                 settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
             }
 
+            
             return settings;
         }
 
