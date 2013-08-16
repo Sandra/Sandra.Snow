@@ -80,6 +80,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Razor.Unofficial">
       <HintPath>..\packages\System.Web.Razor.Unofficial.2.0.2\lib\net40\System.Web.Razor.Unofficial.dll</HintPath>
     </Reference>
@@ -93,6 +94,7 @@
     <Compile Include="Exceptions\FileProcessingException.cs" />
     <Compile Include="Extensions\GravatarExtensions.cs" />
     <Compile Include="Extensions\RazorHelpers.cs" />
+    <Compile Include="Extensions\RssResponse.cs" />
     <Compile Include="Extensions\SlugExtensions.cs" />
     <Compile Include="PostSettingsParser.cs" />
     <Compile Include="Extensions\PostHeaderExtensions.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
+    <Compile Include="StaticFileProcessors\RssProcessor.cs" />
     <Compile Include="StaticFileProcessors\StaticFileProcessor.cs" />
     <Compile Include="StaticFileProcessors\PostsProcessor.cs" />
     <Compile Include="StaticFileProcessors\SnowyData.cs" />

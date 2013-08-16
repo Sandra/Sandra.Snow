@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Extensions;
     using Models;
     using Nancy;
     using ViewModels;
@@ -88,6 +89,11 @@
                 };
 
                 return View[result.Layout, result];
+            };
+
+            Post["/rss"] = x =>
+            {
+                return this.Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile.File);
             };
         }
     }
