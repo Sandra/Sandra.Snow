@@ -1,6 +1,6 @@
 # Sandra.Snow
 
-Sandra.Snow is a Jekyll inspired static site generation tool that can be setup with Azure to build your site when your repository changes. 
+Sandra.Snow is a Jekyll inspired static site generation tool that can be run locally, as a CAAS(Compiler as a Service) or setup with Azure to build your site when your repository changes. 
 
 ## Notes
 
