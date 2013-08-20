@@ -90,7 +90,6 @@
     <Compile Include="..\.stuffz\AssemblyInfoVersion.cs">
       <Link>Properties\AssemblyInfoVersion.cs</Link>
     </Compile>
-    <Compile Include="Extensions\AnalyticsHelper.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Exceptions\FileProcessingException.cs" />
     <Compile Include="Extensions\GravatarExtensions.cs" />
