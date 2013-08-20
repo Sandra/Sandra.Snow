@@ -1,15 +1,24 @@
 ﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
     using System.IO;
+    using System.Linq;
 
     public static class IoExtensions
     {
         public static void Empty(this DirectoryInfo directory)
         {
-            foreach (var file in directory.GetFiles()) 
+            foreach (var file in directory.GetFiles())
                 file.Delete();
 
-            foreach (var subDirectory in directory.GetDirectories()) 
+            var directories =
+                directory.GetDirectories()
+                         .Select(d => d)
+                         .Where(
+                             d =>
+                             !d.Name.Contains(".git") && !d.Name.Contains("svn") && !d.Name.Contains(".svn") &&
+                             !d.Name.Contains("snow"));
+
+            foreach (var subDirectory in directories)
                 subDirectory.DeleteDirectory();
         }
 
