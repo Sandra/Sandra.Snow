@@ -9,10 +9,14 @@
         {
             foreach (var file in directory.GetFiles())
                 file.Delete();
+
             var directories =
                 directory.GetDirectories()
                          .Select(d => d)
-                         .Where(d => !d.Name.Contains(".git") && !d.Name.Contains("svn") && !d.Name.Contains(".svn"));
+                         .Where(
+                             d =>
+                             !d.Name.Contains(".git") && !d.Name.Contains("svn") && !d.Name.Contains(".svn") &&
+                             !d.Name.Contains("snow"));
 
             foreach (var subDirectory in directories)
                 subDirectory.DeleteDirectory();
