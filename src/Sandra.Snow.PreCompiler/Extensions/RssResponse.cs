@@ -8,14 +8,6 @@
     using System;
     using System.Collections.Generic;
 
-    public static class FormatterExtensions
-    {
-        public static Response AsRSS(this IResponseFormatter formatter, IEnumerable<Post> model, string rssTitle, string siteUrl, string feedfileName)
-        {
-            return new RssResponse(model, rssTitle, siteUrl, feedfileName);
-        }
-    }
-
     public class RssResponse : Response
     {
         private readonly string siteUrl;

@@ -95,6 +95,11 @@
             {
                 return this.Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile.File);
             };
+
+            Post["/sitemap"] = x =>
+            {
+                return this.Response.AsSiteMap(Posts, Settings.SiteUrl);
+            };
         }
     }
 }

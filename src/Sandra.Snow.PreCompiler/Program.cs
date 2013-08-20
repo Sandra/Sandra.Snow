@@ -66,6 +66,8 @@
                 posts.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
+                TestModule.Posts = posts;
+
                 var categories = (from c in posts.SelectMany(x => x.Categories)
                                   group c by c
                                       into g
