@@ -31,7 +31,7 @@
             {
                 var xElement = new XElement(blank+"url",
                                                     new XElement(blank + "loc", this.siteUrl + post.Url),
-                                                    new XElement(blank + "lastmod", post.Date),
+                                                    new XElement(blank + "lastmod", post.Date.ToString("s")),
                                                     new XElement(blank + "changefreq", "weekly"),
                                                     new XElement(blank + "priority", "1.00"));
 
