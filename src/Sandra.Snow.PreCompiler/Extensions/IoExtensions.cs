@@ -7,7 +7,8 @@
     {
         public static void Empty(this DirectoryInfo directory)
         {
-            foreach (var file in directory.GetFiles())
+            var files = directory.GetFiles().Where(x => !x.Name.Contains("CNAME"));
+            foreach (var file in files)
                 file.Delete();
 
             var directories =
