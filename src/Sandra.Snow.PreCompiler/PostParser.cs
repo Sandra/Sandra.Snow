@@ -14,7 +14,7 @@
     public class PostParser
     {
         private static readonly Regex FileNameRegex =
-            new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).md$",
+            new Regex(@"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-(?<slug>.+).(?:md|markdown)$",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly IDictionary<string, Func<List<string>, object>>
