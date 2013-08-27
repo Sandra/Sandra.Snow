@@ -3,16 +3,24 @@
 <html lang="en" ng-app="barbato">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/Content/normalize.css"/>
-    <link rel="stylesheet" href="/Content/main.css"/>
-    
+    <link href="/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Content/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Content/normalize.css" />
+    <link rel="stylesheet" href="/Content/main.css" />
+
     <title>Sandra.Snow.Barbato</title>
 </head>
 <body>
-    <div id="main" ng-view>
-        @RenderBody()
+    <div class="container">
+        <div class="col-md-8 col-md-offset-2 col-lg-10 col-lg-offset-1">
+            <div ng-view>
+                @RenderBody()
+            </div>
+        </div>
     </div>
-    
-    @RenderSection("DocumentReady", required:false)
+    <script src="/Content/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="/Content/Scripts/bootstrap.min.js"></script>
+
+    @RenderSection("DocumentReady", required: false)
 </body>
 </html>
