@@ -1,46 +1,94 @@
-﻿<h1>Almost there {{item.userName}}</h1>
-<div class="avatar">
-    <img ng-src="{{item.AvatarUrl}}" alt="Avatar" />
+﻿<div ng-show="!item.deploying">
+    <div class="alert alert-dismissable"
+        ng-class="{'alert-success': item.deploysuccess, 'alert-danger': item.deployfailure}"
+        ng-show="item.deploysuccess || item.deployfailure">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span>{{item.deploymessage}}</span>
+    </div>
 </div>
-<div class="repo">
-    <h3>{{item.Name}}</h3>
-    <p>{{item.Description}}</p>
-    <p><span>{{item.UpdatedAt}}</span></p>
-</div>
-<br />
-
-<form name="myForm" ng-submit="saveDeployment()">
-    <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
-    <input type="hidden" value="{{Username}}" name="username" />
-
-    <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="azure" checked="checked">Azure 
+<h1>Almost there {{item.userName}}</h1>
+<div class="repo-detail">
+    <div class="media">
+        <div class="media-body">
+            <img class="pull-left avatar" ng-src="{{item.AvatarUrl}}" alt="Avatar" />
+            <span class="pull-right when">{{item.UpdatedAt}}</span>
+            <h4 class="media-heading">{{item.Name}}</h4>
+            <p>{{item.Description}}</p>
+        </div>
+        <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
+        <input type="hidden" value="{{Username}}" name="username" />
+    </div>
     <br />
-    <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="ftp">FTP
 
-    <div id="azure" ng-show="item.deploymentType=='azure'">
-        <label for="azurerepo">Azure Git Repo</label>
-        <input type="text" name="azurerepo" ng-model="item.azurerepo" ng-class="{error: myForm.azurerepo.$invalid}" ng-required="item.deploymentType=='azure'" ng-change="myForm.azurerepo.$setValidity('azurerepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
-    </div>
+    <form role="form" name="myForm" ng-submit="saveDeployment()">
+        <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
+        <input type="hidden" value="{{Username}}" name="username" />
 
-    <div id="ftp" ng-show="item.deploymentType=='ftp'">
-        <label for="ftpserver">FTP Server</label>
-        <input type="text" name="ftpserver" ng-model="item.ftpserver" ng-class="{error: myForm.ftpserver.$invalid}" ng-required="item.deploymentType=='ftp'" ng-change="myForm.ftpserver.$setValidity('ftpserver',true);myForm.azurerepo.$setValidity('azurerepo',true);" />
+        <ul class="list-inline">
+            <li>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="azure" checked="checked">
+                        Azure 
+                    </label>
+                </div>
 
+            </li>
+            <li>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="ftp">
+                        FTP
+                    </label>
+                </div>
+            </li>
+        </ul>
 
-        <label for="ftppath">FTP Path</label>
-        <input type="text" name="ftppath" ng-model="item.ftppath" ng-class="{error: myForm.ftppath.$invalid}" ng-required="item.deploymentType=='ftp'" />
+        <div id="azure" class="form-group" ng-show="item.deploymentType=='azure'" ng-class="{'has-error': myForm.azurerepo.$invalid}">
+            <label for="azurerepo" class="control-label">Azure Git Repo</label>
+            <div>
+                <input type="text" class="form-control" name="azurerepo" ng-model="item.azurerepo" ng-required="item.deploymentType=='azure'" ng-change="myForm.azurerepo.$setValidity('azurerepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
+            </div>
+        </div>
 
-        <label for="ftpusername">FTP Username</label>
-        <input type="text" name="ftpusername" ng-model="item.ftpusername" ng-class="{error: myForm.ftpusername.$invalid}" ng-required="item.deploymentType=='ftp'" />
+        <div id="ftp" ng-show="item.deploymentType=='ftp'">
+            <div class="form-group" ng-class="{'has-error': myForm.ftpserver.$invalid}">
+                <label for="ftpserver" class="control-label">FTP Server</label>
+                <div>
+                    <input type="text" class="form-control" name="ftpserver" ng-model="item.ftpserver" ng-required="item.deploymentType=='ftp'" ng-change="myForm.ftpserver.$setValidity('ftpserver',true);myForm.azurerepo.$setValidity('azurerepo',true);" />
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error': myForm.ftppath.$invalid}">
+                <label for="ftppath" class="control-label">FTP Path</label>
+                <div>
+                    <input type="text" class="form-control" name="ftppath" ng-model="item.ftppath" ng-required="item.deploymentType=='ftp'" />
+                </div>
+            </div>
 
-        <label for="ftppassword">FTP Password</label>
-        <input type="password" name="ftppassword" ng-model="item.ftppassword" ng-class="{error: myForm.ftppassword.$invalid}" ng-required="item.deploymentType=='ftp'" />
-    </div>
+            <div class="form-group" ng-class="{'has-error': myForm.ftpusername.$invalid}">
+                <label for="ftpusername" class="control-label">FTP Username</label>
+                <div>
+                    <input type="text" class="form-control" name="ftpusername" ng-model="item.ftpusername" ng-required="item.deploymentType=='ftp'" />
+                </div>
+            </div>
 
-    <span ng-show="item.serversidevalid==false">Already registered!</span>
+            <div class="form-group" ng-class="{'has-error': myForm.ftppassword.$invalid}">
+                <label for="ftppassword" class="control-label">FTP Password</label>
+                <div>
+                    <input type="password" class="form-control" name="ftppassword" ng-model="item.ftppassword" ng-required="item.deploymentType=='ftp'" />
+                </div>
+            </div>
 
-    <img src="/Content/loading.gif" ng-show="item.deploying" />
+        </div>
 
-    <input type="submit" value="Save" ng-disabled="myForm.$invalid" />
+        <span ng-show="item.serversidevalid==false">Already registered!</span>
 
-</form>
+        <p class="text-right">
+            <button type="submit" class="btn btn-default" ng-disabled="myForm.$invalid">
+                Deploy
+            </button>
+            <i class="icon-spinner icon-spin icon-large" ng-show="item.deploying"></i>
+        </p>
+
+    </form>
+</div>

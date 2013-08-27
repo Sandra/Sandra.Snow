@@ -86,6 +86,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bg.jpg" />
+    <Content Include="Content\bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\bootstrap.css" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\font-awesome-ie7.css" />
+    <Content Include="Content\font-awesome-ie7.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\github-logo.png" />
     <Content Include="Content\main.css" />
     <Content Include="Content\nancy-logo.png" />
@@ -112,6 +122,18 @@
     <Content Include="PreCompiler\Sandra.Snow.PreCompiler.exe" />
     <Content Include="PreCompiler\System.Web.Razor.Unofficial.dll" />
     <Content Include="PreCompiler\System.Web.Razor.Unofficial.pdb" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\font\fontawesome-webfont.woff" />
+    <Content Include="Content\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\font\fontawesome-webfont.eot" />
+    <Content Include="Content\font\FontAwesome.otf" />
+    <None Include="Content\Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Content\Scripts\bootstrap.js" />
+    <Content Include="Content\Scripts\bootstrap.min.js" />
+    <Content Include="Content\Scripts\jquery-1.9.1.js" />
+    <Content Include="Content\Scripts\jquery-1.9.1.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +165,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="PreCompiler\Sandra.Snow.PreCompiler.exe.config" />
+    <Content Include="Content\Scripts\jquery-1.9.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
