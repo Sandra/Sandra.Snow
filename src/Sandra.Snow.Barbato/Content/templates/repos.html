@@ -1,14 +1,18 @@
 ﻿<h1>{{items.Username}}, you've been busy!</h1>
-<a class="repoItems" href="#/{{items.Username}}/{{item.Name}}" ng-repeat="item in items.Repos">   
-     <div class="avatar">
-          <img ng-src="{{item.AvatarUrl}}" alt="Avatar" />
-      </div>
-      <div class="repo">
-          <h3>{{item.Name}}</h3>
-          <p>{{item.Description}}</p>
-          <p><span>{{item.UpdatedAt}}</span></p>
-      </div>
-      <br/>
-      <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
-      <input type="hidden" value="{{Username}}" name="username"/>
-</a>
+<ul class="repo-list">
+    <li>
+        <div class="media repo" ng-repeat="item in items.Repos">
+            <a href="#/{{items.Username}}/{{item.Name}}">
+                <div class="media-body">
+                    <img class="pull-left avatar" ng-src="{{item.AvatarUrl}}" alt="Avatar" />
+                    <span class="pull-right when">{{item.UpdatedAt}}</span>
+                    <h4 class="media-heading">{{item.Name}}</h4>
+                    <p>{{item.Description}}</p>
+                </div>
+                <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
+                <input type="hidden" value="{{Username}}" name="username" />
+            </a>
+        </div>
+
+    </li>
+</ul>

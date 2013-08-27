@@ -13,7 +13,10 @@
             $scope.item.azurerepo = '';
             $scope.item.serversidevalid = true;
             $scope.item.deploying = false;
-
+            $scope.item.deploysuccess = false;
+            $scope.item.deployfailure = false;
+            $scope.item.deploymessage = '';
+            
             $scope.saveDeployment = function () {
 
                 var data = {
@@ -30,11 +33,15 @@
                       $http.post('/initializedeployment', $scope.item)
                             .success(function () {
                                 $scope.item.deploying = false;
-                                $location.path($location.path() + "/complete");
+                                //$location.path($location.path() + "/complete");
+                                $scope.item.deploysuccess = true;
+                                $scope.item.deploymessage = 'Successfully deployed your blog';
                                 console.log('deployed');
                             })
                             .error(function () {
                                 $scope.item.deploying = false;
+                                $scope.item.deployfailure = true;
+                                $scope.item.deploymessage = 'Failed to deploy your blog!';
                                 console.log('error');
                             });
                     }
