@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -16,7 +17,7 @@
     using StaticFileProcessors;
     using ViewModels;
 
-    internal class Program
+    public class Program
     {
         private static void Main(string[] args)
         {
@@ -25,6 +26,11 @@
             try
             {
                 var commands = args.Select(x => x.Split('=')).ToDictionary(x => x[0], x => x[1]);
+
+                if (commands.ContainsKey("debug"))
+                {
+                    DebugHelperExtensions.EnableDebugging();
+                }
 
                 string currentDir;
 
@@ -37,20 +43,18 @@
                     currentDir = Path.GetDirectoryName(typeof(Program).Assembly.Location);
                 }
 
-                var settings = CreateSettings(currentDir);
+                currentDir.OutputIfDebug(prefixWith: "current directory: ");
 
-                StaticPathProvider.Path = settings.CurrentSnowDir;
+                var settings = CreateSettings(currentDir);
 
                 var extensions = new HashSet<string>(new[] { ".md", ".markdown" }, StringComparer.OrdinalIgnoreCase);
                 var files = new DirectoryInfo(settings.Posts).EnumerateFiles()
                                                              .Where(x => extensions.Contains(x.Extension));
 
-                if (!Directory.Exists(settings.Output))
-                {
-                    Directory.CreateDirectory(settings.Output);
-                }
+                SetupOutput(settings);
 
-                new DirectoryInfo(settings.Output).Empty();
+                StaticPathProvider.Path = settings.CurrentDir;
+                SnowViewLocationConventions.Settings = settings;
 
                 var browserParser = new Browser(with =>
                 {
@@ -66,17 +70,16 @@
                 posts.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
-                TestModule.Posts = posts;
-
                 var categories = (from c in posts.SelectMany(x => x.Categories)
                                   group c by c
-                                      into g
-                                      select new Category
-                                      {
-                                          Name = g.Key,
-                                          Count = g.Count()
-                                      }).OrderBy(cat => cat.Name).ToList();
+                                  into g
+                                  select new Category
+                                  {
+                                      Name = g.Key,
+                                      Count = g.Count()
+                                  }).OrderBy(cat => cat.Name).ToList();
 
+                TestModule.Posts = posts;
                 TestModule.Categories = categories;
                 TestModule.PostsGroupedByYearThenMonth = GroupStuff(posts);
                 TestModule.MonthYear = GroupMonthYearArchive(posts);
@@ -97,15 +100,14 @@
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
-                    var source = Path.Combine(settings.CurrentSnowDir, copyDirectory);
+                    var source = Path.Combine(settings.CurrentDir, copyDirectory);
                     var destination = Path.Combine(settings.Output, copyDirectory);
                     new DirectoryInfo(source).Copy(destination, true);
                 }
 
                 if (commands.ContainsKey("debug"))
                 {
-                    Console.WriteLine("Paused - press any key");
-                    Console.ReadKey();
+                    DebugHelperExtensions.WaitForContinue();
                 }
 
                 Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
@@ -113,18 +115,30 @@
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
+                DebugHelperExtensions.WaitForContinue();
             }
+        }
+
+        private static void SetupOutput(SnowSettings settings)
+        {
+            if (!Directory.Exists(settings.Output))
+            {
+                Directory.CreateDirectory(settings.Output);
+            }
+
+            new DirectoryInfo(settings.Output).Empty();
         }
 
         private static List<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
         {
             var groupedByYear = (from p in parsedFiles
                                  group p by p.Date.AsYearDate()
-                                     into g
-                                     select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                              group y by y.Date.AsMonthDate()
-                                                                                  into p
-                                                                                  select p).ToDictionary(u => u.Key,
+                                 into g
+                                 select g).ToDictionary(x => x.Key, x => (from y in x
+                                                                          group y by y.Date.AsMonthDate()
+                                                                          into p
+                                                                          select p).ToDictionary(u => u.Key,
                                                                               u => u.Count()));
 
             return (from s in groupedByYear
@@ -186,13 +200,14 @@
         private static SnowSettings CreateSettings(string currentDir)
         {
             var settings = SnowSettings.Default(currentDir);
+            var configFile = Path.Combine(currentDir, "snow.config");
 
-            if (!File.Exists(Path.Combine(currentDir, "snow.config")))
+            if (!File.Exists(configFile))
             {
                 throw new FileNotFoundException("Snow config file not found");
             }
 
-            var fileData = File.ReadAllText(currentDir + "/snow.config");
+            var fileData = File.ReadAllText(configFile);
 
             var newSettings = JsonConvert.DeserializeObject<SnowSettings>(fileData);
 
@@ -227,7 +242,6 @@
                 settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
             }
 
-            
             return settings;
         }
 

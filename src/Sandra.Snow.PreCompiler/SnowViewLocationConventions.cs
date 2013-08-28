@@ -7,6 +7,8 @@
 
     public class SnowViewLocationConventions : IConvention
     {
+        public static SnowSettings Settings { get; set; }
+
         public void Initialise(NancyConventions conventions)
         {
             ConfigureViewLocationConventions(conventions);
@@ -21,8 +23,8 @@
         {
             conventions.ViewLocationConventions = new List<Func<string, object, ViewLocationContext, string>>
             {
-                (viewName, model, viewLocationContext) => "_posts/" + viewName,
-                (viewName, model, viewLocationContext) => "_layouts/" + viewName,
+                (viewName, model, viewLocationContext) => Settings.PostsRaw.TrimEnd('/') + "/" + viewName,
+                (viewName, model, viewLocationContext) => Settings.LayoutsRaw.TrimEnd('/') + "/" + viewName,
                 (viewName, model, viewLocationContext) => viewName
             };
         }

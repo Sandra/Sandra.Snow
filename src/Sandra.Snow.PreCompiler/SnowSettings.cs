@@ -12,7 +12,6 @@
         public SnowSettings()
         {
             CurrentDir = string.Empty;
-            CurrentSnowDir = string.Empty;
         }
 
         /// <summary>
@@ -26,20 +25,29 @@
         public string Email { get; set; }
 
         public string CurrentDir { get; private set; }
-        public string CurrentSnowDir { get; set; }
         public string UrlFormat { get; set; }
         public string[] CopyDirectories { get; set; }
 
+        public string PostsRaw { get; private set; }
         public string Posts
         {
             get { return _posts; }
-            set { _posts = Path.Combine(CurrentSnowDir, value); }
+            set
+            {
+                PostsRaw = value;
+                _posts = Path.Combine(CurrentDir, value);
+            }
         }
 
+        public string LayoutsRaw { get; private set; }
         public string Layouts
         {
             get { return _layouts; }
-            set { _layouts = Path.Combine(CurrentSnowDir, value); }
+            set
+            {
+                LayoutsRaw = value;
+                _layouts = Path.Combine(CurrentDir, value);
+            }
         }
 
         public string Output
@@ -58,14 +66,13 @@
         {
             return new SnowSettings
             {
+                CurrentDir = directory.TrimEnd('/'),
                 Posts = "_posts",
                 Layouts = "_layouts",
                 Output = "Website",
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
                 ProcessFiles = new List<StaticFile>(),
-                CurrentDir = directory ?? "",
-                CurrentSnowDir = Path.Combine(directory ?? "", "Snow"),
 
                 Author = string.Empty,
                 Email = string.Empty

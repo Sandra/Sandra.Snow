@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Exceptions\FileProcessingException.cs" />
+    <Compile Include="Extensions\DebugHelperExtensions.cs" />
     <Compile Include="Extensions\FormatterExtensions.cs" />
     <Compile Include="Extensions\GravatarExtensions.cs" />
     <Compile Include="Extensions\RazorHelpers.cs" />

@@ -1,26 +1,40 @@
 ﻿namespace Sandra.Snow.PreCompiler.Extensions
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
     public static class IoExtensions
     {
+        private static bool IsIn(this string name, IEnumerable<string> names)
+        {
+            return names.Contains(name.ToLower());
+        }
+
+        private static readonly string[] IgnoredFiles = { "CNAME", "compile.snow.bat", "snow.config" };
+        private static readonly string[] IgnoredDirectories = { ".git", "svn", ".svn", "snow" };
+
         public static void Empty(this DirectoryInfo directory)
         {
-            var files = directory.GetFiles().Where(x => !x.Name.Contains("CNAME"));
-            foreach (var file in files)
-                file.Delete();
+            var files = directory.GetFiles().Where(x => !x.Name.IsIn(IgnoredFiles));
 
-            var directories =
-                directory.GetDirectories()
-                         .Select(d => d)
-                         .Where(
-                             d =>
-                             !d.Name.Contains(".git") && !d.Name.Contains("svn") && !d.Name.Contains(".svn") &&
-                             !d.Name.Contains("snow"));
+            "Directory Cleanup before Compiling...".OutputIfDebug();
+
+            foreach (var file in files)
+            {
+                file.Name.OutputIfDebug(prefixWith: "Deleting File: ");
+                file.Delete();
+            }
+
+            var directories = directory.GetDirectories()
+                                       .Select(d => d)
+                                       .Where(d => !d.Name.IsIn(IgnoredDirectories));
 
             foreach (var subDirectory in directories)
+            {
+                subDirectory.Name.OutputIfDebug(prefixWith: "Deleting Dir: ");
                 subDirectory.DeleteDirectory();
+            }
         }
 
         public static void DeleteDirectory(this DirectoryInfo directory)
@@ -29,10 +43,14 @@
             var dirs = directory.GetDirectories();
 
             foreach (var file in files)
+            {
                 file.Delete();
+            }
 
             foreach (var dir in dirs)
+            {
                 DeleteDirectory(dir);
+            }
 
             directory.Delete(true);
         }
