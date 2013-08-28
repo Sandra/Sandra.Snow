@@ -84,7 +84,7 @@
         <span ng-show="item.serversidevalid==false">Already registered!</span>
 
         <p class="text-right">
-            <button type="submit" class="btn btn-default" ng-disabled="myForm.$invalid">
+            <button type="submit" class="btn btn-default" ng-disabled="myForm.$invalid || item.deploying">
                 Deploy
             </button>
             <i class="icon-spinner icon-spin icon-large" ng-show="item.deploying"></i>
