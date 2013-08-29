@@ -1,6 +1,6 @@
 # Sandra.Snow
 
-Sandra.Snow is a Jekyll inspired static site generation tool that can be run locally, as a CAAS(Compiler as a Service) or setup with Azure to build your site when your repository changes. 
+Sandra.Snow is a Jekyll inspired static site generation tool that can be run locally, as a CAAS(Compiler as a Service) or setup with Azure to build your site when your repository changes. It is built on top of [NancyFX][1].
 
 ## Notes
 
@@ -21,3 +21,5 @@ The site should compile when you hit F5 now.
 ## Sandra.Snow.Barbato
 
 This is a web application that can be hosted on a server that will do the static generation rather than locally.  It works by accepting a Github web hook, pulling your Git changes, genererating the content, moving the output to a location of choice and then pushing the Git repo changes back to Github.
+
+[1]: https://github.com/NancyFx/Nancy
