@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.Barbato
+﻿namespace Barbato.Model
 {
     public interface IGithubUserRepository
     {

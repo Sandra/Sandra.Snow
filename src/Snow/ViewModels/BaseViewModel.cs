@@ -1,4 +1,4 @@
-namespace Sandra.Snow.PreCompiler.ViewModels
+namespace Snow.ViewModels
 {
     using System.Collections.Generic;
     using Models;

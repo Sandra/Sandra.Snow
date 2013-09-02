@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.Exceptions
+﻿namespace Snow.Exceptions
 {
     using System;
 

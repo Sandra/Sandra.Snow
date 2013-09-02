@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler
+﻿namespace Snow
 {
     using Nancy;
 

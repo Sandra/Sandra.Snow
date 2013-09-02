@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
+﻿namespace Snow.StaticFileProcessors
 {
     using System.Collections.Generic;
     using Models;

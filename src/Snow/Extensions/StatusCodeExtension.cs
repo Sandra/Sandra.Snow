@@ -1,9 +1,8 @@
-﻿namespace Sandra.Snow.PreCompiler.Extensions
+﻿namespace Snow.Extensions
 {
     using Exceptions;
     using Nancy;
     using Nancy.Testing;
-    using StaticFileProcessors;
 
     public static class StatusCodeExtension
     {

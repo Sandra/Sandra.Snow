@@ -1,17 +1,17 @@
-﻿namespace Sandra.Snow.Barbato
+﻿namespace Barbato
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using FtpLib;
-    using Nancy;
     using System.Configuration;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+    using System.Threading;
+    using FtpLib;
+    using Model;
+    using Nancy;
     using Nancy.ModelBinding;
     using RestSharp;
-    using Model;
 
     public class IndexModule : NancyModule
     {

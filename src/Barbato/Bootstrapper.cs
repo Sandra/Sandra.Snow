@@ -1,10 +1,10 @@
-﻿namespace Sandra.Snow.Barbato
+﻿namespace Barbato
 {
     using Nancy;
     using Nancy.Bootstrapper;
     using Nancy.TinyIoc;
-    using WorldDomination.Web.Authentication.ExtraProviders;
     using WorldDomination.Web.Authentication;
+    using WorldDomination.Web.Authentication.ExtraProviders;
 
     public class Bootstrapper : DefaultNancyBootstrapper
     {

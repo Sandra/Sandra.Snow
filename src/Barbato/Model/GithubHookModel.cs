@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Sandra.Snow.Barbato.Model
+﻿namespace Barbato.Model
 {
+    using System.Collections.Generic;
+
     public class GithubHookModel
     {
         //JSON2CSharp from https://gist.github.com/gjtorikian/5171861/raw/156ee21193715a9543aa4cc8080d1e745aeab1ba/sample_payload.json via

@@ -1,6 +1,6 @@
-﻿namespace Sandra.Snow.PreCompiler.Tests.Extensions
+﻿namespace Snow.Tests.Extensions
 {
-    using Sandra.Snow.PreCompiler.Extensions;
+    using Snow.Extensions;
     using Xunit;
 
     public class GravatarExtensionsTests

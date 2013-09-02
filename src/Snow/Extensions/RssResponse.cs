@@ -1,12 +1,12 @@
-﻿namespace Sandra.Snow.PreCompiler.Extensions
+﻿namespace Snow.Extensions
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.ServiceModel.Syndication;
     using System.Xml;
     using Models;
     using Nancy;
-    using System;
-    using System.Collections.Generic;
 
     public class RssResponse : Response
     {

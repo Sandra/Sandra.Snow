@@ -1,10 +1,10 @@
-﻿namespace Sandra.Snow.PreCompiler.Extensions
+﻿namespace Snow.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Text;
+    using System.Text.RegularExpressions;
     using Models;
 
     public static class SlugExtensions

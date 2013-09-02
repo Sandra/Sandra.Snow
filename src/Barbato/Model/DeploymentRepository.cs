@@ -1,4 +1,4 @@
-namespace Sandra.Snow.Barbato.Model
+namespace Barbato.Model
 {
     using System.Collections.Generic;
     using System.Linq;

@@ -1,11 +1,11 @@
-﻿namespace Sandra.Snow.PreCompiler.Tests.Extensions
+﻿namespace Snow.Tests.Extensions
 {
     using System;
     using System.Collections.Generic;
     using FakeItEasy;
     using Models;
     using Nancy.ViewEngines.Razor;
-    using PreCompiler.Extensions;
+    using Snow.Extensions;
     using ViewModels;
     using Xunit;
 

@@ -1,9 +1,9 @@
-﻿namespace Sandra.Snow.PreCompiler.Tests.Extensions
+﻿namespace Snow.Tests.Extensions
 {
     using System;
     using System.Collections.Generic;
     using Models;
-    using PreCompiler.Extensions;
+    using Snow.Extensions;
     using Xunit;
 
     public class PostHeaderExtensionsTests

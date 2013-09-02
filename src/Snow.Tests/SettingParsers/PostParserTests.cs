@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.Tests.SettingParsers
+﻿namespace Snow.Tests.SettingParsers
 {
     using System.IO;
     using Models;

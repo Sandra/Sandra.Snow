@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.Models
+﻿namespace Snow.Models
 {
     using System;
     using System.Collections.Generic;

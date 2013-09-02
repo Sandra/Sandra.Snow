@@ -1,12 +1,10 @@
-﻿namespace Sandra.Snow.PreCompiler
+﻿namespace Snow
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using CsQuery.ExtensionMethods;
     using Exceptions;
     using Extensions;
     using Models;

@@ -1,13 +1,10 @@
-﻿namespace Sandra.Snow.Barbato
+﻿namespace Barbato
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Model;
     using Nancy;
     using Nancy.Authentication.WorldDomination;
     using Nancy.Responses;
-    using RestSharp;
-    using Model;
     using WorldDomination.Web.Authentication;
 
     public class AuthenticationProvider : IAuthenticationCallbackProvider

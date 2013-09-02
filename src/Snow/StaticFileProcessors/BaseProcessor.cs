@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.StaticFileProcessors
+﻿namespace Snow.StaticFileProcessors
 {
     using System.ComponentModel.Composition;
     using System.Globalization;

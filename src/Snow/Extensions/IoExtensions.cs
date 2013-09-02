@@ -1,4 +1,4 @@
-﻿namespace Sandra.Snow.PreCompiler.Extensions
+﻿namespace Snow.Extensions
 {
     using System.Collections.Generic;
     using System.IO;

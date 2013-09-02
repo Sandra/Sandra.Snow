@@ -1,8 +1,7 @@
-﻿namespace Sandra.Snow.Barbato
+﻿namespace Barbato.Model
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Model;
 
     public class GithubUserRepository : IGithubUserRepository
     {
