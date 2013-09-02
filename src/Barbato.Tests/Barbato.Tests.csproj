@@ -57,9 +57,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sandra.Snow.Barbato\Sandra.Snow.Barbato.csproj">
+    <ProjectReference Include="..\Barbato\Barbato.csproj">
       <Project>{b4f9c525-5c56-440e-b4c2-972a33d7c8cd}</Project>
-      <Name>Sandra.Snow.Barbato</Name>
+      <Name>Barbato</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

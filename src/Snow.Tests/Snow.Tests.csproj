@@ -86,9 +86,9 @@
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sandra.Snow.PreCompiler\Sandra.Snow.PreCompiler.csproj">
+    <ProjectReference Include="..\Snow\Snow.csproj">
       <Project>{1143b7f0-4d45-4681-acf8-ec24e4f4dbcc}</Project>
-      <Name>Sandra.Snow.PreCompiler</Name>
+      <Name>Snow</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
