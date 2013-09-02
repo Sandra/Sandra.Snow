@@ -7,8 +7,8 @@
     <ProjectGuid>{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sandra.Snow.PreCompiler.Tests</RootNamespace>
-    <AssemblyName>Sandra.Snow.PreCompiler.Tests</AssemblyName>
+    <RootNamespace>Snow.Tests</RootNamespace>
+    <AssemblyName>Snow.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

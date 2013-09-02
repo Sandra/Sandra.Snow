@@ -7,8 +7,8 @@
     <ProjectGuid>{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sandra.Snow.PreCompiler</RootNamespace>
-    <AssemblyName>Sandra.Snow.PreCompiler</AssemblyName>
+    <RootNamespace>Snow</RootNamespace>
+    <AssemblyName>Snow</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
