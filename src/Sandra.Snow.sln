@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.PreCompiler", "Sandra.Snow.PreCompiler\Sandra.Snow.PreCompiler.csproj", "{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snow.PreCompiler", "Snow\Sandra.Snow.PreCompiler.csproj", "{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41B572E5-63F8-4D1A-9B30-32DEC63B16A5}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,11 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{41B572
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Sandra.Snow.Barbato\Sandra.Snow.Barbato.csproj", "{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato", "Barbato\Sandra.Snow.Barbato.csproj", "{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato.Tests", "Sandra.Snow.Barbato.Tests\Sandra.Snow.Barbato.Tests.csproj", "{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.Barbato.Tests", "Barbato.Tests\Sandra.Snow.Barbato.Tests.csproj", "{A9FEB2C4-496C-4C67-8511-0EEBE5215E43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.PreCompiler.Tests", "Sandra.Snow.PreCompiler.Tests\Sandra.Snow.PreCompiler.Tests.csproj", "{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandra.Snow.PreCompiler.Tests", "Snow.Tests\Sandra.Snow.PreCompiler.Tests.csproj", "{22FE57F6-7F96-4CC1-8B5A-35CD289677C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
