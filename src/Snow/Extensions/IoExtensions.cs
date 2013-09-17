@@ -1,5 +1,6 @@
 ﻿namespace Snow.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -8,7 +9,7 @@
     {
         private static bool IsIn(this string name, IEnumerable<string> names)
         {
-            return names.Contains(name.ToLower());
+            return names.Contains(name.ToLower(), StringComparer.OrdinalIgnoreCase);
         }
 
         private static readonly string[] IgnoredFiles = { "CNAME", "compile.snow.bat", "snow.config" };
