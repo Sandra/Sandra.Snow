@@ -7,12 +7,12 @@
     {
         public IEnumerable<string> GetAssemblyNames()
         {
-            yield return "Sandra.Snow.PreCompiler";
+            yield return "Snow";
         }
 
         public IEnumerable<string> GetDefaultNamespaces()
         {
-            yield return "Sandra.Snow.PreCompiler.Extensions";
+            yield return "Snow.Extensions";
             yield return "System.Globalization";
             yield return "System.Collections.Generic";
             yield return "System.Linq";
