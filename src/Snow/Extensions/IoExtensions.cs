@@ -12,7 +12,7 @@
             return names.Contains(name.ToLower(), StringComparer.OrdinalIgnoreCase);
         }
 
-        private static readonly string[] IgnoredFiles = { "CNAME", "compile.snow.bat", "snow.config" };
+        private static readonly string[] IgnoredFiles = { "cname", "compile.snow.bat", "snow.config" };
         private static readonly string[] IgnoredDirectories = { ".git", "svn", ".svn", "snow" };
 
         public static void Empty(this DirectoryInfo directory)
