@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using CsQuery.ExtensionMethods.Internal;
     using Exceptions;
     using Extensions;
     using Models;
@@ -98,8 +99,19 @@
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
-                    var source = Path.Combine(settings.CurrentDir, copyDirectory);
-                    var destination = Path.Combine(settings.Output, copyDirectory);
+                    var sourceDir = copyDirectory;
+                    var destinationDir = copyDirectory;
+
+                    if (copyDirectory.Contains(" => "))
+                    {
+                        var directorySplit = copyDirectory.Split(new[] {" => "}, StringSplitOptions.RemoveEmptyEntries);
+
+                        sourceDir = directorySplit[0];
+                        destinationDir = directorySplit[1];
+                    }
+
+                    var source = Path.Combine(settings.CurrentDir, sourceDir);
+                    var destination = Path.Combine(settings.Output, destinationDir);
                     new DirectoryInfo(source).Copy(destination, true);
                 }
 
