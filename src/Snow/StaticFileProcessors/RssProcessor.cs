@@ -13,6 +13,8 @@
 
         public override void Process(SnowyData snowyData, SnowSettings settings)
         {
+            ParseDirectories(snowyData);
+
             var postsForRss = snowyData.Files.Take(10).ToList();
             TestModule.PostsPaged = postsForRss;
             TestModule.StaticFile = snowyData.File;
@@ -26,7 +28,7 @@
                 Directory.CreateDirectory(outputFolder);
             }
             
-            File.WriteAllText(Path.Combine(outputFolder, snowyData.File.File), result.Body.AsString());
+            File.WriteAllText(Path.Combine(outputFolder, SourceFile), result.Body.AsString());
         }
     }
 }

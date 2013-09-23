@@ -13,18 +13,18 @@
 
         public override void Process(SnowyData snowyData, SnowSettings settings)
         {
+            ParseDirectories(snowyData);
+
             var result = snowyData.Browser.Post("/static");
 
-            result.ThrowIfNotSuccessful(snowyData.File.File);
+            result.ThrowIfNotSuccessful(SourceFile);
 
-            var outputFolder = Path.Combine(snowyData.Settings.Output, snowyData.File.File.Substring(0, snowyData.File.File.IndexOf('.')));
-
-            if (!Directory.Exists(outputFolder))
+            if (!Directory.Exists(Destination))
             {
-                Directory.CreateDirectory(outputFolder);
+                Directory.CreateDirectory(Destination);
             }
 
-            File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
+            File.WriteAllText(Path.Combine(Destination, "index.html"), result.Body.AsString());
         }
     }
 }

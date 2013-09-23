@@ -14,6 +14,8 @@
 
         public override void Process(SnowyData snowyData, SnowSettings settings)
         {
+            ParseDirectories(snowyData);
+
             foreach (var tempCategory in TestModule.Categories)
             {
                 var category = tempCategory;
@@ -25,7 +27,7 @@
                 
                 var result = snowyData.Browser.Post("/static");
 
-                result.ThrowIfNotSuccessful(snowyData.File.File);
+                result.ThrowIfNotSuccessful(SourceFile);
 
                 var outputFolder = Path.Combine(snowyData.Settings.Output, "category", category.Url);
 
