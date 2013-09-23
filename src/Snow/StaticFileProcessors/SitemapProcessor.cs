@@ -12,6 +12,8 @@
 
         public override void Process(SnowyData snowyData, SnowSettings settings)
         {
+            ParseDirectories(snowyData);
+
             var result = snowyData.Browser.Post("/sitemap");
 
             var outputFolder = snowyData.Settings.Output;
@@ -21,7 +23,7 @@
                 Directory.CreateDirectory(outputFolder);
             }
 
-            File.WriteAllText(Path.Combine(outputFolder, snowyData.File.File), result.Body.AsString());
+            File.WriteAllText(Path.Combine(outputFolder, SourceFile), result.Body.AsString());
         }
     }
 }
