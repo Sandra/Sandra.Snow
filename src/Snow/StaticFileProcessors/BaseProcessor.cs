@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.Composition;
     using System.Globalization;
+    using System.IO;
 
     [InheritedExport]
     public abstract class BaseProcessor
@@ -15,21 +16,29 @@
                                 .Equals(ProcessorName.ToLower(CultureInfo.InvariantCulture));
         }
 
-        public abstract void Process(SnowyData snowyData, SnowSettings settings);
+        public void Process(SnowyData snowyData, SnowSettings settings)
+        {
+            ParseDirectories(snowyData);
+            TestModule.StaticFile = SourceFile;
+
+            Impl(snowyData, settings);
+        }
+
+        protected abstract void Impl(SnowyData snowyData, SnowSettings settings);
 
         protected void ParseDirectories(SnowyData snowyData)
         {
             var source = snowyData.File.File;
 
             var sourceFile = source;
-            var destinationDirectory = source.Substring(0, snowyData.File.File.IndexOf('.'));
+            var destinationDirectory = Path.Combine(snowyData.Settings.Output, source.Substring(0, snowyData.File.File.IndexOf('.')));
 
             if (source.Contains(" => "))
             {
                 var directorySplit = source.Split(new[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
 
                 sourceFile = directorySplit[0];
-                destinationDirectory = directorySplit[1];
+                destinationDirectory = Path.Combine(snowyData.Settings.Output, directorySplit[1]);
             }
 
             SourceFile = sourceFile;
