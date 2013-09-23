@@ -10,10 +10,8 @@
             get { return "sitemap"; }
         }
 
-        public override void Process(SnowyData snowyData, SnowSettings settings)
+        protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            ParseDirectories(snowyData);
-
             var result = snowyData.Browser.Post("/sitemap");
 
             var outputFolder = snowyData.Settings.Output;

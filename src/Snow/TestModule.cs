@@ -19,7 +19,7 @@
 
         //Data changes on iterations
         public static Post Data { get; set; }
-        public static StaticFile StaticFile { get; set; }
+        public static string StaticFile { get; set; }
 
         //Properties change on iterations
         public static List<Post> PostsPaged { get; set; }
@@ -64,7 +64,7 @@
                     Category = Category
                 };
 
-                return View[StaticFile.File, siteContent];
+                return View[StaticFile, siteContent];
             };
 
             // Generates an actual post based on the Markdown content
@@ -93,7 +93,7 @@
 
             Post["/rss"] = x =>
             {
-                return this.Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile.File);
+                return this.Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
             };
 
             Post["/sitemap"] = x =>

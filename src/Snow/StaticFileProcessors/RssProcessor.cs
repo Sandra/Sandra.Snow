@@ -11,13 +11,10 @@
             get { return "rss"; }
         }
 
-        public override void Process(SnowyData snowyData, SnowSettings settings)
+        protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            ParseDirectories(snowyData);
-
             var postsForRss = snowyData.Files.Take(10).ToList();
             TestModule.PostsPaged = postsForRss;
-            TestModule.StaticFile = snowyData.File;
 
             var result = snowyData.Browser.Post("/rss");
             
