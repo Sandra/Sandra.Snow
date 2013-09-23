@@ -13,7 +13,7 @@
             get { return "posts"; }
         }
 
-        public override void Process(SnowyData snowyData, SnowSettings settings)
+        protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
             const int pageSize = 10;
             var skip = 0;

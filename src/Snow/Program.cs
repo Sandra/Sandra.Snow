@@ -179,8 +179,6 @@
         {
             try
             {
-                TestModule.StaticFile = staticFile;
-
                 var processorName = staticFile.Loop ?? "";
                 var processor = ProcessorFactory.Get(processorName.ToLower());
 

@@ -12,10 +12,8 @@
             get { return "categories"; }
         }
 
-        public override void Process(SnowyData snowyData, SnowSettings settings)
+        protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            ParseDirectories(snowyData);
-
             foreach (var tempCategory in TestModule.Categories)
             {
                 var category = tempCategory;
