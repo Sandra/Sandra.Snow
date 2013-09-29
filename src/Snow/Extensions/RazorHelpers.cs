@@ -29,6 +29,17 @@ _gaq.push(['_trackPageview']);
 
         private const string DisqusFormat = @"<div id=""disqus_thread""></div>
 <script>
+    var reset_disqus = function(){{
+        DISQUS.reset({{
+            reload: true,
+            config: function () {{
+                //this.page.identifier = '';
+                this.page.url = '{1}';
+                //this.page.title = '';
+            }}
+        }});
+    }};
+
     var disqus_shortname = '{0}';
     var disqus_url = '{1}';
 
@@ -37,6 +48,8 @@ _gaq.push(['_trackPageview']);
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }})();
+
+    window.addEventListener('orientationchange', reset_disqus);
 </script>
 <noscript>Please enable JavaScript to view the <a href=""http://disqus.com/?ref_noscript"">comments powered by Disqus.</a></noscript>
 <a href=""http://disqus.com"" class=""dsq-brlink"">comments powered by <span class=""logo-disqus"">Disqus</span></a>";
@@ -53,7 +66,7 @@ _gaq.push(['_trackPageview']);
 
             return html.Raw(result);
         }
-        
+
         public static IHtmlString RenderDisqusComments<T>(this HtmlHelpers<T> html, string shortName)
         {
             var postViewModel = html.Model as PostViewModel;

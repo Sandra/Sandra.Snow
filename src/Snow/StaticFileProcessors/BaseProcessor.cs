@@ -1,11 +1,9 @@
 ﻿namespace Snow.StaticFileProcessors
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Globalization;
     using System.IO;
 
-    [InheritedExport]
     public abstract class BaseProcessor
     {
         public abstract string ProcessorName { get; }
