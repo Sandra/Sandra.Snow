@@ -21,6 +21,7 @@
                 var posts = snowyData.Files.Where(x => x.Categories.Contains(category.Name));
 
                 TestModule.Category = category;
+                TestModule.GeneratedUrl = settings.SiteUrl + "/category/" + category.Url + "/";
                 TestModule.PostsInCategory = posts.ToList();
                 
                 var result = snowyData.Browser.Post("/static");
