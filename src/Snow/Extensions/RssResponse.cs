@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.IO;
     using System.ServiceModel.Syndication;
+    using System.Text;
     using System.Xml;
     using Models;
     using Nancy;
+    using Nancy.IO;
 
     public class RssResponse : Response
     {
@@ -56,10 +58,15 @@
 
             return stream =>
             {
-                using (XmlWriter writer = XmlWriter.Create(stream))
+                var encoding =
+                    new UTF8Encoding(false);
+
+                var streamWrapper =
+                    new UnclosableStreamWrapper(stream);
+
+                using (var writer = new XmlTextWriter(streamWrapper, encoding))
                 {
                     formatter.WriteTo(writer);
-
                 }
             };
         }
