@@ -20,6 +20,7 @@
         //Data changes on iterations
         public static Post Data { get; set; }
         public static string StaticFile { get; set; }
+        public static string GeneratedUrl { get; set; }
 
         //Properties change on iterations
         public static List<Post> PostsPaged { get; set; }
@@ -50,6 +51,7 @@
             {
                 var siteContent = new ContentViewModel
                 {
+                    GeneratedUrl = GeneratedUrl,
                     PostsInCategory = PostsInCategory,
                     Categories = Categories,
                     Posts = Posts,
@@ -73,6 +75,7 @@
             {
                 var result = new PostViewModel
                 {
+                    GeneratedUrl = GeneratedUrl,
                     PostContent = Data.Content,
                     PostDate = Data.Date,
                     Layout = Data.Layout,

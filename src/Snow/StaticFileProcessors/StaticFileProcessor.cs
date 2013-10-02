@@ -13,6 +13,8 @@
         
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
+            TestModule.GeneratedUrl = settings.SiteUrl + "/" + DestinationName.Trim(new[] {'/'}) + "/";
+
             var result = snowyData.Browser.Post("/static");
 
             result.ThrowIfNotSuccessful(SourceFile);

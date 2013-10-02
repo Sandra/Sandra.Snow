@@ -25,16 +25,18 @@
 
             while (currentIteration.Any())
             {
+                var folder = skip <= 1 ? "" : "page" + iteration;
+
                 TestModule.PostsPaged = currentIteration.ToList();
                 TestModule.PageNumber = iteration;
                 TestModule.HasNextPage = iteration < totalPages;
                 TestModule.HasPreviousPage = iteration > 1 && totalPages > 1;
+                TestModule.GeneratedUrl = (settings.SiteUrl + "/" + folder).TrimEnd('/') + "/";
 
                 var result = snowyData.Browser.Post("/static");
 
                 result.ThrowIfNotSuccessful(snowyData.File.File);
 
-                var folder = skip <= 1 ? "" : "page" + iteration;
                 var outputFolder = Path.Combine(snowyData.Settings.Output, folder);
 
                 if (!Directory.Exists(outputFolder))
