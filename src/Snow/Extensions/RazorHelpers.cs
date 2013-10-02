@@ -9,6 +9,8 @@
 
     public static class RazorHelpers
     {
+        private const string CanonicalFormat = @"<link rel=""canonical"" href=""{0}"" />";
+
         private const string ImageFormat = @"<img src=""{0}"" />";
 
         private const string GoogleAnalyticsFormat = @"<script type=""text/javascript"">
@@ -125,6 +127,13 @@ _gaq.push(['_trackPageview']);
         public static IHtmlString RenderGoogleAnalytics<T>(this HtmlHelpers<T> html, string trackingCode)
         {
             return html.Raw(string.Format(GoogleAnalyticsFormat, trackingCode));
+        }
+
+        public static IHtmlString CanonicalUrl<T>(this HtmlHelpers<T> html)
+        {
+            var model = html.Model as BaseViewModel;
+
+            return html.Raw(string.Format(CanonicalFormat, model.GeneratedUrl));
         }
     }
 }

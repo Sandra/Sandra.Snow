@@ -30,6 +30,7 @@
 
             var sourceFile = source;
             var destinationDirectory = Path.Combine(snowyData.Settings.Output, source.Substring(0, snowyData.File.File.IndexOf('.')));
+            var destinationName = source.Substring(0, snowyData.File.File.IndexOf('.'));
 
             if (source.Contains(" => "))
             {
@@ -37,13 +38,16 @@
 
                 sourceFile = directorySplit[0];
                 destinationDirectory = Path.Combine(snowyData.Settings.Output, directorySplit[1]);
+                destinationName = directorySplit[1];
             }
 
             SourceFile = sourceFile;
             Destination = destinationDirectory;
+            DestinationName = destinationName;
         }
 
         protected string SourceFile { get; set; }
         protected string Destination { get; set; }
+        protected string DestinationName { get; set; }
     }
 }

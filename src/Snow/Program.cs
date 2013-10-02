@@ -257,7 +257,10 @@
         {
             try
             {
+                var siteUrl = TestModule.Settings.SiteUrl;
+
                 TestModule.Data = post;
+                TestModule.GeneratedUrl = siteUrl + post.Url;
 
                 var result = browserComposer.Post("/compose");
 
