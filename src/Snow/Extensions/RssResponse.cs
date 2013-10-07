@@ -44,7 +44,7 @@
                     lastUpdatedTime: post.Date.ToUniversalTime()
                     );
                 item.PublishDate = post.Date.ToUniversalTime();
-                item.Summary = new TextSyndicationContent(post.ContentExcerpt, TextSyndicationContentKind.Plaintext);
+                item.Summary = new TextSyndicationContent(post.ContentExcerpt, TextSyndicationContentKind.Html);
                 items.Add(item);
             }
 
