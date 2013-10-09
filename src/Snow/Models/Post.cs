@@ -1,5 +1,6 @@
 ﻿namespace Snow.Models
 {
+    using Enums;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -25,45 +26,52 @@
                 {
                     case "categories":
                     case "category":
-                    {
-                        var categories = ((string) setting.Value).Split(
-                            new[] {","},
-                            StringSplitOptions.RemoveEmptyEntries);
+                        {
+                            var categories = ((string)setting.Value).Split(
+                                new[] { "," },
+                                StringSplitOptions.RemoveEmptyEntries);
 
-                        Categories = categories.Select(x => x.Trim());
+                            Categories = categories.Select(x => x.Trim());
 
-                        break;
-                    }
+                            break;
+                        }
                     case "title":
-                    {
-                        Title = (string) setting.Value;
-                        break;
-                    }
+                        {
+                            Title = (string)setting.Value;
+                            break;
+                        }
                     case "layout":
-                    {
-                        Layout = (string) setting.Value;
-                        break;
-                    }
+                        {
+                            Layout = (string)setting.Value;
+                            break;
+                        }
                     case "author":
-                    {
-                        Author = (string) setting.Value;
-                        break;
-                    }
+                        {
+                            Author = (string)setting.Value;
+                            break;
+                        }
                     case "email":
-                    {
-                        Email = (string) setting.Value;
-                        break;
-                    }
+                        {
+                            Email = (string)setting.Value;
+                            break;
+                        }
+                    case "published":
+                        {
+                            Published published;
+                            Enum.TryParse((string)setting.Value, true, out published);
+                            Published = published;
+                            break;
+                        }
                     case "series":
-                    {
-                        Series = (Series) setting.Value;
-                        break;
-                    }
+                        {
+                            Series = (Series)setting.Value;
+                            break;
+                        }
                     case "metadescription":
-                    {
-                        MetaDescription = (string) setting.Value;
-                        break;
-                    }
+                        {
+                            MetaDescription = (string)setting.Value;
+                            break;
+                        }
                 }
             }
         }
@@ -82,6 +90,7 @@
 
         public IEnumerable<string> Categories { get; set; }
 
+        public Published Published { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string Layout { get; set; }
