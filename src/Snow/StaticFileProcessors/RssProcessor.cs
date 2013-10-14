@@ -1,8 +1,11 @@
 ﻿namespace Snow.StaticFileProcessors
 {
+    using Enums;
+    using Models;
+    using Nancy.Testing;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Nancy.Testing;
 
     public class RssProcessor : BaseProcessor
     {
@@ -13,19 +16,29 @@
 
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            var postsForRss = snowyData.Files.Take(10).ToList();
+            var postsForRss = GetPostsForRss(snowyData.Files);
             TestModule.PostsPaged = postsForRss;
 
             var result = snowyData.Browser.Post("/rss");
-            
+
             var outputFolder = snowyData.Settings.Output;
 
             if (!Directory.Exists(outputFolder))
             {
                 Directory.CreateDirectory(outputFolder);
             }
-            
+
             File.WriteAllText(Path.Combine(outputFolder, SourceFile), result.Body.AsString());
+        }
+
+        internal List<Post> GetPostsForRss(IList<Post> files)
+        {
+            return files.Where(ShouldProcess).Take(10).ToList();
+        }
+
+        internal bool ShouldProcess(Post post)
+        {
+            return post.Published == Published.True;
         }
     }
 }
