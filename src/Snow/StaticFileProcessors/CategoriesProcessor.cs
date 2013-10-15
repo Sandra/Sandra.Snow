@@ -1,9 +1,12 @@
 ﻿namespace Snow.StaticFileProcessors
 {
+    using Enums;
+    using Extensions;
+    using Models;
+    using Nancy.Testing;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Extensions;
-    using Nancy.Testing;
 
     public class CategoriesProcessor : BaseProcessor
     {
@@ -18,12 +21,12 @@
             {
                 var category = tempCategory;
 
-                var posts = snowyData.Files.Where(x => x.Categories.Contains(category.Name));
+                var posts = GetPosts(snowyData.Files, category);
 
                 TestModule.Category = category;
                 TestModule.GeneratedUrl = settings.SiteUrl + "/category/" + category.Url + "/";
                 TestModule.PostsInCategory = posts.ToList();
-                
+
                 var result = snowyData.Browser.Post("/static");
 
                 result.ThrowIfNotSuccessful(SourceFile);
@@ -37,6 +40,16 @@
 
                 File.WriteAllText(Path.Combine(outputFolder, "index.html"), result.Body.AsString());
             }
+        }
+
+        internal IEnumerable<Post> GetPosts(IList<Post> files, Category category)
+        {
+            return files.Where(x => x.Categories.Contains(category.Name)).Where(ShouldProcess);
+        }
+
+        internal bool ShouldProcess(Post post)
+        {
+            return post.Published == Published.True;
         }
     }
 }

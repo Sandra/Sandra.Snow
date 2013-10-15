@@ -59,9 +59,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArchiveMenuTests.cs" />
+    <Compile Include="ArchivePageTests.cs" />
     <Compile Include="Extensions\GravatarExtensionsTests.cs" />
     <Compile Include="Extensions\PostHeaderExtensionsTests.cs" />
     <Compile Include="Extensions\RazorExtensionsTests.cs" />
+    <Compile Include="Processors\CategoriesProcessorTests.cs" />
     <Compile Include="Processors\RssProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingParsers\HeaderParserTests.cs" />
