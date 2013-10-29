@@ -1,5 +1,6 @@
 ﻿namespace Snow
 {
+    using Enums;
     using Exceptions;
     using Extensions;
     using Models;
@@ -68,6 +69,7 @@
                 posts.UpdatePartsToLatestInSeries();
 
                 TestModule.Posts = posts;
+                TestModule.Drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 TestModule.Categories = CategoriesPage.Create(posts);
                 TestModule.PostsGroupedByYearThenMonth = ArchivePage.Create(posts);
                 TestModule.MonthYear = ArchiveMenu.Create(posts);
@@ -82,6 +84,11 @@
 
                 // Compile all Posts
                 posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
+
+
+                // Compile all Drafts
+                var drafts = posts.Where(x => x.Published == Published.Draft).ToList();
+                drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));
 
                 // Compile all static files
                 settings.ProcessFiles.ForEach(x => ProcessFiles(x, settings, posts, browserComposer));
@@ -223,6 +230,36 @@
                 var body = result.Body.AsString();
 
                 var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+
+                if (!Directory.Exists(outputFolder))
+                {
+                    Directory.CreateDirectory(outputFolder);
+                }
+
+                File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
+        }
+
+        private static void ComposeDrafts(Post post, string output, Browser browserComposer)
+        {
+            try
+            {
+                var siteUrl = TestModule.Settings.SiteUrl;
+
+                TestModule.Data = post;
+                TestModule.GeneratedUrl = siteUrl + post.Url;
+
+                var result = browserComposer.Post("/compose");
+
+                result.ThrowIfNotSuccessful(post.FileName);
+
+                var body = result.Body.AsString();
+
+                var outputFolder = Path.Combine(output + "/drafts/", post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

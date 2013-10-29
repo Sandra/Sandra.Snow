@@ -41,6 +41,8 @@
 
         public static List<BaseViewModel.MonthYear> MonthYear { get; set; }
 
+        public static List<Post> Drafts { get; set; }
+
         public TestModule()
         {
             // Generates the post from Markdown
@@ -63,7 +65,8 @@
                     PreviousPage = PageNumber - 1,
                     MonthYearList = MonthYear,
                     GeneratedDate = GeneratedDate,
-                    Category = Category
+                    Category = Category,
+                    Drafts = Drafts
                 };
 
                 return View[StaticFile, siteContent];
