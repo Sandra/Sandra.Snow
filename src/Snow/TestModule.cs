@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Enums;
     using Extensions;
     using Models;
     using Nancy;
@@ -103,9 +104,10 @@
             };
 
             Post["/sitemap"] = x =>
-            {
-                return this.Response.AsSiteMap(Posts, Settings.SiteUrl);
-            };
+                {
+                    var publishedPosts = Posts.Where(post => post.Published == Published.True);
+                    return this.Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
+                };
         }
     }
 }
