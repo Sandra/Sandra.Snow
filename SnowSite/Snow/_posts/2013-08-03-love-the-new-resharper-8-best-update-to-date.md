@@ -1,6 +1,7 @@
 ---
+published: draft
 layout: post
-category: ReSharper
+category: Draft category
 title: Love the new ReSharper 8, best update to date! 
 ---
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Enums;
     using Extensions;
     using Models;
     using Nancy;
@@ -41,6 +42,8 @@
 
         public static List<BaseViewModel.MonthYear> MonthYear { get; set; }
 
+        public static List<Post> Drafts { get; set; }
+
         public TestModule()
         {
             // Generates the post from Markdown
@@ -63,7 +66,8 @@
                     PreviousPage = PageNumber - 1,
                     MonthYearList = MonthYear,
                     GeneratedDate = GeneratedDate,
-                    Category = Category
+                    Category = Category,
+                    Drafts = Drafts
                 };
 
                 return View[StaticFile, siteContent];
@@ -100,9 +104,10 @@
             };
 
             Post["/sitemap"] = x =>
-            {
-                return this.Response.AsSiteMap(Posts, Settings.SiteUrl);
-            };
+                {
+                    var publishedPosts = Posts.Where(post => post.Published == Published.True);
+                    return this.Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
+                };
         }
     }
 }

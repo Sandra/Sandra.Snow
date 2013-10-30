@@ -25,6 +25,8 @@
         public int NextPage { get; set; }
         public int PreviousPage { get; set; }
 
+        public List<Post> Drafts { get; set; }
+
         public string GetMonth(int month)
         {
             return DateTime.ParseExact("2013/" + month + "/1", "yyyy/M/d", CultureInfo.InvariantCulture).ToString("MMMM");

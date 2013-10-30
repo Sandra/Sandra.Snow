@@ -1,11 +1,6 @@
 ﻿namespace Snow
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using CsQuery.ExtensionMethods.Internal;
+    using Enums;
     using Exceptions;
     using Extensions;
     using Models;
@@ -14,7 +9,11 @@
     using Nancy.ViewEngines.SuperSimpleViewEngine;
     using Newtonsoft.Json;
     using StaticFileProcessors;
-    using ViewModels;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
 
     public class Program
     {
@@ -69,19 +68,11 @@
                 posts.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
-                var categories = (from c in posts.SelectMany(x => x.Categories)
-                                  group c by c
-                                  into g
-                                  select new Category
-                                  {
-                                      Name = g.Key,
-                                      Count = g.Count()
-                                  }).OrderBy(cat => cat.Name).ToList();
-
                 TestModule.Posts = posts;
-                TestModule.Categories = categories;
-                TestModule.PostsGroupedByYearThenMonth = GroupStuff(posts);
-                TestModule.MonthYear = GroupMonthYearArchive(posts);
+                TestModule.Drafts = posts.Where(x => x.Published == Published.Draft).ToList();
+                TestModule.Categories = CategoriesPage.Create(posts);
+                TestModule.PostsGroupedByYearThenMonth = ArchivePage.Create(posts);
+                TestModule.MonthYear = ArchiveMenu.Create(posts);
                 TestModule.Settings = settings;
 
                 var browserComposer = new Browser(with =>
@@ -94,6 +85,11 @@
                 // Compile all Posts
                 posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
+
+                // Compile all Drafts
+                var drafts = posts.Where(x => x.Published == Published.Draft).ToList();
+                drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));
+
                 // Compile all static files
                 settings.ProcessFiles.ForEach(x => ProcessFiles(x, settings, posts, browserComposer));
 
@@ -104,7 +100,7 @@
 
                     if (copyDirectory.Contains(" => "))
                     {
-                        var directorySplit = copyDirectory.Split(new[] {" => "}, StringSplitOptions.RemoveEmptyEntries);
+                        var directorySplit = copyDirectory.Split(new[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
 
                         sourceDir = directorySplit[0];
                         destinationDir = directorySplit[1];
@@ -138,41 +134,6 @@
             }
 
             new DirectoryInfo(settings.Output).Empty();
-        }
-
-        private static List<BaseViewModel.MonthYear> GroupMonthYearArchive(IEnumerable<Post> parsedFiles)
-        {
-            var groupedByYear = (from p in parsedFiles
-                                 group p by p.Date.AsYearDate()
-                                 into g
-                                 select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                          group y by y.Date.AsMonthDate()
-                                                                          into p
-                                                                          select p).ToDictionary(u => u.Key,
-                                                                              u => u.Count()));
-
-            return (from s in groupedByYear
-                    from y in s.Value
-                    select new BaseViewModel.MonthYear
-                    {
-                        Count = y.Value,
-                        Title = y.Key.ToString("MMMM, yyyy"),
-                        Url = "/archive#" + y.Key.ToString("yyyyMMMM")
-                    }).ToList();
-        }
-
-        private static Dictionary<int, Dictionary<int, List<Post>>> GroupStuff(IEnumerable<Post> parsedFiles)
-        {
-            var groupedByYear = (from p in parsedFiles
-                                 group p by p.Year
-                                     into g
-                                     select g).ToDictionary(x => x.Key, x => (from y in x
-                                                                              group y by y.Month
-                                                                                  into p
-                                                                                  select p).ToDictionary(u => u.Key,
-                                                                              u => u.ToList()));
-
-            return groupedByYear;
         }
 
         private static void ProcessFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
@@ -269,6 +230,36 @@
                 var body = result.Body.AsString();
 
                 var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+
+                if (!Directory.Exists(outputFolder))
+                {
+                    Directory.CreateDirectory(outputFolder);
+                }
+
+                File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex);
+            }
+        }
+
+        private static void ComposeDrafts(Post post, string output, Browser browserComposer)
+        {
+            try
+            {
+                var siteUrl = TestModule.Settings.SiteUrl;
+
+                TestModule.Data = post;
+                TestModule.GeneratedUrl = siteUrl + post.Url;
+
+                var result = browserComposer.Post("/compose");
+
+                result.ThrowIfNotSuccessful(post.FileName);
+
+                var body = result.Body.AsString();
+
+                var outputFolder = Path.Combine(output + "/drafts/", post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

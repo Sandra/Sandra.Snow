@@ -1,10 +1,12 @@
 ﻿namespace Snow.StaticFileProcessors
 {
+    using Enums;
+    using Extensions;
+    using Models;
+    using Nancy.Testing;
     using System;
     using System.IO;
     using System.Linq;
-    using Extensions;
-    using Nancy.Testing;
 
     public class PostsProcessor : BaseProcessor
     {
@@ -15,11 +17,14 @@
 
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
+
+            var filteredPosts = snowyData.Files.Where(ShouldProcess).ToList();
+
             const int pageSize = 10;
             var skip = 0;
             var iteration = 1;
-            var currentIteration = snowyData.Files.Skip(skip).Take(pageSize).ToList();
-            var totalPages = (int)Math.Ceiling((double)snowyData.Files.Count() / pageSize);
+            var currentIteration = filteredPosts.Skip(skip).Take(pageSize).ToList();
+            var totalPages = (int)Math.Ceiling((double)filteredPosts.Count / pageSize);
 
             TestModule.TotalPages = totalPages;
 
@@ -48,8 +53,13 @@
 
                 skip += pageSize;
                 iteration++;
-                currentIteration = snowyData.Files.Skip(skip).Take(pageSize).ToList();
+                currentIteration = filteredPosts.Skip(skip).Take(pageSize).ToList();
             }
+        }
+
+        private bool ShouldProcess(Post post)
+        {
+            return post.Published == Published.True;
         }
     }
 }
