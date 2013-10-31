@@ -7,14 +7,14 @@
         [Required]
         public string CloneUrl { get; set; }
 
-        public bool AzureDeployment
+        public bool GitDeployment
         {
-            get { return DeploymentType == "azure"; }
+            get { return DeploymentType == "git"; }
         }
         
         public string DeploymentType { get; set; }
         
-        public string AzureRepo { get; set; }
+        public string GitRepo { get; set; }
 
         public string FTPServer { get; set; }
 

@@ -5,12 +5,12 @@
         'SelectedRepoController', function ($scope, $routeParams, repoService, $http, $location) {
             $scope.item = repoService.getItem($routeParams.selectedRepo);
             $scope.item.userName = $routeParams.githubUser;
-            $scope.item.deploymentType = 'azure';
+            $scope.item.deploymentType = 'git';
             $scope.item.ftpserver = '';
             $scope.item.ftppath = '';
             $scope.item.ftpusername = '';
             $scope.item.ftppassword = '';
-            $scope.item.azurerepo = '';
+            $scope.item.gitrepo = '';
             $scope.item.serversidevalid = true;
             $scope.item.deploying = false;
             $scope.item.deploysuccess = false;
@@ -20,8 +20,8 @@
             $scope.saveDeployment = function () {
 
                 var data = {
-                    azureDeployment: $scope.item.deploymentType === 'azure',
-                    repo: $scope.item.deploymentType === 'azure' ? $scope.item.azurerepo : $scope.item.ftpserver,
+                    azureDeployment: $scope.item.deploymentType === 'git',
+                    repo: $scope.item.deploymentType === 'git' ? $scope.item.gitrepo : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
 
@@ -55,7 +55,7 @@
             };
 
             $scope.test = function () {
-                $scope.myForm.azurerepo.$setValidity(true);
+                $scope.myForm.gitrepo.$setValidity(true);
                 $scope.$apply();
             };
 
@@ -97,8 +97,8 @@
 
             $scope.checkValidity = function (fieldName, fieldValue, callback) {
                 var data = {
-                    azureDeployment: fieldName === 'azurerepo',
-                    repo: fieldName === 'azurerepo' ? $scope.item.azurerepo : $scope.item.ftpserver,
+                    azureDeployment: fieldName === 'gitrepo',
+                    repo: fieldName === 'gitrepo' ? $scope.item.gitrepo : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
 
@@ -107,26 +107,26 @@
                 });
             };
 
-            function alreadyRegistered(azure) {
+            function alreadyRegistered(git) {
 
                 var data = {
-                    azureDeployment: azure,
-                    repo: azure ? $scope.item.azurerepo : $scope.item.ftpserver,
+                    gitDeployment: git,
+                    repo: git ? $scope.item.gitrepo : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
 
                 $http.post('http://localhost:12008/alreadyregistered', data)
                 .success(function (data, status, headers, config) {
                     if (data === 'true') {
-                        $scope.myForm.azurerepo.$setValidity('azurerepo', false);
+                        $scope.myForm.gitrepo.$setValidity('gitrepo', false);
 
                     } else {
-                        $scope.myForm.azurerepo.$setValidity(true);
+                        $scope.myForm.gitrepo.$setValidity(true);
                     }
 
                 })
                 .error(function (data, status, headers, config) {
-                    $scope.item.azurerepotaken = false;
+                    $scope.item.gitrepotaken = false;
                 });
             }
         }

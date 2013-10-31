@@ -11,7 +11,7 @@ namespace Barbato.Model
         {
             return
                 deployments.Any(
-                    x => azureDeployment ? x.AzureRepo == repo : x.FTPServer == repo && x.Username == username);
+                    x => azureDeployment ? x.GitRepo == repo : x.FTPServer == repo && x.Username == username);
         }
 
         public void AddDeployment(DeploymentModel model)

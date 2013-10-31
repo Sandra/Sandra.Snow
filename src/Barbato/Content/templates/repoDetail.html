@@ -28,8 +28,8 @@
             <li>
                 <div class="radio">
                     <label>
-                        <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="azure" checked="checked">
-                        Azure 
+                        <input type="radio" name="deploymenttype" ng-model="item.deploymentType" value="git" checked="checked">
+                        Git 
                     </label>
                 </div>
 
@@ -44,10 +44,10 @@
             </li>
         </ul>
 
-        <div id="azure" class="form-group" ng-show="item.deploymentType=='azure'" ng-class="{'has-error': myForm.azurerepo.$invalid}">
-            <label for="azurerepo" class="control-label">Azure Git Repo</label>
+        <div id="git" class="form-group" ng-show="item.deploymentType=='git'" ng-class="{'has-error': myForm.azurerepo.$invalid}">
+            <label for="gitrepo" class="control-label">Git Repo</label>
             <div>
-                <input type="text" class="form-control" name="azurerepo" ng-model="item.azurerepo" ng-required="item.deploymentType=='azure'" ng-change="myForm.azurerepo.$setValidity('azurerepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
+                <input type="text" class="form-control" name="gitrepo" ng-model="item.gitrepo" ng-required="item.deploymentType=='git'" ng-change="myForm.gitrepo.$setValidity('gitrepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
             </div>
         </div>
 
@@ -55,7 +55,7 @@
             <div class="form-group" ng-class="{'has-error': myForm.ftpserver.$invalid}">
                 <label for="ftpserver" class="control-label">FTP Server</label>
                 <div>
-                    <input type="text" class="form-control" name="ftpserver" ng-model="item.ftpserver" ng-required="item.deploymentType=='ftp'" ng-change="myForm.ftpserver.$setValidity('ftpserver',true);myForm.azurerepo.$setValidity('azurerepo',true);" />
+                    <input type="text" class="form-control" name="ftpserver" ng-model="item.ftpserver" ng-required="item.deploymentType=='ftp'" ng-change="myForm.ftpserver.$setValidity('ftpserver',true);myForm.gitrepo.$setValidity('gitrepo',true);" />
                 </div>
             </div>
             <div class="form-group" ng-class="{'has-error': myForm.ftppath.$invalid}">

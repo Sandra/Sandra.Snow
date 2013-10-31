@@ -17,11 +17,11 @@
     {
         private readonly IGithubUserRepository githubUserRepository;
         private readonly IRootPathProvider rootPathProvider;
-        private readonly string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
-        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
-        private readonly string fullRepoPath = ConfigurationManager.AppSettings["ClonedGitFolder"] + "\\.git";
+        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];       
         private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
         private readonly string snowPreCompilerPath;
+        private string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
+        private string fullRepoPath;
         private FtpConnection ftp;
 
         public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository, IRootPathProvider rootPathProvider)
@@ -29,7 +29,7 @@
             this.githubUserRepository = githubUserRepository;
             this.rootPathProvider = rootPathProvider;
 
-            this.snowPreCompilerPath = rootPathProvider.GetRootPath() + "PreCompiler\\Sandra.Snow.Precompiler.exe";
+            this.snowPreCompilerPath = rootPathProvider.GetRootPath() + "Snow\\Snow.exe";
 
             Post["/"] = parameters =>
                 {
@@ -108,10 +108,10 @@
                 {
                     var model = this.Bind<AlreadyRegisteredModel>();
 
-                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered(model.AzureDeployment, model.Repo, model.Username);
+                    var alreadyRegistered = deploymentRepository.IsUserAndRepoRegistered(model.GitDeployment, model.Repo, model.Username);
 
                     var keys = new List<string>();
-                    keys.Add(model.AzureDeployment ? "azurerepo" : "ftpserver");
+                    keys.Add(model.GitDeployment ? "gitrepo" : "ftpserver");
 
                     return new { isValid = !alreadyRegistered, keys = keys };
                 };
@@ -140,6 +140,12 @@
 
             //Clone via https
             cloneUrl = cloneUrl.Insert(8, token);
+
+            //Get repo name
+            var lastSlashPos = cloneUrl.LastIndexOf("/", System.StringComparison.Ordinal) + 1;
+            var repoName = cloneUrl.Substring(lastSlashPos, cloneUrl.LastIndexOf(".git", System.StringComparison.Ordinal) - lastSlashPos);
+            repoPath = repoPath + "\\" + repoName;
+            fullRepoPath = repoPath + "\\.git";
 
             var cloneProcess =
                 Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
@@ -176,10 +182,10 @@
 
         public void PublishToGitFTP(DeploymentModel model)
         {
-            if (model.AzureDeployment)
+            if (model.GitDeployment)
             {
                 var remoteProcess =
-                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.AzureRepo);
+                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.GitRepo);
                 if (remoteProcess != null)
                     remoteProcess.WaitForExit();
 

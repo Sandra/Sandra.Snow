@@ -2,7 +2,7 @@
 {
     public class AlreadyRegisteredModel
     {
-        public bool AzureDeployment { get; set; }
+        public bool GitDeployment { get; set; }
         public string Repo { get; set; }
         public string Username { get; set; }
     }
