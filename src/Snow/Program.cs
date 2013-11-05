@@ -85,7 +85,6 @@
                 // Compile all Posts
                 posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
-
                 // Compile all Drafts
                 var drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));

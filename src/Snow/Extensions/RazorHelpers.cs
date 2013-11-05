@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Text;
+    using Enums;
     using Models;
     using Nancy.ViewEngines.Razor;
     using ViewModels;
@@ -124,16 +125,20 @@ _gaq.push(['_trackPageview']);
             return html.Raw(result.ToString());
         }
 
-        public static IHtmlString RenderGoogleAnalytics<T>(this HtmlHelpers<T> html, string trackingCode)
+        public static IHtmlString RenderGoogleAnalytics<T>(this HtmlHelpers<T> html, string trackingCode) where T : BaseViewModel
         {
+            // If the post isn't published don't output analytical code. 
+            if (html.Model.Published != Published.True)
+            {
+                return html.Raw("");
+            }
+
             return html.Raw(string.Format(GoogleAnalyticsFormat, trackingCode));
         }
 
-        public static IHtmlString CanonicalUrl<T>(this HtmlHelpers<T> html)
+        public static IHtmlString CanonicalUrl<T>(this HtmlHelpers<T> html) where T : BaseViewModel
         {
-            var model = html.Model as BaseViewModel;
-
-            return html.Raw(string.Format(CanonicalFormat, model.GeneratedUrl));
+            return html.Raw(string.Format(CanonicalFormat, html.Model.GeneratedUrl));
         }
     }
 }

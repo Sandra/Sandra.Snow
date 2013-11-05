@@ -1,6 +1,7 @@
 namespace Snow.ViewModels
 {
     using System.Collections.Generic;
+    using Enums;
     using Models;
 
     public abstract class BaseViewModel
@@ -10,6 +11,7 @@ namespace Snow.ViewModels
         public List<Category> Categories { get; set; }
         public Category Category { get; set; }
         public string GeneratedUrl { get; set; }
+        public Published Published { get; set; }
 
         public class MonthYear
         {

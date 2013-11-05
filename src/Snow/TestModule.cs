@@ -22,6 +22,7 @@
         public static Post Data { get; set; }
         public static string StaticFile { get; set; }
         public static string GeneratedUrl { get; set; }
+        public static Published Published { get; set; }
 
         //Properties change on iterations
         public static List<Post> PostsPaged { get; set; }
@@ -67,7 +68,8 @@
                     MonthYearList = MonthYear,
                     GeneratedDate = GeneratedDate,
                     Category = Category,
-                    Drafts = Drafts
+                    Drafts = Drafts,
+                    Published = Published
                 };
 
                 return View[StaticFile, siteContent];
@@ -92,22 +94,21 @@
                     Email = Data.Email,
                     Settings = Settings,
                     Series = Data.Series,
-                    MetaDescription = Data.MetaDescription
+                    MetaDescription = Data.MetaDescription,
+                    Published = Data.Published
                 };
 
                 return View[result.Layout, result];
             };
 
-            Post["/rss"] = x =>
-            {
-                return this.Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
-            };
+            Post["/rss"] = x => Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
             Post["/sitemap"] = x =>
-                {
-                    var publishedPosts = Posts.Where(post => post.Published == Published.True);
-                    return this.Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
-                };
+            {
+                var publishedPosts = Posts.Where(post => post.Published == Published.True);
+
+                return Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
+            };
         }
     }
 }
