@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using Enums;
 
     public abstract class BaseProcessor
     {
@@ -18,6 +19,7 @@
         {
             ParseDirectories(snowyData);
             TestModule.StaticFile = SourceFile;
+            TestModule.Published = Published.True;
 
             Impl(snowyData, settings);
         }
