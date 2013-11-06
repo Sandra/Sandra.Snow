@@ -85,7 +85,6 @@
                 // Compile all Posts
                 posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
 
-
                 // Compile all Drafts
                 var drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));
@@ -259,7 +258,7 @@
 
                 var body = result.Body.AsString();
 
-                var outputFolder = Path.Combine(output + "/drafts/", post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {

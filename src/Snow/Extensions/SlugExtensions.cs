@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using Enums;
     using Models;
 
     public static class SlugExtensions
@@ -55,6 +56,11 @@
             foreach (var postHeader in posts)
             {
                 var urlFormat = "/" + settings.UrlFormat.Trim('/') + "/";
+
+                if (postHeader.Published == Published.Draft)
+                {
+                    urlFormat = "/drafts" + urlFormat;
+                }
 
                 foreach (var s in UrlFormatParser.OrderBy(x => x.Key).Select(x => x.Value))
                 {

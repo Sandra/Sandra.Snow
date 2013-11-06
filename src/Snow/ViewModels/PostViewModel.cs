@@ -1,6 +1,7 @@
 ﻿namespace Snow.ViewModels
 {
     using System;
+    using Enums;
     using Models;
 
     public class PostViewModel : BaseViewModel
