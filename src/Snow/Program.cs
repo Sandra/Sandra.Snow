@@ -258,7 +258,7 @@
 
                 var body = result.Body.AsString();
 
-                var outputFolder = Path.Combine(output + "/drafts/", post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
                 if (!Directory.Exists(outputFolder))
                 {
