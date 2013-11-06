@@ -12,7 +12,7 @@
   
   <ul class="category-list fancy-container darkishblue">
     @foreach(var draft in Model.Drafts){
-      <li><a href="/drafts/@draft.Url" title="@draft.Title">@draft.Title</a></li>
+      <li><a href="/drafts@draft.Url" title="@draft.Title">@draft.Title</a></li>
     }
   </ul>
   

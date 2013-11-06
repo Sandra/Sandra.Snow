@@ -105,7 +105,6 @@
     <Compile Include="Extensions\RssResponse.cs" />
     <Compile Include="Extensions\SitemapResponse.cs" />
     <Compile Include="Extensions\SlugExtensions.cs" />
-    <Compile Include="PostSettingsParser.cs" />
     <Compile Include="Extensions\PostHeaderExtensions.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="PostParser.cs" />
