@@ -63,6 +63,7 @@
 
                 var posts = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
                                  .OrderByDescending(x => x.Date)
+                                 .Where(x => x.Published != Published.Private)
                                  .ToList();
 
                 posts.SetPostUrl(settings);
