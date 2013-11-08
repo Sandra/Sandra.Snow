@@ -17,11 +17,13 @@
     {
         private readonly IGithubUserRepository githubUserRepository;
         private readonly IRootPathProvider rootPathProvider;
-        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];       
+        private readonly string gitLocation = ConfigurationManager.AppSettings["GitLocation"];
         private readonly string snowPublishPath = ConfigurationManager.AppSettings["SnowPublishFolder"];
         private readonly string snowPreCompilerPath;
         private string repoPath = ConfigurationManager.AppSettings["ClonedGitFolder"];
         private string fullRepoPath;
+        private string seperateFullPublishGitPath;
+        private string seperatePublishGitPath;
         private FtpConnection ftp;
 
         public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository, IRootPathProvider rootPathProvider)
@@ -62,9 +64,9 @@
 
                     var client = new RestClient("https://api.github.com");
 
-                    var request = new RestRequest("users/" + githubUser + "/repos");
+                    var request = new RestRequest("users/" + githubUser + "/repos?per_page=100");
                     request.AddHeader("Accept", "application/json");
-
+                    request.AddHeader("User-Agent", githubUser);
                     var response = client.Execute<List<GithubUserRepos.RootObject>>(request);
 
                     var repoDetail =
@@ -143,12 +145,38 @@
 
             //Get repo name
             var lastSlashPos = cloneUrl.LastIndexOf("/", System.StringComparison.Ordinal) + 1;
-            var repoName = cloneUrl.Substring(lastSlashPos, cloneUrl.LastIndexOf(".git", System.StringComparison.Ordinal) - lastSlashPos);
+            var repoName = cloneUrl.Substring(lastSlashPos,
+                                              cloneUrl.LastIndexOf(".git", System.StringComparison.Ordinal) -
+                                              lastSlashPos);
             repoPath = repoPath + "\\" + repoName;
             fullRepoPath = repoPath + "\\.git";
 
             var cloneProcess =
                 Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
+
+            if (cloneProcess != null)
+                cloneProcess.WaitForExit();
+
+            if (File.Exists(repoPath + "\\gitdeploy.config"))
+            {
+                var json = File.ReadAllText(repoPath + "\\gitdeploy.config");
+                var jsonObj = ServiceStack.Text.JsonObject.Parse(json);
+                var publishRepoUrl = jsonObj["repoPath"];
+
+                var snowSettingsString = File.ReadAllText(repoPath + "\\snow.config");
+                var snowSettingJson = ServiceStack.Text.JsonObject.Parse(snowSettingsString);
+                var outputDir = snowSettingJson["output"];
+
+                seperateFullPublishGitPath = repoPath + "\\" + outputDir + "\\.git";
+                seperatePublishGitPath = repoPath + "\\" + outputDir;
+                CloneFromPublishGitRepository(publishRepoUrl, seperatePublishGitPath);
+            }
+        }
+
+        private void CloneFromPublishGitRepository(string repoUrl, string outputDir)
+        {
+            var cloneProcess =
+               Process.Start(gitLocation, " clone " + repoUrl + " " + outputDir);
 
             if (cloneProcess != null)
                 cloneProcess.WaitForExit();
@@ -176,20 +204,38 @@
                 Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" --work-tree=\"" + repoPath + "\" push origin master");
             if (pushProcess != null)
                 pushProcess.WaitForExit();
-
-
         }
 
         public void PublishToGitFTP(DeploymentModel model)
         {
             if (model.GitDeployment)
             {
+                string gitRepoPath;
+                if (string.IsNullOrWhiteSpace(seperateFullPublishGitPath))
+                {
+                    gitRepoPath = fullRepoPath;
+                }
+                else
+                {
+                    gitRepoPath = seperateFullPublishGitPath;
+
+                    var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + seperateFullPublishGitPath + "\" --work-tree=\"" + seperatePublishGitPath + "\" add -A");
+                    if (addProcess != null)
+                        addProcess.WaitForExit();
+
+                    var commitProcess = Process.Start("\"" + gitLocation + "\"",
+                                                      " --git-dir=\"" + seperateFullPublishGitPath + "\" --work-tree=\"" + seperatePublishGitPath +
+                                                      "\" commit -a -m \"Static Content Regenerated\"");
+                    if (commitProcess != null)
+                        commitProcess.WaitForExit();
+                }
+
                 var remoteProcess =
-                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" remote add blog " + model.GitRepo);
+                     Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + gitRepoPath + "\" remote add blog " + model.GitRepo);
                 if (remoteProcess != null)
                     remoteProcess.WaitForExit();
 
-                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullRepoPath + "\" push -f blog master");
+                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + gitRepoPath + "\" push -f blog master");
                 if (pushProcess != null)
                     pushProcess.WaitForExit();
 
