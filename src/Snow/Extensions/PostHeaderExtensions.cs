@@ -10,6 +10,7 @@
         {
             var groupBySeriesId = (from x in postHeaders
                                   where x.Series != null
+                                  where x.Published == Enums.Published.True
                                   group x by x.Series.Name
                                   into g
                                   select g).ToList();
