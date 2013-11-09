@@ -130,6 +130,8 @@
             PublishToGitFTP(model);
 
             DeleteRepoPathContents(repoPath);
+            if (!string.IsNullOrWhiteSpace(seperatePublishGitPath))
+                DeleteRepoPathContents(seperatePublishGitPath);
         }
 
         private void CloneFromGithub(string cloneUrl, string username)
@@ -148,6 +150,7 @@
             var repoName = cloneUrl.Substring(lastSlashPos,
                                               cloneUrl.LastIndexOf(".git", System.StringComparison.Ordinal) -
                                               lastSlashPos);
+            repoName = repoName + DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             repoPath = repoPath + "\\" + repoName;
             fullRepoPath = repoPath + "\\.git";
 
@@ -165,7 +168,7 @@
 
                 var snowSettingsString = File.ReadAllText(repoPath + "\\snow.config");
                 var snowSettingJson = ServiceStack.Text.JsonObject.Parse(snowSettingsString);
-                var outputDir = snowSettingJson["output"];
+                var outputDir = snowSettingJson["output"] + DateTime.UtcNow.ToString("yyyyMMddHHmmss");
 
                 seperateFullPublishGitPath = repoPath + "\\" + outputDir + "\\.git";
                 seperatePublishGitPath = repoPath + "\\" + outputDir;
