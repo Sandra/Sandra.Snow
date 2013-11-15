@@ -4,6 +4,7 @@
     using Exceptions;
     using Extensions;
     using Models;
+    using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
@@ -19,6 +20,8 @@
     {
         private static void Main(string[] args)
         {
+            StaticConfiguration.DisableErrorTraces = false;
+
             Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Begin processing");
 
             try
@@ -91,7 +94,16 @@
                 drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));
 
                 // Compile all static files
-                settings.ProcessFiles.ForEach(x => ProcessFiles(x, settings, posts, browserComposer));
+                foreach (var processFile in settings.ProcessFiles)
+                {
+                    var success =
+                        ProcessFile(processFile, settings, posts, browserComposer);
+
+                    if (!success)
+                    {
+                        break;
+                    }
+                }
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
@@ -136,7 +148,7 @@
             new DirectoryInfo(settings.Output).Empty();
         }
 
-        private static void ProcessFiles(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
+        private static bool ProcessFile(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
         {
             try
             {
@@ -158,12 +170,19 @@
             }
             catch (Exception exception)
             {
+                Console.WriteLine();
                 Console.WriteLine("Error processing static file: ");
-                Console.WriteLine("- " + staticFile.Loop);
-                Console.WriteLine("- " + staticFile.File);
-                Console.WriteLine("- Exception:");
-                Console.WriteLine(exception);
+                Console.WriteLine();
+                Console.WriteLine("- Loop: " + staticFile.Loop);
+                Console.WriteLine("- File: " + staticFile.File);
+                Console.WriteLine("- Message:");
+                Console.WriteLine();
+                Console.WriteLine(exception.Message);
+
+                return false;
             }
+
+            return true;
         }
 
         private static SnowSettings CreateSettings(string currentDir)
@@ -238,9 +257,8 @@
 
                 File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.Write(ex);
             }
         }
 
@@ -268,9 +286,8 @@
 
                 File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.Write(ex);
             }
         }
     }
