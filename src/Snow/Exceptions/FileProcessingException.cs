@@ -6,7 +6,6 @@
     {
         public FileProcessingException(string message) : base(message)
         {
-            
         }
     }
 }
