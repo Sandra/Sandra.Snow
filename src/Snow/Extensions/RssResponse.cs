@@ -13,6 +13,7 @@
 
     public class RssResponse : Response
     {
+        private const string UrlRegex = @"(?<=<(a|img)\s+[^>]*?(href|src)=(?<q>['""]))(?!http://)(?<url>/?.+?)(?=\k<q>)";
         private readonly string siteUrl;
         private readonly string feedfileName;
         private string RssTitle { get; set; }
@@ -35,7 +36,7 @@
             foreach (var post in model)
             {
                 // Replace all relative urls with full urls.
-                var newHtml = Regex.Replace(post.Content, @"(?<=<img\s+[^>]*?src=(?<q>['""]))(?<url>(/){1}.+?)(?=\k<q>)", m => siteUrl + m.Value);
+                var newHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
 
                 var item = new SyndicationItem(
                     post.Title,
