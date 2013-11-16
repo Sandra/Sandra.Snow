@@ -33,6 +33,7 @@
 
             //Remove all accents
             var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
+
             value = Encoding.ASCII.GetString(bytes);
 
             //Replace spaces

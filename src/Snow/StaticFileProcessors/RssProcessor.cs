@@ -17,6 +17,7 @@
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
             var postsForRss = GetPostsForRss(snowyData.Files);
+
             TestModule.PostsPaged = postsForRss;
 
             var result = snowyData.Browser.Post("/rss");
