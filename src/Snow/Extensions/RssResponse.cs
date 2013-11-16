@@ -13,7 +13,7 @@
 
     public class RssResponse : Response
     {
-        private const string UrlRegex = @"(?<=<(a|img)\s+[^>]*?(href|src)=(?<q>['""]))(?!http://)(?<url>/?.+?)(?=\k<q>)";
+        private const string UrlRegex = @"(?<=<(a|img)\s+[^>]*?(href|src)=(?<q>['""]))(?!https?://)(?<url>/?.+?)(?=\k<q>)";
         private readonly string siteUrl;
         private readonly string feedfileName;
         private string RssTitle { get; set; }
