@@ -88,7 +88,7 @@
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
-                    Categories = Data.Categories.Select(c => new Category {Name = c}).ToList(),
+                    Categories = Categories,
                     MonthYearList = MonthYear,
                     Author = Data.Author,
                     Email = Data.Email,
