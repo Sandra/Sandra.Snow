@@ -1,6 +1,7 @@
 ﻿namespace Snow.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using Enums;
     using Models;
 
@@ -11,6 +12,7 @@
         public string PostContent { get; set; }
         public DateTime PostDate { get; set; }
         public string Url { get; set; }
+        public List<Category> PostCategories { get; set; }
               
         public string Email { get; set; }
         public string Author { get; set; }
