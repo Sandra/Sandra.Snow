@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using CsQuery.ExtensionMethods;
     using Enums;
     using Extensions;
     using Models;
@@ -57,7 +58,7 @@
                 {
                     GeneratedUrl = GeneratedUrl,
                     PostsInCategory = PostsInCategory,
-                    Categories = Categories,
+                    AllCategories = Categories,
                     Posts = Posts,
                     PostsPaged = PostsPaged,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
@@ -88,7 +89,8 @@
                     Title = Data.Title,
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
-                    Categories = Data.Categories.Select(c => new Category {Name = c}).ToList(),
+                    AllCategories = Categories,
+                    Categories = Data.Categories.Select(c => new Category { Name = c }).ToList(),
                     MonthYearList = MonthYear,
                     Author = Data.Author,
                     Email = Data.Email,

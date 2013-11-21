@@ -8,7 +8,7 @@ namespace Snow.ViewModels
     {
         public string GeneratedDate { get; set; }
         public List<MonthYear> MonthYearList { get; set; }
-        public List<Category> Categories { get; set; }
+        public List<Category> AllCategories { get; set; }
         public Category Category { get; set; }
         public string GeneratedUrl { get; set; }
         public Published Published { get; set; }
