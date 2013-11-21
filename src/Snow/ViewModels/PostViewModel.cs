@@ -12,7 +12,7 @@
         public string PostContent { get; set; }
         public DateTime PostDate { get; set; }
         public string Url { get; set; }
-        public List<Category> PostCategories { get; set; }
+        public List<Category> Categories { get; set; }
               
         public string Email { get; set; }
         public string Author { get; set; }
