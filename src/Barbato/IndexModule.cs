@@ -244,7 +244,7 @@
                             ftp.SetCurrentDirectory(model.FTPPath);
                         }
 
-                        FtpBlogFiles(snowPublishPath, model.FTPPath);
+                        FtpBlogFiles(publishGitPath, model.FTPPath);
                     }
                     catch (Exception ex)
                     {
