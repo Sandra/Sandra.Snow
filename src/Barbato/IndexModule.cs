@@ -126,7 +126,7 @@
             CloneFromGithub(model.CloneUrl, model.Username);
 
             CloneFromPublishLocation(model);
-            Thread.Sleep(6000);
+            Thread.Sleep(60000);
             LetItSnow();
 
             PublishToGitFTP(model);
@@ -174,13 +174,25 @@
             Logger.Debug("Trying to clone from Github with" + Environment.NewLine + "\turl : " + cloneUrl +
                          Environment.NewLine + "\tpath : " + repoPath);
 
-            var cloneProcess =
-                Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
-
+            var process = new Process();
+            var startInfo = new ProcessStartInfo(gitLocation)
+                {
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    Arguments = " clone " + cloneUrl + " " + repoPath
+                };
+            process.StartInfo = startInfo;
+            process.Start();
+            Logger.Debug(process.StandardOutput.ReadToEnd());
             Logger.Debug("Waiting for GH clone process to exit");
+            process.WaitForExit();
+            //var cloneProcess =
+            //    Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
 
-            if (cloneProcess != null)
-                cloneProcess.WaitForExit();
+            
+
+            //if (cloneProcess != null)
+            //    cloneProcess.WaitForExit();
 
         }
 
@@ -233,32 +245,64 @@
             {
                 Logger.Debug("Executing git add");
 
-                var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A");
-
+                var addProcess = new Process();
+                var addProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
+                    {
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        Arguments = " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A"
+                
+                    };
+                addProcess.StartInfo = addProcessStartInfo;
+                addProcess.Start();
+                Logger.Debug(addProcess.StandardOutput.ReadToEnd);
                 Logger.Debug("Waiting for git add process to exit");
+                addProcess.WaitForExit();
+                //var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A");
 
-                if (addProcess != null)
-                    addProcess.WaitForExit();
+                //if (addProcess != null)
+                //    addProcess.WaitForExit();
 
                 Logger.Debug("Executing git commit");
 
-                var commitProcess = Process.Start("\"" + gitLocation + "\"",
-                                                  " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath +
-                                                  "\" commit -a -m \"Static Content Regenerated\"");
-
+                var commitProcess = new Process();
+                var commitProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
+                    {
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        Arguments = " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath +
+                                    "\" commit -a -m \"Static Content Regenerated\""
+                    };
+                commitProcess.StartInfo = commitProcessStartInfo;
+                commitProcess.Start();
+                Logger.Debug(commitProcess.StandardOutput.ReadToEnd);
                 Logger.Debug("Waiting for git commit to exit");
+                commitProcess.WaitForExit();
+                //var commitProcess = Process.Start("\"" + gitLocation + "\"",
+                //                                  " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath +
+                //                                  "\" commit -a -m \"Static Content Regenerated\"");
 
-                if (commitProcess != null)
-                    commitProcess.WaitForExit();
+                //if (commitProcess != null)
+                //    commitProcess.WaitForExit();
 
                 Logger.Debug("Executin git push");
 
-                var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master");
+                var pushProcess = new Process();
+                var pushProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
+                    {
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        Arguments = " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master"
+                    };
+                pushProcess.StartInfo = pushProcessStartInfo;
+                pushProcess.Start();
+                Logger.Debug(pushProcess.StandardOutput.ReadToEnd());
+                //var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master");
 
                 Logger.Debug("Waiting for git push process to exit");
-
-                if (pushProcess != null)
-                    pushProcess.WaitForExit();
+                pushProcess.WaitForExit();
+                //if (pushProcess != null)
+                //    pushProcess.WaitForExit();
 
             }
             else
