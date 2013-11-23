@@ -126,7 +126,7 @@
             CloneFromGithub(model.CloneUrl, model.Username);
 
             CloneFromPublishLocation(model);
-
+            Thread.Sleep(6000);
             LetItSnow();
 
             PublishToGitFTP(model);
