@@ -9,6 +9,7 @@
     using System.Threading;
     using FtpLib;
     using Model;
+    using NLog;
     using Nancy;
     using Nancy.ModelBinding;
     using RestSharp;
@@ -25,6 +26,7 @@
         private string fullPublishGitPath;
         private string publishGitPath;
         private FtpConnection ftp;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public IndexModule(IGithubUserRepository githubUserRepository, IDeploymentRepository deploymentRepository, IRootPathProvider rootPathProvider)
         {
@@ -128,13 +130,18 @@
             LetItSnow();
 
             PublishToGitFTP(model);
-            
+
+
+            Logger.Debug("Deleting content from " + repoPath);
             DeleteRepoPathContents(repoPath);
             Directory.Delete(repoPath);
+            Logger.Debug("Deleted files/folders");
         }
 
         private void CloneFromPublishLocation(DeploymentModel model)
         {
+            Logger.Debug(model.GitDeployment ? "Git deployment" : "Non Git Deployment");
+
             if (model.GitDeployment)
             {
                 publishGitPath = repoPath + "\\" + "Website";
@@ -164,8 +171,13 @@
             repoPath = repoPath + "\\" + repoName;
             fullRepoPath = repoPath + "\\.git";
 
+            Logger.Debug("Trying to clone from Github with" + Environment.NewLine + "\turl : " + cloneUrl +
+                         Environment.NewLine + "\tpath : " + repoPath);
+
             var cloneProcess =
                 Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
+
+            Logger.Debug("Waiting for GH clone process to exit");
 
             if (cloneProcess != null)
                 cloneProcess.WaitForExit();
@@ -174,8 +186,13 @@
 
         private void CloneFromPublishGitRepository(string repoUrl, string outputDir)
         {
+            Logger.Debug("Trying to clone from deployment repo with" + Environment.NewLine + "\turl : " + repoUrl +
+                         Environment.NewLine + "\tpath : " + outputDir);
+
             var cloneProcess =
                Process.Start(gitLocation, " clone " + repoUrl + " " + outputDir);
+
+            Logger.Debug("Waiting for publish clone process to exit");
 
             if (cloneProcess != null)
                 cloneProcess.WaitForExit();
@@ -183,7 +200,12 @@
 
         private void LetItSnow()
         {
+            Logger.Debug("Making it Snow");
+
             var snowProcess = Process.Start(snowPreCompilerPath, " config=" + repoPath + "\\");
+
+            Logger.Debug("Waiting for Snow process to exit");
+
             if (snowProcess != null)
                 snowProcess.WaitForExit();
         }
@@ -209,18 +231,32 @@
         {
             if (model.GitDeployment)
             {
+                Logger.Debug("Executing git add");
+
                 var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A");
+
+                Logger.Debug("Waiting for git add process to exit");
+
                 if (addProcess != null)
                     addProcess.WaitForExit();
+
+                Logger.Debug("Executing git commit");
 
                 var commitProcess = Process.Start("\"" + gitLocation + "\"",
                                                   " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath +
                                                   "\" commit -a -m \"Static Content Regenerated\"");
+
+                Logger.Debug("Waiting for git commit to exit");
+
                 if (commitProcess != null)
                     commitProcess.WaitForExit();
 
+                Logger.Debug("Executin git push");
 
                 var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master");
+
+                Logger.Debug("Waiting for git push process to exit");
+
                 if (pushProcess != null)
                     pushProcess.WaitForExit();
 
@@ -294,7 +330,7 @@
                 di.Delete();
             }
 
-            
+
         }
     }
 }
