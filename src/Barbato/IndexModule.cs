@@ -183,7 +183,11 @@
                 };
             process.StartInfo = startInfo;
             process.Start();
-            Logger.Debug(process.StandardOutput.ReadToEnd());
+            while (!process.StandardOutput.EndOfStream)
+            {
+                var line = process.StandardOutput.ReadLine();
+                Logger.Debug(line);
+            }
             Logger.Debug("Waiting for GH clone process to exit");
             process.WaitForExit();
             //var cloneProcess =
