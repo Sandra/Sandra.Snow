@@ -189,7 +189,7 @@
             //var cloneProcess =
             //    Process.Start(gitLocation, " clone " + cloneUrl + " " + repoPath);
 
-            
+
 
             //if (cloneProcess != null)
             //    cloneProcess.WaitForExit();
@@ -251,11 +251,15 @@
                         RedirectStandardOutput = true,
                         UseShellExecute = false,
                         Arguments = " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A"
-                
+
                     };
                 addProcess.StartInfo = addProcessStartInfo;
                 addProcess.Start();
-                Logger.Debug(addProcess.StandardOutput.ReadToEnd);
+                while (!addProcess.StandardOutput.EndOfStream)
+                {
+                    var line = addProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
                 Logger.Debug("Waiting for git add process to exit");
                 addProcess.WaitForExit();
                 //var addProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A");
@@ -275,7 +279,11 @@
                     };
                 commitProcess.StartInfo = commitProcessStartInfo;
                 commitProcess.Start();
-                Logger.Debug(commitProcess.StandardOutput.ReadToEnd);
+                while (!commitProcess.StandardOutput.EndOfStream)
+                {
+                    var line = commitProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
                 Logger.Debug("Waiting for git commit to exit");
                 commitProcess.WaitForExit();
                 //var commitProcess = Process.Start("\"" + gitLocation + "\"",
@@ -296,7 +304,11 @@
                     };
                 pushProcess.StartInfo = pushProcessStartInfo;
                 pushProcess.Start();
-                Logger.Debug(pushProcess.StandardOutput.ReadToEnd());
+                while (!pushProcess.StandardOutput.EndOfStream)
+                {
+                    var line = pushProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
                 //var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master");
 
                 Logger.Debug("Waiting for git push process to exit");
