@@ -38,11 +38,11 @@
                                 $scope.item.deploymessage = 'Successfully deployed your blog';
                                 console.log('deployed');
                             })
-                            .error(function () {
+                            .error(function (respdata, status, headers, confi) {
                                 $scope.item.deploying = false;
                                 $scope.item.deployfailure = true;
                                 $scope.item.deploymessage = 'Failed to deploy your blog!';
-                                console.log('error');
+                                console.log('error: '+ status + 'data: '+respdata);
                             });
                     }
                     else {

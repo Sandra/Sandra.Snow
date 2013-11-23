@@ -1,5 +1,8 @@
 ﻿namespace Barbato
 {
+    using System.Configuration;
+    using System.IO;
+    using NLog;
     using Nancy;
     using Nancy.Bootstrapper;
     using Nancy.TinyIoc;
@@ -10,6 +13,8 @@
     {
         private const string GithubConsumerKey = "5ad3b62391672a6cc068";
         private const string GithubConsumerSecret = "75810e6eeb242bb3cfa26c1d10b194fba9dc1075";
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
@@ -31,10 +36,19 @@
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
+            var directory = new DirectoryInfo(ConfigurationManager.AppSettings["ClonedGitFolder"]);
+            if (!directory.Exists)
+                directory.Create();
+            
 #if DEBUG
             StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
             StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
 #endif
+            pipelines.OnError += (ctx, ex) =>
+            {
+                Logger.Debug(ex);
+                return null;
+            };
         }
 
       
