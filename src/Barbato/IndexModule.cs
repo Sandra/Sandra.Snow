@@ -253,6 +253,7 @@
                 var addProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
                     {
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true,
                         UseShellExecute = false,
                         Arguments = " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath + "\" add -A"
 
@@ -262,6 +263,11 @@
                 while (!addProcess.StandardOutput.EndOfStream)
                 {
                     var line = addProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
+                while (!addProcess.StandardError.EndOfStream)
+                {
+                    var line = addProcess.StandardError.ReadLine();
                     Logger.Debug(line);
                 }
                 Logger.Debug("Waiting for git add process to exit");
@@ -277,6 +283,7 @@
                 var commitProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
                     {
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true,
                         UseShellExecute = false,
                         Arguments = " --git-dir=\"" + fullPublishGitPath + "\" --work-tree=\"" + publishGitPath +
                                     "\" commit -a -m \"Static Content Regenerated\""
@@ -286,6 +293,12 @@
                 while (!commitProcess.StandardOutput.EndOfStream)
                 {
                     var line = commitProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
+
+                while (!commitProcess.StandardError.EndOfStream)
+                {
+                    var line = commitProcess.StandardError.ReadLine();
                     Logger.Debug(line);
                 }
                 Logger.Debug("Waiting for git commit to exit");
@@ -303,6 +316,7 @@
                 var pushProcessStartInfo = new ProcessStartInfo("\"" + gitLocation + "\"")
                     {
                         RedirectStandardOutput = true,
+                        RedirectStandardError = true,
                         UseShellExecute = false,
                         Arguments = " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master"
                     };
@@ -311,6 +325,12 @@
                 while (!pushProcess.StandardOutput.EndOfStream)
                 {
                     var line = pushProcess.StandardOutput.ReadLine();
+                    Logger.Debug(line);
+                }
+
+                while (!pushProcess.StandardError.EndOfStream)
+                {
+                    var line = pushProcess.StandardError.ReadLine();
                     Logger.Debug(line);
                 }
                 //var pushProcess = Process.Start("\"" + gitLocation + "\"", " --git-dir=\"" + fullPublishGitPath + "\" push -f origin master");
