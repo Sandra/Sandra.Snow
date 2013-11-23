@@ -132,10 +132,10 @@
             PublishToGitFTP(model);
 
 
-            Logger.Debug("Deleting content from " + repoPath);
-            DeleteRepoPathContents(repoPath);
-            Directory.Delete(repoPath);
-            Logger.Debug("Deleted files/folders");
+            //Logger.Debug("Deleting content from " + repoPath);
+            //DeleteRepoPathContents(repoPath);
+            //Directory.Delete(repoPath);
+            //Logger.Debug("Deleted files/folders");
         }
 
         private void CloneFromPublishLocation(DeploymentModel model)
