@@ -1,5 +1,6 @@
 ﻿namespace Barbato
 {
+    using NLog;
     using Nancy;
     using Nancy.Bootstrapper;
     using Nancy.TinyIoc;
@@ -10,6 +11,8 @@
     {
         private const string GithubConsumerKey = "5ad3b62391672a6cc068";
         private const string GithubConsumerSecret = "75810e6eeb242bb3cfa26c1d10b194fba9dc1075";
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
@@ -35,6 +38,11 @@
             StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
             StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
 #endif
+            pipelines.OnError += (ctx, ex) =>
+            {
+                Logger.Debug(ex);
+                return null;
+            };
         }
 
       
