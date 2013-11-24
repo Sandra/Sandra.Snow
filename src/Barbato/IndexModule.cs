@@ -319,7 +319,7 @@
                 commitProcess.WaitForExit();
 
                 Logger.Debug("git commit process to exited");
-               
+
                 Logger.Debug("Executing git push");
 
                 var pushProcess = new Process();
@@ -352,7 +352,15 @@
 
                         if (!string.IsNullOrWhiteSpace(model.FTPPath))
                         {
-                            if (!ftp.DirectoryExists(model.FTPPath))
+                            var parrentDirectory = String.Format("/{0}", Path.GetDirectoryName(model.FTPPath).Replace(Path.DirectorySeparatorChar, '/'));
+                            /* Get name of the directory */
+                            var checkingDirectory = String.Format("{0}", Path.GetFileName(model.FTPPath)).ToLower();
+                            /* Get all child directories info of the parent directory */
+                            var ftpDirectories = ftp.GetDirectories(parrentDirectory);
+                            /* check if the given directory exists in the returned result */
+                            var exists = ftpDirectories.Any(d => d.Name.ToLower() == checkingDirectory);
+
+                            if (!exists)
                             {
                                 ftp.CreateDirectory(model.FTPPath);
                             }
