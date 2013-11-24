@@ -201,7 +201,9 @@
             Logger.Debug("Waiting for publish clone process to exit");
 
             if (cloneProcess != null)
+            {
                 cloneProcess.WaitForExit();
+            }
         }
 
         private void LetItSnow()
@@ -213,7 +215,9 @@
             Logger.Debug("Waiting for Snow process to exit");
 
             if (snowProcess != null)
+            {
                 snowProcess.WaitForExit();
+            }
         }
 
         private void PushToGithub()
