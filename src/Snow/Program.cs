@@ -1,14 +1,19 @@
 ﻿namespace Snow
 {
+    using System.Diagnostics;
     using Enums;
     using Exceptions;
     using Extensions;
+    using Microsoft.Owin.FileSystems;
+    using Microsoft.Owin.Hosting;
+    using Microsoft.Owin.StaticFiles;
     using Models;
     using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
     using Newtonsoft.Json;
+    using Owin;
     using StaticFileProcessors;
     using System;
     using System.Collections.Generic;
@@ -44,7 +49,7 @@
                     currentDir = Path.GetDirectoryName(typeof(Program).Assembly.Location);
                 }
 
-                currentDir.OutputIfDebug(prefixWith: "current directory: ");
+                currentDir.OutputIfDebug(prefixWith: " - Current directory: ");
 
                 var settings = CreateSettings(currentDir);
 
@@ -125,8 +130,11 @@
 
                 Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
 
-                new SnowServer().Start(settings);
-                
+                //if (commands.ContainsKey("server"))
+                {
+                    SnowServer.Start(settings);
+                }
+
                 if (commands.ContainsKey("debug"))
                 {
                     DebugHelperExtensions.WaitForContinue();
@@ -135,6 +143,7 @@
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.ToString());
 
                 DebugHelperExtensions.WaitForContinue();
             }
@@ -175,9 +184,9 @@
                 Console.WriteLine();
                 Console.WriteLine("Error processing static file: ");
                 Console.WriteLine();
-                Console.WriteLine("- Loop: " + staticFile.Loop);
-                Console.WriteLine("- File: " + staticFile.File);
-                Console.WriteLine("- Message:");
+                Console.WriteLine(" - Loop: " + staticFile.Loop);
+                Console.WriteLine(" - File: " + staticFile.File);
+                Console.WriteLine(" - Message:");
                 Console.WriteLine();
                 Console.WriteLine(exception.Message);
 
