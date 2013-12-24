@@ -111,6 +111,7 @@
     <Compile Include="ProcessorFactory.cs" />
     <Compile Include="Exceptions\ProcessorNotFoundException.cs" />
     <Compile Include="RazorConfig.cs" />
+    <Compile Include="SnowServer.cs" />
     <Compile Include="StaticFileProcessors\CategoriesProcessor.cs" />
     <Compile Include="StaticFileProcessors\DraftsProcessor.cs" />
     <Compile Include="StaticFileProcessors\RssProcessor.cs" />

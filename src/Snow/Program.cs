@@ -123,12 +123,14 @@
                     new DirectoryInfo(source).Copy(destination, true);
                 }
 
+                Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
+
+                new SnowServer().Start(settings);
+                
                 if (commands.ContainsKey("debug"))
                 {
                     DebugHelperExtensions.WaitForContinue();
                 }
-
-                Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
             }
             catch (Exception ex)
             {
