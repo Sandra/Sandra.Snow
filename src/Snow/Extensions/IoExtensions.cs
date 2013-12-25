@@ -19,11 +19,11 @@
         {
             var files = directory.GetFiles().Where(x => !x.Name.IsIn(IgnoredFiles));
 
-            "Directory Cleanup before Compiling...".OutputIfDebug();
+            " - Directory Cleanup before Compiling...".OutputIfDebug();
 
             foreach (var file in files)
             {
-                file.Name.OutputIfDebug(prefixWith: "Deleting File: ");
+                file.Name.OutputIfDebug(prefixWith: " - Deleting File: ");
                 file.Delete();
             }
 
@@ -33,7 +33,7 @@
 
             foreach (var subDirectory in directories)
             {
-                subDirectory.Name.OutputIfDebug(prefixWith: "Deleting Dir: ");
+                subDirectory.Name.OutputIfDebug(prefixWith: " - Deleting Dir: ");
                 subDirectory.DeleteDirectory();
             }
         }
