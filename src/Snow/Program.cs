@@ -38,6 +38,11 @@
                     DebugHelperExtensions.EnableDebugging();
                 }
 
+                if (commands.ContainsKey("vsdebug"))
+                {
+                    DebugHelperExtensions.WaitForContinue();
+                }
+
                 string currentDir;
 
                 if (commands.ContainsKey("config"))
@@ -130,7 +135,7 @@
 
                 Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
 
-                //if (commands.ContainsKey("server"))
+                if (commands.ContainsKey("server"))
                 {
                     SnowServer.Start(settings);
                 }

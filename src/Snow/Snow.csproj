@@ -204,9 +204,9 @@ xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.17.1\lib\Net40\
   </Target>
   -->
 
-    <Target
+    <!--<Target
     AfterTargets="AfterBuild;NonWinFodyTarget"
     Name="CleanReferenceCopyLocalPaths" >
         <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
-    </Target>
+    </Target>-->
 </Project>

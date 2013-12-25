@@ -1,13 +1,3 @@
-# Note for Simon
-
-After downloading the solution, you should be able to just press F5 to run it. 
-
-To debug the exception (it's not easy at the moment :() but just put a break point inside:
-
-Extensions > StatusCodeExtension > ThrowIfNotSuccessful
-
-On the if statement, and have a look at the Nancy response.
-
 # Sandra.Snow
 
 Sandra.Snow is a Jekyll inspired static site generation tool that can be run locally, as a CAAS(Compiler as a Service) or setup with Azure to build your site when your repository changes. It is built on top of [NancyFX][1].
