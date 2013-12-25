@@ -13,24 +13,42 @@
         public static void Start(SnowSettings settings)
         {
             Console.WriteLine("Sandra.Snow : Starting up a testing server");
-            
-            var fileSystem = new FileServerOptions
+
+            var options = new StartOptions
             {
-                EnableDirectoryBrowsing = true,
-                FileSystem = new PhysicalFileSystem(Path.GetFullPath(settings.Output))
+                ServerFactory = "Nowin",
+                Port = 5498
             };
 
-            using (WebApp.Start("http://*:1234/", app => app.UseFileServer(fileSystem)))
+            Startup.Settings = settings;
+
+            using (WebApp.Start<Startup>(options))
             {
-                Console.WriteLine("Sandra.Snow : Listening on http://locahost:1234/");
+                Console.WriteLine("Sandra.Snow : Listening on http://locahost:5498/");
                 Console.WriteLine(" - attempting to open your browser...");
                 
-                Process.Start("http://localhost:1234/");
+                Process.Start("http://localhost:5498/");
 
                 Console.WriteLine(" - press any to quit the testing server...");
                 Console.ReadKey();
                 Console.WriteLine("");
                 Console.WriteLine("Sandra.Snow : Exited testing server");
+            }
+        }
+
+        public class Startup
+        {
+            public static SnowSettings Settings { get; set; }
+
+            public void Configuration(IAppBuilder app)
+            {
+                var fileSystem = new FileServerOptions
+                {
+                    EnableDirectoryBrowsing = true,
+                    FileSystem = new PhysicalFileSystem(Path.GetFullPath(Settings.Output))
+                };
+
+                app.UseFileServer(fileSystem);
             }
         }
     }
