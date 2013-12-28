@@ -24,6 +24,11 @@
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// Default layout file to use for posts
+        /// </summary>
+        public string DefaultPostLayout { get; set; }
+
         public string CurrentDir { get; private set; }
         public string UrlFormat { get; set; }
         public string[] CopyDirectories { get; set; }
@@ -75,7 +80,8 @@
                 ProcessFiles = new List<StaticFile>(),
 
                 Author = string.Empty,
-                Email = string.Empty
+                Email = string.Empty,
+                DefaultPostLayout = "post"
             };
         }
     }
