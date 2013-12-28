@@ -16,6 +16,7 @@
         {
             Author = defaults.Author;
             Email = defaults.Email;
+            Layout = defaults.DefaultPostLayout;
         }
 
         public void SetHeaderSettings(Dictionary<string, object> settings)
