@@ -24,7 +24,7 @@
             conventions.ViewLocationConventions = new List<Func<string, object, ViewLocationContext, string>>
             {
                 (viewName, model, viewLocationContext) => Settings.PostsRaw.TrimEnd('/') + "/" + viewName,
-                (viewName, model, viewLocationContext) => Settings.LayoutsRaw.TrimEnd('/') + "/" + viewName,
+                (viewName, model, viewLocationContext) => Settings.ThemesDir + Settings.Theme + "/" + Settings.LayoutsRaw.TrimEnd('/') + "/" + viewName,
                 (viewName, model, viewLocationContext) => viewName
             };
         }

@@ -117,7 +117,7 @@
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
-                    var sourceDir = copyDirectory;
+                    var sourceDir = (settings.ThemesDir + "\\" + settings.Theme + "\\" + copyDirectory);
                     var destinationDir = copyDirectory;
 
                     if (copyDirectory.Contains(" => "))
