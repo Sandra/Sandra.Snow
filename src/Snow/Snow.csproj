@@ -31,7 +31,7 @@
     <FodyPath>..\packages\Fody.1.14.0</FodyPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>config=D:\Development\phillip-haydon\Sandra.Snow\SnowSite\</StartArguments>
+    <StartArguments>config=../../../../SnowSite/Snow/ debug=true server=true</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
