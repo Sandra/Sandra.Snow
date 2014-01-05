@@ -228,6 +228,13 @@
                     propertyInfo.SetValue(settings, value);
                 }
 
+                var singleInt = value as int?;
+
+                if (singleInt.HasValue)
+                {
+                    propertyInfo.SetValue(settings, value);
+                }
+
                 var strings = value as string[];
                 if (strings != null && strings.Length > 0)
                 {
