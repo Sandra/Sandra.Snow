@@ -67,6 +67,8 @@
 
         public string BlogTitle { get; set; }
 
+        public int PageSize { get; set; }
+
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -78,7 +80,7 @@
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
                 ProcessFiles = new List<StaticFile>(),
-
+                PageSize = 10,
                 Author = string.Empty,
                 Email = string.Empty,
                 DefaultPostLayout = "post"

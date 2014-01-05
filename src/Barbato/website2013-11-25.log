@@ -1,0 +1,17 @@
+2013-11-25 09:19:18.3300|DEBUG|Barbato.Bootstrapper|System.ArgumentException: No provider key was supplied on the callback.
+   at Nancy.Authentication.WorldDomination.WorldDominationAuthenticationModule.<>c__DisplayClass1b.<.ctor>b__17(Object _)
+   at Nancy.Routing.Route.Invoke(DynamicDictionary parameters)
+   at Nancy.Routing.DefaultRouteInvoker.Invoke(Route route, DynamicDictionary parameters, NancyContext context)
+   at Nancy.Routing.DefaultRequestDispatcher.Dispatch(NancyContext context)
+   at Nancy.NancyEngine.InvokeRequestLifeCycle(NancyContext context, IPipelines pipelines)
+2013-11-25 12:34:49.5276|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131125123449
+2013-11-25 12:34:52.2038|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131125123449'...
+2013-11-25 12:35:00.3717|DEBUG|Barbato.IndexModule|
+2013-11-25 12:35:00.3717|DEBUG|Barbato.IndexModule|
+2013-11-25 12:35:03.4750|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-25 12:35:07.1013|DEBUG|Barbato.IndexModule|Git deployment
+2013-11-25 12:35:10.6387|DEBUG|Barbato.IndexModule|Trying to clone from deployment repo with
+	url : https://jchannon:M4kep3ace79!@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131125123449\Website

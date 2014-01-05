@@ -1,0 +1,897 @@
+2013-11-24 09:00:28.7005|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124090028
+2013-11-24 09:00:31.4786|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124090028'...
+2013-11-24 09:00:41.2922|DEBUG|Barbato.IndexModule|
+2013-11-24 09:00:41.2922|DEBUG|Barbato.IndexModule|
+2013-11-24 09:00:42.9963|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 09:00:48.2336|DEBUG|Barbato.IndexModule|Non Git Deployment
+2013-11-24 09:00:54.4089|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 09:00:54.4409|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 09:08:17.2273|DEBUG|Barbato.IndexModule|Deleting content from c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124090028
+2013-11-24 09:08:17.4323|DEBUG|Barbato.IndexModule|Deleted files/folders
+2013-11-24 13:26:44.9290|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124132644
+2013-11-24 13:26:50.7723|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124132644'...
+2013-11-24 13:27:00.2259|DEBUG|Barbato.IndexModule|
+2013-11-24 13:27:00.2259|DEBUG|Barbato.IndexModule|
+2013-11-24 13:27:10.4635|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 13:27:15.1287|DEBUG|Barbato.IndexModule|Non Git Deployment
+2013-11-24 13:27:17.5989|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 13:27:17.6259|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 13:32:34.0700|DEBUG|Barbato.IndexModule|Deleting content from c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124132644
+2013-11-24 13:32:34.2250|DEBUG|Barbato.IndexModule|Deleted files/folders
+2013-11-24 13:34:31.7197|DEBUG|Barbato.Bootstrapper|System.Exception: No auth token found for user jchannon
+   at Barbato.IndexModule.CloneFromGithub(String cloneUrl, String username) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 155
+   at Barbato.IndexModule.DeployBlog(DeploymentModel model) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 123
+   at Barbato.IndexModule.<>c__DisplayClass12.<.ctor>b__a(Object parameters) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 99
+   at Nancy.Routing.Route.Invoke(DynamicDictionary parameters)
+   at Nancy.Routing.DefaultRouteInvoker.Invoke(Route route, DynamicDictionary parameters, NancyContext context)
+   at Nancy.Routing.DefaultRequestDispatcher.Dispatch(NancyContext context)
+   at Nancy.NancyEngine.InvokeRequestLifeCycle(NancyContext context, IPipelines pipelines)
+2013-11-24 13:35:36.5494|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124133536
+2013-11-24 13:35:41.3687|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124133536'...
+2013-11-24 13:36:00.7158|DEBUG|Barbato.IndexModule|
+2013-11-24 13:36:00.7158|DEBUG|Barbato.IndexModule|
+2013-11-24 13:36:02.1969|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 13:36:05.9471|DEBUG|Barbato.IndexModule|Non Git Deployment
+2013-11-24 13:36:09.7393|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 13:36:09.7744|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 13:41:02.6141|DEBUG|Barbato.IndexModule|Deleting content from c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124133536
+2013-11-24 13:41:23.5293|DEBUG|Barbato.Bootstrapper|System.IO.IOException: The directory is not empty.
+
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.Directory.DeleteHelper(String fullPath, String userPath, Boolean recursive, Boolean throwOnTopLevelDirectoryNotFound)
+   at System.IO.Directory.Delete(String fullPath, String userPath, Boolean recursive, Boolean checkHost)
+   at System.IO.DirectoryInfo.Delete()
+   at Barbato.IndexModule.DeleteRepoPathContents(String folderName) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 418
+   at Barbato.IndexModule.DeployBlog(DeploymentModel model) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 132
+   at Barbato.IndexModule.<>c__DisplayClass12.<.ctor>b__a(Object parameters) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 99
+   at Nancy.Routing.Route.Invoke(DynamicDictionary parameters)
+   at Nancy.Routing.DefaultRouteInvoker.Invoke(Route route, DynamicDictionary parameters, NancyContext context)
+   at Nancy.Routing.DefaultRequestDispatcher.Dispatch(NancyContext context)
+   at Nancy.NancyEngine.InvokeRequestLifeCycle(NancyContext context, IPipelines pipelines)
+2013-11-24 13:46:59.3695|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124134659
+2013-11-24 13:47:04.6368|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124134659'...
+2013-11-24 13:47:15.7995|DEBUG|Barbato.IndexModule|
+2013-11-24 13:47:15.7995|DEBUG|Barbato.IndexModule|
+2013-11-24 13:47:17.4686|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 13:47:21.2148|DEBUG|Barbato.IndexModule|Git deployment
+2013-11-24 13:47:24.4750|DEBUG|Barbato.IndexModule|Trying to clone from deployment repo with
+	url : https://jchannon@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124134659\Website
+2013-11-24 13:47:24.5230|DEBUG|Barbato.IndexModule|Waiting for publish clone process to exit
+2013-11-24 13:47:54.4647|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 13:47:54.5007|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 13:48:23.7234|DEBUG|Barbato.IndexModule|Executing git add
+2013-11-24 13:48:30.3647|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:48:30.3647|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.3737|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:48:30.3737|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.3737|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:48:30.3887|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.3887|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:48:30.3887|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.3887|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:48:30.4047|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4047|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:48:30.4047|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4047|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:48:30.4047|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:48:30.4197|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:48:30.4197|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4337|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:48:30.4517|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4517|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:48:30.4517|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4517|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4647|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:48:30.4827|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4827|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:48:30.4827|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4827|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:48:30.4957|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4957|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:48:30.4957|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.4957|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:48:30.4957|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.5127|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:48:30.5127|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.5127|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:48:30.5127|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.7828|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:48:30.7828|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.7828|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:48:30.7828|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:30.7928|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.7928|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:48:30.7928|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.7928|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:48:30.7928|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:48:30.8098|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:48:30.8258|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8418|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:48:30.8418|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8418|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:48:30.8418|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8418|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:30.8558|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:33.6779|DEBUG|Barbato.IndexModule|git add process to exited
+2013-11-24 13:48:34.2320|DEBUG|Barbato.IndexModule|Executing git email config process
+2013-11-24 13:48:37.3541|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:37.3541|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:38.2052|DEBUG|Barbato.IndexModule|git email config process to exited
+2013-11-24 13:48:39.0502|DEBUG|Barbato.IndexModule|Executing git name config process
+2013-11-24 13:48:43.6955|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:44.2085|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:45.5396|DEBUG|Barbato.IndexModule|git name config process to exited
+2013-11-24 13:48:46.7787|DEBUG|Barbato.IndexModule|Executing git commit
+2013-11-24 13:48:56.4082|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:48:57.0373|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0373|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:48:57.0543|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0543|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:48:57.0663|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0663|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:48:57.0663|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0663|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:48:57.0803|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0803|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:48:57.0803|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0803|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:48:57.0803|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:48:57.0943|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1113|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:48:57.1113|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1113|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:48:57.1113|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1113|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:48:57.1253|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1253|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:48:57.1253|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1253|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:48:57.1453|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1453|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:48:57.1453|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1453|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1573|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:48:57.1753|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1753|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:48:57.1753|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1753|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:48:57.1753|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1893|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:48:57.1893|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1893|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:48:57.1893|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.1893|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2043|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2193|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2353|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2503|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2663|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2823|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|[master f09d1a5] Static Content Regenerated
+2013-11-24 13:48:57.3143|DEBUG|Barbato.IndexModule| 110 files changed, 118 insertions(+), 118 deletions(-)
+2013-11-24 13:48:57.2993|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3143|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:48:57.3143|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3143|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3293|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:48:57.3453|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3453|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:48:57.3453|DEBUG|Barbato.IndexModule|
+2013-11-24 13:48:57.3453|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3453|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3603|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:48:57.3773|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3773|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:48:57.3773|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3773|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:48:57.3773|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:48:57.3903|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:48:57.4063|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:48:57.4223|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:48:57.4393|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4543|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:48:57.4543|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4543|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:48:57.4543|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4543|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4683|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.4853|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:48:57.5013|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:48:57.5013|DEBUG|Barbato.IndexModule|
+2013-11-24 13:51:18.9404|DEBUG|Barbato.IndexModule|git commit process to exited
+2013-11-24 13:51:19.8024|DEBUG|Barbato.IndexModule|Executing git push
+2013-11-24 13:53:28.2998|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124135328
+2013-11-24 13:53:31.8100|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124135328'...
+2013-11-24 13:53:42.0256|DEBUG|Barbato.IndexModule|
+2013-11-24 13:53:42.0256|DEBUG|Barbato.IndexModule|
+2013-11-24 13:53:42.0326|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 13:53:44.0397|DEBUG|Barbato.IndexModule|Git deployment
+2013-11-24 13:53:44.0527|DEBUG|Barbato.IndexModule|Trying to clone from deployment repo with
+	url : https://jchannon:M4kep3ace79!@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124135328\Website
+2013-11-24 13:53:44.0967|DEBUG|Barbato.IndexModule|Waiting for publish clone process to exit
+2013-11-24 13:53:53.0822|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 13:53:53.1032|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 13:53:56.8394|DEBUG|Barbato.IndexModule|Executing git add
+2013-11-24 13:54:00.3697|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:54:00.3697|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.3777|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:54:00.3777|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.3777|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:54:00.3777|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.3777|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:54:00.3927|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.3927|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:54:00.3927|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.3927|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:54:00.3927|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:54:00.4067|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4237|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:54:00.4237|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4237|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:54:00.4237|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4237|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:54:00.4387|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4387|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:54:00.4387|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4387|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:54:00.4387|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4557|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:54:00.4557|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4557|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:54:00.4557|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4717|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:54:00.4717|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4717|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:54:00.4717|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4857|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:54:00.4857|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4857|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:54:00.4857|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.4857|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:54:00.5027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.5027|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:54:00.5027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.5027|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:54:00.5027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.5197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:54:00.5197|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8037|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:54:00.8037|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8037|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:54:00.8037|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.8127|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8127|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:54:00.8127|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8127|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:54:00.8297|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8297|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:54:00.8297|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8297|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:54:00.8447|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8447|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:54:00.8447|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8447|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:54:00.8447|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8617|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:54:00.8617|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8617|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:54:00.8617|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8767|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:54:00.8767|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8767|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:54:00.8767|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8767|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:54:00.8917|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8917|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:54:00.8917|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.8917|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:54:00.8917|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:00.9077|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.9077|DEBUG|Barbato.IndexModule|git add process to exited
+2013-11-24 13:54:00.9077|DEBUG|Barbato.IndexModule|Executing git email config process
+2013-11-24 13:54:00.9287|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.9287|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.9287|DEBUG|Barbato.IndexModule|git email config process to exited
+2013-11-24 13:54:00.9287|DEBUG|Barbato.IndexModule|Executing git name config process
+2013-11-24 13:54:00.9397|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.9397|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:00.9547|DEBUG|Barbato.IndexModule|git name config process to exited
+2013-11-24 13:54:00.9547|DEBUG|Barbato.IndexModule|Executing git commit
+2013-11-24 13:54:01.5927|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:54:01.5927|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.5927|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:54:01.5927|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.5927|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:54:01.6107|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6107|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:54:01.6107|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6107|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:54:01.6237|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6237|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:54:01.6237|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6237|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:54:01.6237|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6397|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:54:01.6397|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6397|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:54:01.6397|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6397|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:54:01.6567|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6567|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:54:01.6567|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6567|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:54:01.6567|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6717|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:54:01.6717|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6717|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:54:01.6717|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6717|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:54:01.6877|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6877|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:54:01.6877|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.6877|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:54:01.6877|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:54:01.7027|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:54:01.7197|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:54:01.7197|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7197|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:54:01.7337|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7337|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:54:01.7337|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7677|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:54:01.7677|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7677|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:54:01.7677|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7807|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:54:01.7807|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7807|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:54:01.7807|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.7987|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:54:01.7987|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:01.8117|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:54:01.8117|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.7448|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:54:02.7588|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.7668|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:54:02.7668|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.7668|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:54:02.7828|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.7828|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:54:02.7938|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.7938|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:54:02.7938|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8098|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:54:02.8098|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8098|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:54:02.8258|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8258|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:54:02.8258|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8408|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:54:02.8408|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8408|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 13:54:02.8568|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8568|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 13:54:02.8568|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8728|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 13:54:02.8728|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8728|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 13:54:02.8728|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.8928|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 13:54:02.8928|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 13:54:02.8928|DEBUG|Barbato.IndexModule|[master 8a33aa5] Static Content Regenerated
+2013-11-24 13:54:02.9028|DEBUG|Barbato.IndexModule| 110 files changed, 118 insertions(+), 118 deletions(-)
+2013-11-24 13:54:02.9028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9208|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 13:54:02.9208|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9208|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 13:54:02.9208|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9208|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 13:54:02.9358|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:02.9528|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9528|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 13:54:02.9528|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9528|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 13:54:02.9528|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 13:54:02.9668|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 13:54:02.9818|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 13:54:02.9978|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 13:54:03.0128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 13:54:03.0288|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0448|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 13:54:03.0448|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0448|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 13:54:03.0448|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0448|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0588|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in feed.xml.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0748|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|git commit process to exited
+2013-11-24 13:54:03.0908|DEBUG|Barbato.IndexModule|Executing git push
+2013-11-24 13:54:13.5774|DEBUG|Barbato.IndexModule|remote: Updating branch 'master'.[K
+2013-11-24 13:54:13.5774|DEBUG|Barbato.IndexModule|remote: Updating submodules.[K
+2013-11-24 13:54:13.5974|DEBUG|Barbato.IndexModule|remote: Preparing deployment for commit id '8a33aa501d'.[K
+2013-11-24 13:54:13.6044|DEBUG|Barbato.IndexModule|remote: The specified project 'C:\DWASFiles\Sites\sandra-snow-barbato\VirtualDirectory0\site\repository\website' is not valid. It needs to point to either a csproj/vbproj file or to a directory.[K
+2013-11-24 13:54:13.6044|DEBUG|Barbato.IndexModule|remote: Error - Changes committed to remote repository but deployment to website failed, please check log for further details.[K
+2013-11-24 13:54:13.7474|DEBUG|Barbato.IndexModule|To https://jchannon:M4kep3ace79!@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+2013-11-24 13:54:13.7604|DEBUG|Barbato.IndexModule|   9b51939..8a33aa5  master -> master
+2013-11-24 13:54:13.7604|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:13.7784|DEBUG|Barbato.IndexModule|
+2013-11-24 13:54:13.7784|DEBUG|Barbato.IndexModule|git push process to exited
+2013-11-24 13:57:00.0179|DEBUG|Barbato.IndexModule|Deleting content from c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124135328
+2013-11-24 13:57:05.7223|DEBUG|Barbato.Bootstrapper|System.IO.IOException: The directory is not empty.
+
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.Directory.DeleteHelper(String fullPath, String userPath, Boolean recursive, Boolean throwOnTopLevelDirectoryNotFound)
+   at System.IO.Directory.Delete(String fullPath, String userPath, Boolean recursive, Boolean checkHost)
+   at System.IO.Directory.Delete(String path)
+   at Barbato.IndexModule.DeployBlog(DeploymentModel model) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 133
+   at Barbato.IndexModule.<>c__DisplayClass12.<.ctor>b__a(Object parameters) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 99
+   at Nancy.Routing.Route.Invoke(DynamicDictionary parameters)
+   at Nancy.Routing.DefaultRouteInvoker.Invoke(Route route, DynamicDictionary parameters, NancyContext context)
+   at Nancy.Routing.DefaultRequestDispatcher.Dispatch(NancyContext context)
+   at Nancy.NancyEngine.InvokeRequestLifeCycle(NancyContext context, IPipelines pipelines)
+2013-11-24 14:54:32.3465|DEBUG|Barbato.IndexModule|Trying to clone from Github with
+	url : https://c57161123314bd1a6bbb82597ffbcbbaeb4a929c@github.com/jchannon/Sandra.Snow.BarbatoTemplate.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124145432
+2013-11-24 14:54:35.7327|DEBUG|Barbato.IndexModule|Cloning into 'c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124145432'...
+2013-11-24 14:54:46.2353|DEBUG|Barbato.IndexModule|
+2013-11-24 14:54:46.2353|DEBUG|Barbato.IndexModule|
+2013-11-24 14:54:46.2353|DEBUG|Barbato.IndexModule|Waiting for GH clone process to exit
+2013-11-24 14:54:49.1285|DEBUG|Barbato.IndexModule|Git deployment
+2013-11-24 14:54:49.1695|DEBUG|Barbato.IndexModule|Trying to clone from deployment repo with
+	url : https://jchannon:M4kep3ace79!@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+	path : c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124145432\Website
+2013-11-24 14:54:49.1935|DEBUG|Barbato.IndexModule|Waiting for publish clone process to exit
+2013-11-24 14:54:58.7761|DEBUG|Barbato.IndexModule|Making it Snow
+2013-11-24 14:54:58.7881|DEBUG|Barbato.IndexModule|Waiting for Snow process to exit
+2013-11-24 14:55:02.1823|DEBUG|Barbato.IndexModule|Executing git add
+2013-11-24 14:55:28.7148|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 14:55:28.7148|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7248|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 14:55:28.7248|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7248|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 14:55:28.7248|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7408|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 14:55:28.7408|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7408|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 14:55:28.7408|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7578|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 14:55:28.7578|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7578|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 14:55:28.7578|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7698|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 14:55:28.7698|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7698|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 14:55:28.7698|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7698|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 14:55:28.7878|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7878|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 14:55:28.7878|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.7878|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 14:55:28.8028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 14:55:28.8028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 14:55:28.8028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8208|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 14:55:28.8208|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8208|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 14:55:28.8208|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8328|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 14:55:28.8328|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8328|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 14:55:28.8328|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8328|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8478|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 14:55:28.8658|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8658|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 14:55:28.8658|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:28.8658|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 14:55:28.8788|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.0938|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 14:55:29.0938|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1008|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 14:55:29.0938|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.1008|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1008|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1128|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1298|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 14:55:29.1458|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1458|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 14:55:29.1458|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1458|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 14:55:29.1458|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1608|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 14:55:29.1608|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1608|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 14:55:29.1608|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1608|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 14:55:29.1758|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.1758|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.1758|DEBUG|Barbato.IndexModule|git add process to exited
+2013-11-24 14:55:29.1758|DEBUG|Barbato.IndexModule|Executing git email config process
+2013-11-24 14:55:29.2018|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.2018|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.2088|DEBUG|Barbato.IndexModule|git email config process to exited
+2013-11-24 14:55:29.2088|DEBUG|Barbato.IndexModule|Executing git name config process
+2013-11-24 14:55:29.2278|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.2278|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:29.2278|DEBUG|Barbato.IndexModule|git name config process to exited
+2013-11-24 14:55:29.2278|DEBUG|Barbato.IndexModule|Executing git commit
+2013-11-24 14:55:29.8538|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 14:55:29.8538|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8538|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 14:55:29.8638|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8638|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 14:55:29.8638|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8788|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 14:55:29.8788|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8788|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 14:55:29.8788|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8788|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 14:55:29.8948|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8948|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 14:55:29.8948|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.8948|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 14:55:29.8948|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9108|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 14:55:29.9108|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9108|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 14:55:29.9108|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9108|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 14:55:29.9248|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9248|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 14:55:29.9248|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9248|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 14:55:29.9248|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 14:55:29.9398|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9578|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 14:55:29.9578|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9578|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 14:55:29.9578|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9578|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 14:55:29.9718|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9718|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 14:55:29.9718|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9718|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 14:55:29.9718|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9878|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 14:55:29.9878|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9878|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 14:55:29.9878|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:29.9878|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0028|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 14:55:30.0198|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0198|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 14:55:30.0198|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0198|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 14:55:30.0198|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0348|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 14:55:30.0348|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0348|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 14:55:30.0348|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0348|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 14:55:30.0488|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0678|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 14:55:30.0678|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0678|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 14:55:30.0678|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0678|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/17/ive-started-blogging-why/index.html.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/21/nancyfx-ravendb-nerddinner-and-me/index.html.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0809|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/25/is-oss-good-for-your-career/index.html.
+2013-11-24 14:55:30.0969|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0969|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/09/28/abstracting-the-file-system/index.html.
+2013-11-24 14:55:30.0969|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.0969|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/08/node-js-express-hello-world-formula-1-style/index.html.
+2013-11-24 14:55:30.1119|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1119|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/simple-net-twittergooglefacebook-authentication/index.html.
+2013-11-24 14:55:30.1119|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1119|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/10/25/testing-your-applications-email-logic/index.html.
+2013-11-24 14:55:30.1119|DEBUG|Barbato.IndexModule|[master 9d5530a] Static Content Regenerated
+2013-11-24 14:55:30.1269|DEBUG|Barbato.IndexModule| 105 files changed, 105 insertions(+), 105 deletions(-)
+2013-11-24 14:55:30.1269|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1269|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/06/publishing-to-windows-azure-from-github/index.html.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/18/gitignore-not-working-fixed/index.html.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/23/the-for-loop-is-the-devil-in-disguise/index.html.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1429|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/11/29/asp-net-web-api-testing/index.html.
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/07/easily-publish-a-nuget-package/index.html.
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2012/12/19/why-use-nancyfx/index.html.
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:30.1599|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1739|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/09/javascript-is-the-future-maybe/index.html.
+2013-11-24 14:55:30.1739|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1739|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/01/24/using-angularjsbackbonejs-in-windows-8-javascript-app/index.html.
+2013-11-24 14:55:30.1739|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1739|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-1/index.html.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/02/05/evaluating-knockoutjs-and-angularjs-part-2/index.html.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/03/04/the-many-approaches-to-entity-framework/index.html.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.1899|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/02/the-old-development-language-switcheroo/index.html.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-a-markdown-viewengine-with-nancy/index.html.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/08/using-datetime-in-c-and-sql/index.html.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2079|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/17/up-running-with-typescript-and-webstorm/index.html.
+2013-11-24 14:55:30.2229|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2229|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/04/30/mocking-httpcontext-with-fake-it-easy/index.html.
+2013-11-24 14:55:30.2229|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2229|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/05/29/why-net-should-become-independent/index.html.
+2013-11-24 14:55:30.2229|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/07/03/modifying-files-within-git-history/index.html.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/22/a-quick-look-at-visual-node/index.html.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/08/24/async-route-handling-with-nancy/index.html.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2359|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/11/comparing-object-instances-with-fakeiteasy/index.html.
+2013-11-24 14:55:30.2539|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2539|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/12/keeping-sql-data-organised-in-integration-tests/index.html.
+2013-11-24 14:55:30.2539|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2539|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/16/enabling-cors-in-iisexpress/index.html.
+2013-11-24 14:55:30.2539|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2689|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/09/20/returning-multiple-fake-objects-with-fakeiteasy/index.html.
+2013-11-24 14:55:30.2689|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2689|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/01/blogging-with-markdown-and-git/index.html.
+2013-11-24 14:55:30.2689|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2689|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/10/21/running-mocha-tests-with-sublime-text/index.html.
+2013-11-24 14:55:30.2829|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2829|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in 2013/11/07/using-git-to-update-youtrack-via-teamcity/index.html.
+2013-11-24 14:55:30.2829|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2829|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in index.html.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page2/index.html.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page3/index.html.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.2989|DEBUG|Barbato.IndexModule|warning: LF will be replaced by CRLF in page4/index.html.
+2013-11-24 14:55:30.3149|DEBUG|Barbato.IndexModule|The file will have its original line endings in your working directory.
+2013-11-24 14:55:30.3149|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:30.3149|DEBUG|Barbato.IndexModule|git commit process to exited
+2013-11-24 14:55:30.3149|DEBUG|Barbato.IndexModule|Executing git push
+2013-11-24 14:55:38.0993|DEBUG|Barbato.IndexModule|remote: Updating branch 'master'.[K
+2013-11-24 14:55:38.0993|DEBUG|Barbato.IndexModule|remote: Updating submodules.[K
+2013-11-24 14:55:38.0993|DEBUG|Barbato.IndexModule|remote: Preparing deployment for commit id '9d5530a350'.[K
+2013-11-24 14:55:38.1183|DEBUG|Barbato.IndexModule|remote: The specified project 'C:\DWASFiles\Sites\sandra-snow-barbato\VirtualDirectory0\site\repository\website' is not valid. It needs to point to either a csproj/vbproj file or to a directory.[K
+2013-11-24 14:55:38.1183|DEBUG|Barbato.IndexModule|remote: Error - Changes committed to remote repository but deployment to website failed, please check log for further details.[K
+2013-11-24 14:55:38.2663|DEBUG|Barbato.IndexModule|To https://jchannon:M4kep3ace79!@sandra-snow-barbato.scm.azurewebsites.net:443/sandra-snow-barbato.git
+2013-11-24 14:55:38.2733|DEBUG|Barbato.IndexModule|   b7dc190..9d5530a  master -> master
+2013-11-24 14:55:38.2733|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:38.2733|DEBUG|Barbato.IndexModule|
+2013-11-24 14:55:38.2883|DEBUG|Barbato.IndexModule|git push process to exited
+2013-11-24 14:55:38.2883|DEBUG|Barbato.IndexModule|Deleting content from c:\snowgitfolder\Sandra.Snow.BarbatoTemplate20131124145432
+2013-11-24 14:55:38.6273|DEBUG|Barbato.Bootstrapper|System.IO.IOException: The directory is not empty.
+
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.Directory.DeleteHelper(String fullPath, String userPath, Boolean recursive, Boolean throwOnTopLevelDirectoryNotFound)
+   at System.IO.Directory.Delete(String fullPath, String userPath, Boolean recursive, Boolean checkHost)
+   at System.IO.Directory.Delete(String path)
+   at Barbato.IndexModule.DeployBlog(DeploymentModel model) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 133
+   at Barbato.IndexModule.<>c__DisplayClass12.<.ctor>b__a(Object parameters) in c:\Projects\Test\Sandra.Snow\src\Barbato\IndexModule.cs:line 99
+   at Nancy.Routing.Route.Invoke(DynamicDictionary parameters)
+   at Nancy.Routing.DefaultRouteInvoker.Invoke(Route route, DynamicDictionary parameters, NancyContext context)
+   at Nancy.Routing.DefaultRequestDispatcher.Dispatch(NancyContext context)
+   at Nancy.NancyEngine.InvokeRequestLifeCycle(NancyContext context, IPipelines pipelines)
