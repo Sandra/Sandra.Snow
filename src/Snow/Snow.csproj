@@ -188,7 +188,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /s /y /R "$(ProjectDir)bin\$(ConfigurationName)" "$(SolutionDir)Barbato\Snow\"
+    <PostBuildEvent>xcopy /s /y /R "$(ProjectDir)bin\$(ConfigurationName)\Snow.exe" "$(SolutionDir)Barbato\Snow\"
 
 if $(ConfigurationName) == Debug (
 xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.17.1\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
