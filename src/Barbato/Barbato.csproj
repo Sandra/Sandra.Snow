@@ -123,6 +123,7 @@
     <Content Include="Content\Scripts\bootstrap.min.js" />
     <Content Include="Content\Scripts\jquery-1.9.1.js" />
     <Content Include="Content\Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Snow\Snow.exe" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
