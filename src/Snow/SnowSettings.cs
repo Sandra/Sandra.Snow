@@ -55,6 +55,9 @@
             }
         }
 
+        public string ThemesDir = "themes/";
+        public string Theme { get; set; }
+        
         public string Output
         {
             get { return _output; }
@@ -76,6 +79,7 @@
                 CurrentDir = directory.TrimEnd('/'),
                 Posts = "_posts",
                 Layouts = "_layouts",
+                Theme = "default",
                 Output = "Website",
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},

@@ -1,0 +1,21 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+  <header>
+  <div class="head-inner">
+    <h1><a href="/category/">Categories</a> - @Model.Category.Name</h1>
+  </div>
+  </header>
+
+  <ul class="category-list">
+    @foreach(var catInPost in Model.PostsInCategory){
+      <li>
+        <a href="@catInPost.Url" title="@catInPost.Title">@catInPost.Title</a> 
+        <small>(@catInPost.Date.ToString("dd MMM yyyy"))</small>
+      </li>
+    }
+  </ul>
+  
