@@ -6,6 +6,12 @@
         <span>{{item.deploymessage}}</span>
     </div>
 </div>
+<div ng-show="item.deploying">
+    <div class="alert alert-info inverted">
+        <i class="icon-spinner icon-spin icon-large"></i>
+        <span>Deploying...</span>
+    </div>
+</div>
 <h1>Almost there {{item.userName}}</h1>
 <div class="repo-detail">
     <div class="media">
@@ -96,7 +102,6 @@
             <button type="submit" class="btn btn-default" ng-show="item.deploymentType=='ftp'" ng-disabled="myForm.$invalid || item.deploying">
                 Deploy
             </button>
-            <i class="icon-spinner icon-spin icon-large" ng-show="item.deploying"></i>
         </p>
 
     </form>
