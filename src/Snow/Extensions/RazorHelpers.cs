@@ -30,6 +30,17 @@ _gaq.push(['_trackPageview']);
 }})();
 </script>";
 
+        private const string GoogleUniversalAnalyticsFormat = @"<script type=""text/javascript"">
+  (function(i,s,o,g,r,a,m){{i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){{
+  (i[r].q=i[r].q||[]).push(arguments)}},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  }})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '{0}', '{1}');
+  ga('send', 'pageview');
+
+</script>";
+
         private const string DisqusFormat = @"<div id=""disqus_thread""></div>
 <script>
     var reset_disqus = function(){{
@@ -134,6 +145,17 @@ _gaq.push(['_trackPageview']);
             }
 
             return html.Raw(string.Format(GoogleAnalyticsFormat, trackingCode));
+        }
+
+        public static IHtmlString RenderGoogleUniversalAnalytics<T>(this HtmlHelpers<T> html, string trackingCode, string domain) where T : BaseViewModel
+        {
+            // If the post isn't published don't output analytical code. 
+            if (html.Model.Published != Published.True)
+            {
+                return html.Raw("");
+            }
+
+            return html.Raw(string.Format(GoogleUniversalAnalyticsFormat, trackingCode, domain));
         }
 
         public static IHtmlString CanonicalUrl<T>(this HtmlHelpers<T> html) where T : BaseViewModel
