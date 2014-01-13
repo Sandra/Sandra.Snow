@@ -6,6 +6,12 @@
         <span>{{item.deploymessage}}</span>
     </div>
 </div>
+<div ng-show="item.deploying">
+    <div class="alert alert-info inverted">
+        <i class="icon-spinner icon-spin icon-large"></i>
+        <span>Deploying...</span>
+    </div>
+</div>
 <h1>Almost there {{item.userName}}</h1>
 <div class="repo-detail">
     <div class="media">
@@ -15,8 +21,6 @@
             <h4 class="media-heading">{{item.Name}}</h4>
             <p>{{item.Description}}</p>
         </div>
-        <input type="hidden" value="{{item.CloneUrl}}" name="cloneurl" />
-        <input type="hidden" value="{{Username}}" name="username" />
     </div>
     <br />
 
@@ -45,10 +49,21 @@
         </ul>
 
         <div id="git" class="form-group" ng-show="item.deploymentType=='git'" ng-class="{'has-error': myForm.azurerepo.$invalid}">
-            <label for="gitrepo" class="control-label">Git Repo</label>
-            <div>
-                <input type="text" class="form-control" name="gitrepo" ng-model="item.gitrepo" ng-required="item.deploymentType=='git'" ng-change="myForm.gitrepo.$setValidity('gitrepo',true);myForm.ftpserver.$setValidity('ftpserver',true);" />
-            </div>
+            <ul class="repo-list">
+                <li>
+                    <div class="media repo" ng-repeat="repo in items.Repos">
+                        <a ng-click="saveDeployment(repo.CloneUrl)">
+                            <div class="media-body">
+                                <img class="pull-left avatar" ng-src="{{repo.AvatarUrl}}" alt="Avatar" />
+                                <span class="pull-right when">{{repo.UpdatedAt}}</span>
+                                <h4 class="media-heading">{{repo.Name}}</h4>
+                                <p>{{repo.Description}}</p>
+                            </div>
+                        </a>
+                    </div>
+
+                </li>
+            </ul>
         </div>
 
         <div id="ftp" ng-show="item.deploymentType=='ftp'">
@@ -84,10 +99,9 @@
         <span ng-show="item.serversidevalid==false">Already registered!</span>
 
         <p class="text-right">
-            <button type="submit" class="btn btn-default" ng-disabled="myForm.$invalid || item.deploying">
+            <button type="submit" class="btn btn-default" ng-show="item.deploymentType=='ftp'" ng-disabled="myForm.$invalid || item.deploying">
                 Deploy
             </button>
-            <i class="icon-spinner icon-spin icon-large" ng-show="item.deploying"></i>
         </p>
 
     </form>

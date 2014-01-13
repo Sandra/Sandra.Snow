@@ -20,7 +20,7 @@
 
             var filteredPosts = snowyData.Files.Where(ShouldProcess).ToList();
 
-            const int pageSize = 10;
+            var pageSize = settings.PageSize;
             var skip = 0;
             var iteration = 1;
             var currentIteration = filteredPosts.Skip(skip).Take(pageSize).ToList();

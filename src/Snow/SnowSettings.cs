@@ -24,6 +24,11 @@
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// Default layout file to use for posts
+        /// </summary>
+        public string DefaultPostLayout { get; set; }
+
         public string CurrentDir { get; private set; }
         public string UrlFormat { get; set; }
         public string[] CopyDirectories { get; set; }
@@ -50,6 +55,9 @@
             }
         }
 
+        public string ThemesDir = "themes/";
+        public string Theme { get; set; }
+        
         public string Output
         {
             get { return _output; }
@@ -62,6 +70,8 @@
 
         public string BlogTitle { get; set; }
 
+        public int PageSize { get; set; }
+
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -69,13 +79,15 @@
                 CurrentDir = directory.TrimEnd('/'),
                 Posts = "_posts",
                 Layouts = "_layouts",
+                Theme = "default",
                 Output = "Website",
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
                 ProcessFiles = new List<StaticFile>(),
-
+                PageSize = 10,
                 Author = string.Empty,
-                Email = string.Empty
+                Email = string.Empty,
+                DefaultPostLayout = "post"
             };
         }
     }

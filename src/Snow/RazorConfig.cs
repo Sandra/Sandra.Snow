@@ -13,6 +13,7 @@
         public IEnumerable<string> GetDefaultNamespaces()
         {
             yield return "Snow.Extensions";
+            yield return "Nancy.ViewEngines.Razor";
             yield return "System.Globalization";
             yield return "System.Collections.Generic";
             yield return "System.Linq";

@@ -3,6 +3,7 @@
 
     app.controller(
         'SelectedRepoController', function ($scope, $routeParams, repoService, $http, $location) {
+            $scope.items = repoService.getItems($routeParams.githubUser);
             $scope.item = repoService.getItem($routeParams.selectedRepo);
             $scope.item.userName = $routeParams.githubUser;
             $scope.item.deploymentType = 'git';
@@ -17,13 +18,15 @@
             $scope.item.deployfailure = false;
             $scope.item.deploymessage = '';
             
-            $scope.saveDeployment = function () {
+            $scope.saveDeployment = function (cloneUrl) {
 
                 var data = {
                     azureDeployment: $scope.item.deploymentType === 'git',
-                    repo: $scope.item.deploymentType === 'git' ? $scope.item.gitrepo : $scope.item.ftpserver,
+                    repo: $scope.item.deploymentType === 'git' ? cloneUrl : $scope.item.ftpserver,
                     username: $scope.item.userName
                 };
+
+                $scope.item.gitrepo = $scope.item.deploymentType === 'git' ? cloneUrl : $scope.item.ftpserver;
 
                 $http.post('/alreadyregistered', data).success(function (responsedata) {
                     if (responsedata.isValid) {

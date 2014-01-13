@@ -140,9 +140,20 @@
 
             publishGitPath = repoPath + "\\" + "Website";
 
+            DeleteRepoPathContents(publishGitPath);
+
             if (model.GitDeployment)
             {
                 fullPublishGitPath = publishGitPath + "\\.git";
+
+                var token = githubUserRepository.GetToken(model.Username);
+                if (token == string.Empty)
+                    throw new Exception("No auth token found for user " + model.Username);
+
+                token = token + "@";
+
+                //Clone via https
+                model.GitRepo = model.GitRepo.Insert(8, token);
 
                 CloneFromPublishGitRepository(model.GitRepo, publishGitPath);
             }
@@ -204,6 +215,8 @@
             {
                 cloneProcess.WaitForExit();
             }
+
+
         }
 
         private void LetItSnow()
