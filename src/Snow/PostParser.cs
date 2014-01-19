@@ -34,8 +34,9 @@
 
             if (!fileNameMatches.Success)
             {
-                throw new ApplicationException("File " + file.Name +
-                                               " does not match the format {year}-{month}-{day}-{slug}.(md|markdown)");
+                file.Name.OutputIfDebug(" - Skipping file: ");
+                " - File does not match the format {year}-{month}-{day}-{slug}.(md|markdown)".OutputIfDebug();
+                return new Post.MissingPost();
             }
 
             var result = ParseDataFromFile(rawPost);

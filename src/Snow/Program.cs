@@ -76,7 +76,7 @@
 
                 var posts = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
                                  .OrderByDescending(x => x.Date)
-                                 .Where(x => x.Published != Published.Private)
+                                 .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                  .ToList();
 
                 posts.SetPostUrl(settings);
@@ -230,7 +230,7 @@
 
                 var singleInt = value as int?;
 
-                if (singleInt.HasValue)
+                if (singleInt.HasValue && singleInt > 0)
                 {
                     propertyInfo.SetValue(settings, value);
                 }

@@ -5,9 +5,9 @@
 
     public class SnowSettings
     {
-        private string _layouts;
-        private string _output;
-        private string _posts;
+        private string layouts;
+        private string output;
+        private string posts;
 
         public SnowSettings()
         {
@@ -36,22 +36,22 @@
         public string PostsRaw { get; private set; }
         public string Posts
         {
-            get { return _posts; }
+            get { return posts; }
             set
             {
                 PostsRaw = value;
-                _posts = Path.Combine(CurrentDir, value);
+                posts = Path.Combine(CurrentDir, value);
             }
         }
 
         public string LayoutsRaw { get; private set; }
         public string Layouts
         {
-            get { return _layouts; }
+            get { return layouts; }
             set
             {
                 LayoutsRaw = value;
-                _layouts = Path.Combine(CurrentDir, value);
+                layouts = Path.Combine(CurrentDir, value);
             }
         }
 
@@ -60,8 +60,8 @@
         
         public string Output
         {
-            get { return _output; }
-            set { _output = Path.Combine(CurrentDir, value); }
+            get { return output; }
+            set { output = Path.Combine(CurrentDir, value); }
         }
 
         public List<StaticFile> ProcessFiles { get; set; }
