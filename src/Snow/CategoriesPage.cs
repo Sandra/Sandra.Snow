@@ -13,12 +13,12 @@
 
             var categories = (from c in publishedPosts.SelectMany(x => x.Categories)
                               group c by c
-                                  into g
-                                  select new Category
-                                  {
-                                      Name = g.Key,
-                                      Count = g.Count()
-                                  }).OrderBy(cat => cat.Name).ToList();
+                              into g
+                              select new Category
+                              {
+                                  Name = g.Key,
+                                  Count = g.Count()
+                              }).OrderBy(cat => cat.Name).ToList();
 
             var filteredCategories = categories.Where(ShouldProcess);
 

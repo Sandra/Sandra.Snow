@@ -109,5 +109,10 @@
         /// Raw unparsed header from markdown file
         /// </summary>
         public string MarkdownHeader { get; set; }
+
+        public class MissingPost : Post
+        {
+            
+        }
     }
 }

@@ -1,25 +1,21 @@
 ﻿namespace Snow
 {
-    using System.Diagnostics;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Web.UI.WebControls.Expressions;
     using Enums;
     using Exceptions;
     using Extensions;
-    using Microsoft.Owin.FileSystems;
-    using Microsoft.Owin.Hosting;
-    using Microsoft.Owin.StaticFiles;
     using Models;
     using Nancy;
     using Nancy.Testing;
     using Nancy.ViewEngines.Razor;
     using Nancy.ViewEngines.SuperSimpleViewEngine;
     using Newtonsoft.Json;
-    using Owin;
     using StaticFileProcessors;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
 
     public class Program
     {
@@ -76,7 +72,7 @@
 
                 var posts = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
                                  .OrderByDescending(x => x.Date)
-                                 .Where(x => x.Published != Published.Private)
+                                 .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                  .ToList();
 
                 posts.SetPostUrl(settings);
@@ -118,6 +114,7 @@
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
                     var sourceDir = (settings.ThemesDir + "\\" + settings.Theme + "\\" + copyDirectory);
+
                     var destinationDir = copyDirectory;
 
                     if (copyDirectory.Contains(" => "))
@@ -129,6 +126,18 @@
                     }
 
                     var source = Path.Combine(settings.CurrentDir, sourceDir);
+
+                    if (!Directory.Exists(source))
+                    {
+                        source = Path.Combine(settings.CurrentDir, copyDirectory);
+
+                        if (!Directory.Exists(source))
+                        {
+                            copyDirectory.OutputIfDebug("Unable to find the directory, so we're skipping it: ");
+                            continue;
+                        }
+                    }
+
                     var destination = Path.Combine(settings.Output, destinationDir);
                     new DirectoryInfo(source).Copy(destination, true);
                 }
@@ -230,7 +239,7 @@
 
                 var singleInt = value as int?;
 
-                if (singleInt.HasValue)
+                if (singleInt.HasValue && singleInt > 0)
                 {
                     propertyInfo.SetValue(settings, value);
                 }
