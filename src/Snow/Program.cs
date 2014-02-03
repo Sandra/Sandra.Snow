@@ -142,6 +142,28 @@
                     new DirectoryInfo(source).Copy(destination, true);
                 }
 
+                foreach (var copyFile in settings.CopyFiles)
+                {
+                    var sourceFile = (settings.ThemesDir + "\\" + settings.Theme + "\\" + copyFile);
+                    var source = Path.Combine(settings.CurrentDir, sourceFile);
+                    var destinationFile = copyFile;
+
+                    if (!File.Exists(source))
+                    {
+                        source = Path.Combine(settings.CurrentDir, copyFile);
+
+                        if (!File.Exists(source))
+                        {
+                            copyFile.OutputIfDebug("Unable to find the directory, so we're skipping it: ");
+                            continue;
+                        }
+                    }
+
+                    var destination = Path.Combine(settings.Output, destinationFile);
+
+                    File.Copy(source, destination, true);
+                }
+
                 Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
 
                 if (commands.ContainsKey("server"))
