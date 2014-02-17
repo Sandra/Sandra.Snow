@@ -107,6 +107,8 @@
 
             Post["/rss"] = x => Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
+            Post["/atom"] = x => Response.AsAtom(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+
             Post["/sitemap"] = x =>
             {
                 var publishedPosts = Posts.Where(post => post.Published == Published.True);
