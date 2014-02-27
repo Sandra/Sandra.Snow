@@ -32,6 +32,7 @@
         public string CurrentDir { get; private set; }
         public string UrlFormat { get; set; }
         public string[] CopyDirectories { get; set; }
+        public string[] CopyFiles { get; set; }
 
         public string PostsRaw { get; private set; }
         public string Posts
@@ -83,6 +84,7 @@
                 Output = "Website",
                 UrlFormat = "yyyy/MM/dd/slug",
                 CopyDirectories = new string[] {},
+                CopyFiles = new string[] {},
                 ProcessFiles = new List<StaticFile>(),
                 PageSize = 10,
                 Author = string.Empty,
