@@ -304,12 +304,12 @@
 
                 var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
 
-                if (!Directory.Exists(outputFolder))
+                if (!Directory.Exists(Path.GetDirectoryName(outputFolder)))
                 {
-                    Directory.CreateDirectory(outputFolder);
+                    Directory.CreateDirectory(Path.GetDirectoryName(outputFolder));
                 }
 
-                File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
+                File.WriteAllText(outputFolder, body);
             }
             catch (Exception)
             {
