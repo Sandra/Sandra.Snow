@@ -41,7 +41,7 @@
             {
                 // Replace all relative urls with full urls.
                 var contentHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
-                var excerptHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
+                var excerptHtml = Regex.Replace(post.ContentExcerpt, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
 
                 var item = new SyndicationItem(
                     post.Title,
