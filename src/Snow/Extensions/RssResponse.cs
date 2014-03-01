@@ -37,6 +37,7 @@
             {
                 // Replace all relative urls with full urls.
                 var newHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
+                var summaryHtml = Regex.Replace(post.ContentExcerpt, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
 
                 var item = new SyndicationItem(
                     post.Title,
@@ -47,7 +48,7 @@
                     Id = siteUrl + post.Url,
                     LastUpdatedTime = post.Date.ToUniversalTime(),
                     PublishDate = post.Date.ToUniversalTime(),
-                    Summary = new TextSyndicationContent(post.ContentExcerpt, TextSyndicationContentKind.Html)
+                    Summary = new TextSyndicationContent(summaryHtml, TextSyndicationContentKind.Html)
                 };
 
                 items.Add(item);
