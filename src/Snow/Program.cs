@@ -339,13 +339,20 @@
                 var body = result.Body.AsString();
 
                 var outputFolder = Path.Combine(output, post.Url.Trim('/')); //Outputfolder is incorrect with leading slash on urlFormat
+                var outputFile = Path.Combine(outputFolder, "index.html");
+
+                if (outputFolder.IsFileUrl())
+                {
+                    outputFile = outputFolder;
+                    outputFolder = Path.GetDirectoryName(outputFolder);
+                }
 
                 if (!Directory.Exists(outputFolder))
                 {
                     Directory.CreateDirectory(outputFolder);
                 }
 
-                File.WriteAllText(Path.Combine(outputFolder, "index.html"), body);
+                File.WriteAllText(outputFile, body);
             }
             catch (Exception)
             {
