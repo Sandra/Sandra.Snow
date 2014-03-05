@@ -36,18 +36,20 @@
             foreach (var post in model)
             {
                 // Replace all relative urls with full urls.
-                var newHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
+                var contentHtml = Regex.Replace(post.Content, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
+                var excerptHtml = Regex.Replace(post.ContentExcerpt, UrlRegex, m => siteUrl.TrimEnd('/') + "/" + m.Value.TrimStart('/'));
 
                 var item = new SyndicationItem(
                     post.Title,
-                    newHtml,
+                    contentHtml,
                     new Uri(siteUrl + post.Url)
                     )
                 {
                     Id = siteUrl + post.Url,
                     LastUpdatedTime = post.Date.ToUniversalTime(),
                     PublishDate = post.Date.ToUniversalTime(),
-                    Summary = new TextSyndicationContent(post.ContentExcerpt, TextSyndicationContentKind.Html)
+                    Content = new TextSyndicationContent(contentHtml, TextSyndicationContentKind.Html),
+                    Summary = new TextSyndicationContent(excerptHtml, TextSyndicationContentKind.Html),
                 };
 
                 items.Add(item);
