@@ -31,7 +31,7 @@
                     {
                         Count = y.Value,
                         Title = y.Key.ToString("MMMM, yyyy"),
-                        Url = "/archive#" + y.Key.ToString("yyyyMMMM")
+                        Url = "/archive#" + y.Key.ToString("yyyyM")
                     }).ToList();
         }
 
