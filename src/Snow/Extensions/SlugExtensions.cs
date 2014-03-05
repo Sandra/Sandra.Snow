@@ -54,11 +54,28 @@
             return value;
         }
 
+        public static string AppendSlashIfNecessary(this string Url)
+        {
+            if (Url.IsFileUrl()) // URL is to a file
+            {
+                return Url;
+            }
+            else // URL is to a directory
+            {
+                return Url + "/";
+            }
+        }
+
+        public static bool IsFileUrl(this string Url)
+        {
+            return Url.Split('/').Last().Contains('.');
+        }
+
         public static void SetPostUrl(this IEnumerable<Post> posts, SnowSettings settings)
         {
             foreach (var postHeader in posts)
             {
-                var urlFormat = "/" + settings.UrlFormat.Trim('/') + "/";
+                var urlFormat = "/" + settings.UrlFormat.Trim('/').AppendSlashIfNecessary();
 
                 if (postHeader.Published == Published.Draft)
                 {
