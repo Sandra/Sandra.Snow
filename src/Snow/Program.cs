@@ -138,7 +138,9 @@
                         }
                     }
 
-                    var destination = Path.Combine(settings.Output, destinationDir);
+                    // If the destination directory is "." copy the folder files to the output folder root
+                    var destination = destinationDir == "." ? settings.Output : Path.Combine(settings.Output, destinationDir);
+
                     new DirectoryInfo(source).Copy(destination, true);
                 }
 

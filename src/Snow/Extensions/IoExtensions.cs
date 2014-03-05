@@ -81,7 +81,7 @@
                 var temppath = Path.Combine(destDirName, file.Name);
 
                 // Copy the file.
-                file.CopyTo(temppath, false);
+                file.CopyTo(temppath, true);
             }
 
             // If copySubDirs is true, copy the subdirectories.
