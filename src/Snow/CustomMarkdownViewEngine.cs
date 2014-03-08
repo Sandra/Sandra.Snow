@@ -3,7 +3,7 @@ namespace Snow
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using MarkdownSharp;
+    using MarkdownDeep;
     using Nancy;
     using Nancy.Responses;
     using Nancy.ViewEngines;
@@ -51,7 +51,7 @@ namespace Snow
                 content = content.Substring(endOfSettingsIndex, content.Length - endOfSettingsIndex);
             }
 
-            return new Markdown().Transform(content);
+            return new Markdown{ExtraMode = true, SafeMode = false}.Transform(content);
         }
     }
 }
