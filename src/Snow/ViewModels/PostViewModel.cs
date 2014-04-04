@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using Enums;
     using Models;
 
     public class PostViewModel : BaseViewModel

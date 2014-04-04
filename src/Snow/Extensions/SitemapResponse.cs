@@ -22,17 +22,16 @@
 
         private Action<Stream> GetXmlContents(IEnumerable<Post> model)
         {
-            XNamespace blank = XNamespace.Get(@"http://www.sitemaps.org/schemas/sitemap/0.9");
-
+            var blank = XNamespace.Get(@"http://www.sitemaps.org/schemas/sitemap/0.9");
             var xDocument = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), new XElement(blank+"urlset", new XAttribute("xmlns", blank.NamespaceName)));
 
             foreach (Post post in model)
             {
                 var xElement = new XElement(blank+"url",
-                                                    new XElement(blank + "loc", this.siteUrl + post.Url),
-                                                    new XElement(blank + "lastmod", post.Date.ToString("yyyy-MM-dd")),
-                                                    new XElement(blank + "changefreq", "weekly"),
-                                                    new XElement(blank + "priority", "1.00"));
+                                            new XElement(blank + "loc", siteUrl + post.Url),
+                                            new XElement(blank + "lastmod", post.Date.ToString("yyyy-MM-dd")),
+                                            new XElement(blank + "changefreq", "weekly"),
+                                            new XElement(blank + "priority", "1.00"));
 
                 xDocument.Root.Add(xElement);
             }
@@ -47,5 +46,4 @@
             };
         }
     }
-
 }
