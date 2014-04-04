@@ -1,9 +1,6 @@
 ﻿namespace Snow.StaticFileProcessors
 {
     using Enums;
-    using Extensions;
-    using Nancy.Testing;
-    using System.IO;
 
     public class DraftsProcessor : StaticFileProcessor
     {

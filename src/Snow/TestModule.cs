@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using CsQuery.ExtensionMethods;
     using Enums;
     using Extensions;
     using Models;
