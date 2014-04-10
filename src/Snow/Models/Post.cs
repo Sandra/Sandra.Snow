@@ -81,9 +81,20 @@
 
         public Series Series { get; set; }
 
+
+        private string excerpt;
         public string ContentExcerpt
         {
-            get { return Content.Split(new[] { "<!--excerpt-->" }, StringSplitOptions.None)[0]; }
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(excerpt))
+                {
+                    return excerpt;
+                }
+
+                return Content.Split(new[] { "<!--excerpt-->" }, StringSplitOptions.None)[0];
+            }
+            set { excerpt = value; }
         }
 
         public string Author { get; set; }

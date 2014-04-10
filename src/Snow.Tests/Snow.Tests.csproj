@@ -66,6 +66,7 @@
     <Compile Include="Extensions\GravatarExtensionsTests.cs" />
     <Compile Include="Extensions\PostHeaderExtensionsTests.cs" />
     <Compile Include="Extensions\RazorExtensionsTests.cs" />
+    <Compile Include="PostParsers\MarkdownFileParserTests.cs" />
     <Compile Include="Processors\CategoriesProcessorTests.cs" />
     <Compile Include="Processors\RssProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,19 +76,22 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <Content Include="SettingParsers\TestFiles\series-sample-test-1.md">
+    <Content Include="PostParsers\TestFiles\series-sample-test-1.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SettingParsers\TestFiles\series-sample-test-2.md">
+    <Content Include="PostParsers\TestFiles\series-sample-test-2.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SettingParsers\TestFiles\series-sample-test-3.md">
+    <Content Include="PostParsers\TestFiles\series-sample-test-3.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SettingParsers\TestFiles\series-sample-test-4.md">
+    <Content Include="PostParsers\TestFiles\series-sample-test-4.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SettingParsers\TestFiles\series-sample-test-5.md">
+    <Content Include="PostParsers\TestFiles\series-sample-test-5.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PostParsers\TestFiles\series-sample-test-6.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="web.config" />

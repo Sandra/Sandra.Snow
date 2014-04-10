@@ -1,9 +1,9 @@
 ﻿namespace Snow.Tests.SettingParsers
 {
-    using Enums;
-    using Models;
     using System.Collections.Generic;
     using System.Linq;
+    using Enums;
+    using Models;
     using Xunit;
 
     public class HeaderParserTests
@@ -12,9 +12,9 @@
         public void Should_parse_parse_author()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"author", "author name"}
-                };
+            {
+                {"author", "author name"}
+            };
 
             var post = new Post();
 
@@ -26,9 +26,9 @@
         public void Should_parse_parse_categories()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"categories", "1, 2"}
-                };
+            {
+                {"categories", "1, 2"}
+            };
 
             var post = new Post();
 
@@ -41,9 +41,9 @@
         public void Should_parse_category()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"category", "1, 2"}
-                };
+            {
+                {"category", "1, 2"}
+            };
 
             var post = new Post();
 
@@ -56,9 +56,9 @@
         public void Should_parse_email()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"email", "author@email.com"}
-                };
+            {
+                {"email", "author@email.com"}
+            };
 
             var post = new Post();
 
@@ -70,9 +70,9 @@
         public void Should_parse_layout()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"layout", "layout"}
-                };
+            {
+                {"layout", "layout"}
+            };
 
             var post = new Post();
 
@@ -84,9 +84,9 @@
         public void Should_parse_meta_description()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"metadescription", "meta description"}
-                };
+            {
+                {"metadescription", "meta description"}
+            };
 
             var post = new Post();
 
@@ -98,26 +98,32 @@
         public void Should_parse_series()
         {
             var settings = new Dictionary<string, object>()
+            {
                 {
-                    {"series", new Series
+                    "series", new Series
+                    {
+                        Current = 2,
+                        Name = "Series name",
+                        Parts = new SortedList<int, Series.Part>
                         {
-                            Current = 2,
-                            Name = "Series name",
-                            Parts = new SortedList<int, Series.Part>
+                            {
+                                1, new Series.Part
                                 {
-                                    {1, new Series.Part
-                                        {
-                                            Name = "Part1",
-                                            Url = "/url/to/part1"
-                                        }},
-                                    {2, new Series.Part
-                                        {
-                                            Name = "Part2",
-                                            Url = "/url/to/part2"
-                                        }},
+                                    Name = "Part1",
+                                    Url = "/url/to/part1"
                                 }
-                        }}
-                };
+                            },
+                            {
+                                2, new Series.Part
+                                {
+                                    Name = "Part2",
+                                    Url = "/url/to/part2"
+                                }
+                            },
+                        }
+                    }
+                }
+            };
 
             var post = new Post();
 
@@ -133,9 +139,9 @@
         public void Should_parse_title()
         {
             var settings = new Dictionary<string, object>()
-                {
-                    {"title", "Post title"}
-                };
+            {
+                {"title", "Post title"}
+            };
 
             var post = new Post();
 
@@ -160,9 +166,9 @@
             public void Published_should_default_to_true_when_unknown_value()
             {
                 var settings = new Dictionary<string, object>()
-                 {
-                     {"published", ""}
-                 };
+                {
+                    {"published", ""}
+                };
 
                 var post = new Post();
 
@@ -174,9 +180,9 @@
             public void Published_should_support_draft()
             {
                 var settings = new Dictionary<string, object>()
-                 {
-                     {"published", "draft"}
-                 };
+                {
+                    {"published", "draft"}
+                };
 
                 var post = new Post();
 
@@ -188,9 +194,9 @@
             public void Published_should_support_private()
             {
                 var settings = new Dictionary<string, object>()
-                 {
-                     {"published", "private"}
-                 };
+                {
+                    {"published", "private"}
+                };
 
                 var post = new Post();
 

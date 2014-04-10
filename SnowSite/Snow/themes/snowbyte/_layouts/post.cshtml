@@ -1,11 +1,11 @@
-@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.PostViewModel>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 @using System.Collections.Generic
 @{
   Layout = "default.cshtml";
 }
 
 <div class="post">
-    <h1>@Model.Title</h1> 
+    <h1>@Model.Title + @Model.Banana</h1> 
       <div class="meta">
         <p class="posted">@Model.PostDate.ToString("dd MMM yyyy")</p>
         <ul class="categories">

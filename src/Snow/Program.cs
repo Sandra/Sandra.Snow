@@ -62,14 +62,7 @@
                 StaticPathProvider.Path = settings.CurrentDir;
                 SnowViewLocationConventions.Settings = settings;
 
-                var browserParser = new Browser(with =>
-                {
-                    with.Module<TestModule>();
-                    with.RootPathProvider<StaticPathProvider>();
-                    with.ViewEngine<CustomMarkDownViewEngine>();
-                });
-
-                var posts = files.Select(x => PostParser.GetFileData(x, browserParser, settings))
+                var posts = files.Select(x => PostParser.GetFileData(x, settings))
                                  .OrderByDescending(x => x.Date)
                                  .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                  .ToList();
@@ -319,8 +312,9 @@
 
                 File.WriteAllText(outputFile, body);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
         }
 

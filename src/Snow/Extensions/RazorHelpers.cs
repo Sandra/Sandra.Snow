@@ -98,6 +98,13 @@ _gaq.push(['_trackPageview']);
             return html.Raw("");
         }
 
+        public static IHtmlString RenderSeries(this HtmlHelpers<dynamic> html, string className = "snow-series")
+        {
+            var series = (Series)html.Model.Series;
+
+            return RenderSeries(html, series, className);
+        }
+
         public static IHtmlString RenderSeries(this HtmlHelpers<PostViewModel> html, string className = "snow-series")
         {
             return RenderSeries(html, html.Model.Series, className);
