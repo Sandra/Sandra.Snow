@@ -4,7 +4,7 @@ namespace Snow.ViewModels
     using Enums;
     using Models;
 
-    public abstract class BaseViewModel
+    public abstract class BaseViewModel : DynamicDictionary
     {
         public string GeneratedDate { get; set; }
         public List<MonthYear> MonthYearList { get; set; }
