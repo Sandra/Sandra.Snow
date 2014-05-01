@@ -52,15 +52,5 @@
                 Assert.Equal(2, posts.Count);
             }
         }
-
-        [Fact]
-        public void Should_process()
-        {
-            var processor = new RssProcessor();
-
-            Assert.True(processor.ShouldProcess(new Post { Published = Published.True }));
-            Assert.False(processor.ShouldProcess(new Post { Published = Published.Draft }));
-            Assert.False(processor.ShouldProcess(new Post { Published = Published.Private }));
-        }
     }
 }

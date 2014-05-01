@@ -1,6 +1,5 @@
 ﻿namespace Snow
 {
-    using Enums;
     using Extensions;
     using Models;
     using System;
@@ -12,15 +11,10 @@
     {
         public static List<BaseViewModel.MonthYear> Create(IEnumerable<Post> posts)
         {
-            var filteredPosts = posts.Where(ShouldProcess).ToList();
+            var filteredPosts = posts.Where(ShouldProcess.Archive).ToList();
             var groupedByYear = GroupMonthYearArchive(filteredPosts);
 
             return BuildViewModel(groupedByYear);
-        }
-
-        internal static bool ShouldProcess(Post post)
-        {
-            return post.Published == Published.True;
         }
 
         internal static List<BaseViewModel.MonthYear> BuildViewModel(Dictionary<DateTime, Dictionary<DateTime, int>> groupedByYear)

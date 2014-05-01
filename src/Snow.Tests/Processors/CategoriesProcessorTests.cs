@@ -27,15 +27,5 @@
             Assert.Equal(1, postsFromCategory.Count());
             Assert.True(postsFromCategory.All(x => x.Published == Published.True));
         }
-
-        [Fact]
-        public void Should_process()
-        {
-            var processor = new CategoriesProcessor();
-
-            Assert.True(processor.ShouldProcess(new Post { Published = Published.True }));
-            Assert.False(processor.ShouldProcess(new Post { Published = Published.Private }));
-            Assert.False(processor.ShouldProcess(new Post { Published = Published.Draft }));
-        }
     }
 }
