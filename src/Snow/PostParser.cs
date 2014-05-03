@@ -52,6 +52,19 @@
             var slug = fileNameMatches.Groups["slug"].Value.ToUrlSlug();
             var date = DateTime.ParseExact(year + month + day, "yyyyMMdd", CultureInfo.InvariantCulture);
 
+            /// if a 'date' property is found in markdown file header, that date will be used instead of the date in the file name
+            if (settings.ContainsKey("date"))
+            {
+                try
+                {
+                    date = DateTime.Parse((string)settings["date"]);
+                }
+                finally
+                {
+                    /// do nothing, let the current 'date' be as is
+                }
+            }
+
             var bodySerialized = Markdown.Transform(result.Body);
             var excerptSerialized = Markdown.Transform(result.Excerpt ?? string.Empty);
 
