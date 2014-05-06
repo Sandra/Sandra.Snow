@@ -1,6 +1,5 @@
 ﻿namespace Snow.StaticFileProcessors
 {
-    using Enums;
     using Models;
     using Nancy.Testing;
     using System.Collections.Generic;
@@ -34,12 +33,7 @@
 
         internal List<Post> GetPostsForRss(IList<Post> files)
         {
-            return files.Where(ShouldProcess).Take(10).ToList();
-        }
-
-        internal bool ShouldProcess(Post post)
-        {
-            return post.Published == Published.True;
+            return files.Where(ShouldProcess.Feed).Take(10).ToList();
         }
     }
 }

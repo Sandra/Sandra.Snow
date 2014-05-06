@@ -1,6 +1,5 @@
 ﻿namespace Snow.StaticFileProcessors
 {
-    using Enums;
     using Extensions;
     using Models;
     using Nancy.Testing;
@@ -44,12 +43,7 @@
 
         internal IEnumerable<Post> GetPosts(IList<Post> files, Category category)
         {
-            return files.Where(x => x.Categories.Contains(category.Name)).Where(ShouldProcess);
-        }
-
-        internal bool ShouldProcess(Post post)
-        {
-            return post.Published == Published.True;
+            return files.Where(x => x.Categories.Contains(category.Name)).Where(ShouldProcess.Category);
         }
     }
 }
