@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="ArchiveMenuTests.cs" />
     <Compile Include="ArchivePageTests.cs" />
+    <Compile Include="CategoriesPageTests.cs" />
     <Compile Include="Extensions\GravatarExtensionsTests.cs" />
     <Compile Include="Extensions\PostHeaderExtensionsTests.cs" />
     <Compile Include="Extensions\RazorExtensionsTests.cs" />
