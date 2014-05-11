@@ -21,7 +21,10 @@
 
             var filteredCategories = categories.Where(ShouldProcess.Category);
 
-            return filteredCategories.ToList();
+            var distinctCategories =
+                filteredCategories.GroupBy(x => x.Name.ToLower()).Select(group => @group.Last()).ToList();
+
+            return distinctCategories;
         }
     }
 }

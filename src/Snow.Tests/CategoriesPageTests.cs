@@ -21,7 +21,7 @@
 
             // Assert
             Assert.Equal(1, result.Count);
-            Assert.Equal(".net", result[0].Name);
+            Assert.Equal(".Net", result[0].Name);
         }
     }
 }
