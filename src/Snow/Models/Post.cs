@@ -32,7 +32,7 @@
                                 new[] { "," },
                                 StringSplitOptions.RemoveEmptyEntries);
 
-                            Categories = categories.Select(x => x.Trim());
+                            Categories = categories.Select(x => x.Trim()).OrderBy(x => x);
 
                             break;
                         }
