@@ -105,7 +105,7 @@
 
                 foreach (var copyDirectory in settings.CopyDirectories)
                 {
-                    var sourceDir = (settings.ThemesDir + "\\" + settings.Theme + "\\" + copyDirectory);
+                    var sourceDir = (settings.ThemesDir + Path.DirectorySeparatorChar + settings.Theme + Path.DirectorySeparatorChar + copyDirectory);
 
                     var destinationDir = copyDirectory;
 
@@ -138,7 +138,7 @@
 
                 foreach (var copyFile in settings.CopyFiles)
                 {
-                    var sourceFile = (settings.ThemesDir + "\\" + settings.Theme + "\\" + copyFile);
+                    var sourceFile = (settings.ThemesDir + Path.DirectorySeparatorChar + settings.Theme + Path.DirectorySeparatorChar + copyFile);
                     var source = Path.Combine(settings.CurrentDir, sourceFile);
                     var destinationFile = copyFile;
 
