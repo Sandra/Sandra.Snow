@@ -54,7 +54,7 @@
                 var settings = CreateSettings(currentDir);
 
                 var extensions = new HashSet<string>(new[] { ".md", ".markdown" }, StringComparer.OrdinalIgnoreCase);
-                var files = new DirectoryInfo(settings.Posts).EnumerateFiles()
+                var files = new DirectoryInfo(settings.Posts).EnumerateFiles("*", SearchOption.AllDirectories)
                                                              .Where(x => extensions.Contains(x.Extension));
 
                 SetupOutput(settings);
