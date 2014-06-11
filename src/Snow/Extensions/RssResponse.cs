@@ -53,8 +53,9 @@
                     PublishDate = post.Date.ToUniversalTime(),
                     Content = new TextSyndicationContent(contentHtml, TextSyndicationContentKind.Html),
                     Summary = new TextSyndicationContent(excerptHtml, TextSyndicationContentKind.Html),
-                };
 
+                };
+                item.Authors.Add(new SyndicationPerson(post.Email, post.Author, string.Empty));
                 item.Categories.AddRange(post.Categories.Select(x => new SyndicationCategory(x)));
 
                 items.Add(item);
