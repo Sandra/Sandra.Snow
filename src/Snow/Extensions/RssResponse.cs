@@ -2,11 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.ServiceModel.Syndication;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Xml;
+    using CsQuery.ExtensionMethods.Internal;
     using Models;
     using Nancy;
     using Nancy.IO;
@@ -50,7 +53,10 @@
                     PublishDate = post.Date.ToUniversalTime(),
                     Content = new TextSyndicationContent(contentHtml, TextSyndicationContentKind.Html),
                     Summary = new TextSyndicationContent(excerptHtml, TextSyndicationContentKind.Html),
+
                 };
+                item.Authors.Add(new SyndicationPerson(post.Email, post.Author, string.Empty));
+                item.Categories.AddRange(post.Categories.Select(x => new SyndicationCategory(x)));
 
                 items.Add(item);
             }
