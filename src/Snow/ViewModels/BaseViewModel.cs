@@ -6,6 +6,16 @@ namespace Snow.ViewModels
 
     public abstract class BaseViewModel : DynamicDictionary
     {
+        /// <summary>
+        /// All posts
+        /// </summary>
+        public List<Post> Posts { get; set; }
+
+        /// <summary>
+        /// All draft posts
+        /// </summary>
+        public List<Post> Drafts { get; set; }
+
         public string GeneratedDate { get; set; }
         public List<MonthYear> MonthYearList { get; set; }
         public List<Category> AllCategories { get; set; }
