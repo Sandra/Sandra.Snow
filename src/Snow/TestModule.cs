@@ -80,6 +80,8 @@
             {
                 dynamic result = new PostViewModel
                 {
+                    Drafts = Drafts,
+                    Posts = Posts,
                     GeneratedUrl = GeneratedUrl,
                     PostContent = Data.Content,
                     PostDate = Data.Date,
@@ -111,8 +113,6 @@
             Post["/sitemap"] = x =>
             {
                 var publishedPosts = Posts.Where(post => post.Published == Published.True);
-
-                
 
                 return Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
             };
