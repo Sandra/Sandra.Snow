@@ -66,11 +66,18 @@
                                  .OrderByDescending(x => x.Date)
                                  .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                  .ToList();
+                var pages = new DirectoryInfo(settings.Pages).EnumerateFiles("*", SearchOption.AllDirectories)
+                                                             .Select(x => PagesParser.GetFileData(x, settings))
+                                                             .OrderByDescending(x => x.Date)
+                                                             .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
+                                                             .ToList();
 
                 posts.SetPostUrl(settings);
+                pages.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
                 TestModule.Posts = posts;
+                TestModule.Pages = pages;
                 TestModule.Drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 TestModule.Categories = CategoriesPage.Create(posts);
                 TestModule.PostsGroupedByYearThenMonth = ArchivePage.Create(posts);
@@ -84,12 +91,13 @@
                     with.ViewEngines(typeof(SuperSimpleViewEngineWrapper), typeof(RazorViewEngine));
                 });
 
-                // Compile all Posts
-                posts.ForEach(x => ComposeParsedFiles(x, settings.Output, browserComposer));
+                // Compile all Posts and pages
+                posts.ForEach(x => ComposeParsedFiles(x, settings.PostsOutput, browserComposer));
+                pages.ForEach(x => ComposeParsedFiles(x, settings.PagesOutput, browserComposer));
 
                 // Compile all Drafts
                 var drafts = posts.Where(x => x.Published == Published.Draft).ToList();
-                drafts.ForEach(x => ComposeDrafts(x, settings.Output, browserComposer));
+                drafts.ForEach(x => ComposeDrafts(x, settings.PostsOutput, browserComposer));
 
                 // Compile all static files
                 foreach (var processFile in settings.ProcessFiles)
@@ -131,7 +139,7 @@
                     }
 
                     // If the destination directory is "." copy the folder files to the output folder root
-                    var destination = destinationDir == "." ? settings.Output : Path.Combine(settings.Output, destinationDir);
+                    var destination = destinationDir == "." ? settings.PostsOutput : Path.Combine(settings.PostsOutput, destinationDir);
 
                     new DirectoryInfo(source).Copy(destination, true);
                 }
@@ -153,7 +161,7 @@
                         }
                     }
 
-                    var destination = Path.Combine(settings.Output, destinationFile);
+                    var destination = Path.Combine(settings.PostsOutput, destinationFile);
 
                     File.Copy(source, destination, true);
                 }
@@ -181,12 +189,12 @@
 
         private static void SetupOutput(SnowSettings settings)
         {
-            if (!Directory.Exists(settings.Output))
+            if (!Directory.Exists(settings.PostsOutput))
             {
-                Directory.CreateDirectory(settings.Output);
+                Directory.CreateDirectory(settings.PostsOutput);
             }
 
-            new DirectoryInfo(settings.Output).Empty();
+            new DirectoryInfo(settings.PostsOutput).Empty();
         }
 
         private static bool ProcessFile(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)

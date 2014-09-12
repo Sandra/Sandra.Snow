@@ -45,6 +45,7 @@
         public static List<BaseViewModel.MonthYear> MonthYear { get; set; }
 
         public static List<Post> Drafts { get; set; }
+        public static List<Page> Pages { get; set; }
 
         public TestModule()
         {
@@ -59,6 +60,7 @@
                     Keywords = Categories.Select(c => c.Name).ToList(),
                     Posts = Posts,
                     PostsPaged = PostsPaged,
+                    Pages = Pages,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
                     HasPreviousPage = HasPreviousPage,
                     HasNextPage = HasNextPage,
