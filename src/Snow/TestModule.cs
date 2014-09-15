@@ -84,6 +84,7 @@
                 {
                     Drafts = Drafts,
                     Posts = Posts,
+                    Pages = Pages,
                     GeneratedUrl = GeneratedUrl,
                     PostContent = Data.Content,
                     PostDate = Data.Date,
