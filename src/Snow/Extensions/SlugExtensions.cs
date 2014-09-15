@@ -76,8 +76,8 @@
             foreach (var postHeader in posts)
             {
                 var urlFormat = postHeader is Page 
-          ? "/" + settings.PageUrlFormat.Trim('/').AppendSlashIfNecessary()
-          : "/" + settings.PostUrlFormat.Trim('/').AppendSlashIfNecessary();
+                    ? "/" + settings.PageUrlFormat.Trim('/').AppendSlashIfNecessary()
+                    : "/" + settings.PostUrlFormat.Trim('/').AppendSlashIfNecessary();
 
                 if (postHeader.Published == Published.Draft)
                 {
@@ -89,7 +89,7 @@
                     urlFormat = s.Invoke(urlFormat, postHeader);
                 }
 
-                postHeader.Url = urlFormat;
+                postHeader.Url = "/" + urlFormat.TrimStart('/');
             }
         }
 
