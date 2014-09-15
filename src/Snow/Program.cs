@@ -241,7 +241,7 @@
 
             if (!File.Exists(configFile))
             {
-                throw new FileNotFoundException("Snow config file not found");
+                throw new FileNotFoundException("Snow config file not found at " + configFile);
             }
 
             var fileData = File.ReadAllText(configFile);
