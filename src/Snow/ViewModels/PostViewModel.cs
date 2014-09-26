@@ -19,5 +19,6 @@
         public SnowSettings Settings { get; set; }
         public Series Series { get; set; }
         public string MetaDescription { get; set; }
+        public string ContentExcerpt { get; set; }
     }
 }
