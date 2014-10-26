@@ -34,6 +34,8 @@
         public string[] CopyDirectories { get; set; }
         public string[] CopyFiles { get; set; }
 
+		public string[] Ignorables { get; set; }
+
         public string PostsRaw { get; private set; }
         public string Posts
         {

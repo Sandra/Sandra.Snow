@@ -186,7 +186,7 @@
                 Directory.CreateDirectory(settings.Output);
             }
 
-            new DirectoryInfo(settings.Output).Empty();
+            new DirectoryInfo(settings.Output).Empty(() => settings.Ignorables);
         }
 
         private static bool ProcessFile(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
