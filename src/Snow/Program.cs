@@ -295,6 +295,11 @@
 					"readme.md"};
 			}
 
+	        if (newSettings.Ignorables != null && !newSettings.Ignorables.Any())
+	        {
+		        settings.Ignorables = new string[] {};
+	        }
+
             return settings;
         }
 
