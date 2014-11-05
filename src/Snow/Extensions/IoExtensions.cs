@@ -14,7 +14,8 @@
 
         public static void Empty(this DirectoryInfo directory, Func<IEnumerable<string>> ignoreFactory = null)
         {
-	        var ignorables = ignoreFactory != null ? ignoreFactory() : new List<string>();
+	        var ignorables = new List<string>();
+			ignorables.AddRange(ignoreFactory != null ? ignoreFactory() : new string[]{});
 
             var files = directory.GetFiles().Where(x => !x.Name.IsIn(ignorables));
 
