@@ -279,9 +279,16 @@
                 settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
             }
 
+	        settings.Ignorables = CreateIgnorablesSettings(newSettings).ToArray();
+
+            return settings;
+        }
+
+	    private static IEnumerable<string> CreateIgnorablesSettings(SnowSettings newSettings)
+	    {
 			if (newSettings.Ignorables == null)
 			{
-				settings.Ignorables = new []{
+				return new []{
 					"cname",
 					"compile.snow.bat", 
 					"snow.config", 
@@ -297,11 +304,16 @@
 
 	        if (newSettings.Ignorables != null && !newSettings.Ignorables.Any())
 	        {
-		        settings.Ignorables = new string[] {};
+		        return new string[] {};
 	        }
 
-            return settings;
-        }
+	        if (newSettings.Ignorables != null && newSettings.Ignorables.Any())
+	        {
+		        return newSettings.Ignorables;
+	        }
+
+		    return new string[] {};
+	    }
 
         private static void ComposeParsedFiles(Post post, string output, Browser browserComposer)
         {
