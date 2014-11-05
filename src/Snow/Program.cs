@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using CsQuery.ExtensionMethods.Internal;
     using Enums;
     using Exceptions;
     using Extensions;
@@ -277,6 +278,22 @@
             {
                 settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
             }
+
+			if (newSettings.Ignorables == null)
+			{
+				settings.Ignorables = new []{
+					"cname",
+					"compile.snow.bat", 
+					"snow.config", 
+					".nojekyll", 
+					".gitignore", 
+					".deployment", 
+					".git", 
+					".svn", 
+					"svn", 
+					"snow", 
+					"readme.md"};
+			}
 
             return settings;
         }
