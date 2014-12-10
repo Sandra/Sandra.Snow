@@ -33,7 +33,7 @@
 
         internal List<Post> GetPostsForRss(IList<Post> files, SnowSettings settings)
         {
-            return files.Where(ShouldProcess.Feed).Take(settings.PageSize).ToList();
+            return files.Where(ShouldProcess.Feed).Take(settings.FeedSize).ToList();
         }
     }
 }
