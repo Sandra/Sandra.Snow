@@ -73,6 +73,8 @@
 
         public int PageSize { get; set; }
 
+        public int FeedSize { get; set; }
+
         public static SnowSettings Default(string directory)
         {
             return new SnowSettings
@@ -87,6 +89,7 @@
                 CopyFiles = new string[] {},
                 ProcessFiles = new List<StaticFile>(),
                 PageSize = 10,
+                FeedSize = 25,
                 Author = string.Empty,
                 Email = string.Empty,
                 DefaultPostLayout = "post"
