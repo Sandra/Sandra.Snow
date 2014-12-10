@@ -105,9 +105,15 @@
                 return View[result.Layout, result];
             };
 
+<<<<<<< HEAD
             Post["/rss"] = x => Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
             Post["/atom"] = x => Response.AsAtom(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+=======
+            Post["/rss"] = x => Response.AsRSS(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, StaticFile);
+
+            Post["/atom"] = x => Response.AsAtom(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+>>>>>>> origin/master
 
             Post["/sitemap"] = x =>
             {
