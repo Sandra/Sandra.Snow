@@ -56,7 +56,6 @@
                     GeneratedUrl = GeneratedUrl,
                     PostsInCategory = PostsInCategory,
                     AllCategories = Categories,
-                    Keywords = Categories.Select(c => c.Name).ToList(),
                     Posts = Posts,
                     PostsPaged = PostsPaged,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
@@ -91,7 +90,7 @@
                     Url = Data.Url,
                     AllCategories = Categories,
                     Categories = Data.Categories.Select(c => new Category { Name = c }).ToList(),
-                    Keywords = Data.Categories.ToList(),
+                    Keywords = Data.Keywords,
                     MonthYearList = MonthYear,
                     Author = Data.Author,
                     Email = Data.Email,
@@ -106,14 +105,14 @@
                 return View[result.Layout, result];
             };
 
-            Post["/rss"] = x => Response.AsRSS(Posts, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
+            Post["/rss"] = x => Response.AsRSS(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
-            Post["/atom"] = x => Response.AsAtom(Posts, Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+            Post["/atom"] = x => Response.AsAtom(PostsPaged, Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
 
             Post["/sitemap"] = x =>
             {
                 var publishedPosts = Posts.Where(post => post.Published == Published.True);
-
+                
                 return Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
             };
         }

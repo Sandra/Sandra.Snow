@@ -15,7 +15,7 @@
 
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            var postsForAtom = GetPostsForAtom(snowyData.Files);
+            var postsForAtom = GetPostsForAtom(snowyData.Files, settings);
 
             TestModule.PostsPaged = postsForAtom;
 
@@ -31,9 +31,9 @@
             File.WriteAllText(Path.Combine(outputFolder, SourceFile), result.Body.AsString());
         }
 
-        internal List<Post> GetPostsForAtom(IList<Post> files)
+        internal List<Post> GetPostsForAtom(IList<Post> files, SnowSettings settings)
         {
-            return files.Where(ShouldProcess.Feed).Take(10).ToList();
+            return files.Where(ShouldProcess.Feed).Take(settings.PageSize).ToList();
         }
     }
 }
