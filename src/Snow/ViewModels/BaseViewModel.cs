@@ -10,6 +10,7 @@ namespace Snow.ViewModels
         /// All posts
         /// </summary>
         public List<Post> Posts { get; set; }
+        public List<Page> Pages { get; set; }
 
         /// <summary>
         /// All draft posts

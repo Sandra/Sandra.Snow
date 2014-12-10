@@ -21,7 +21,7 @@
 
             var result = snowyData.Browser.Post("/atom");
 
-            var outputFolder = snowyData.Settings.Output;
+            var outputFolder = snowyData.Settings.PostsOutput;
 
             if (!Directory.Exists(outputFolder))
             {

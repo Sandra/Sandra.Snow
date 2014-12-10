@@ -12,7 +12,7 @@
             Categories = Enumerable.Empty<string>();
         }
 
-        public void SetSnowSettings(SnowSettings defaults)
+        public virtual void SetSnowSettings(SnowSettings defaults)
         {
             Author = defaults.Author;
             Email = defaults.Email;

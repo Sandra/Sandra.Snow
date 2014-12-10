@@ -31,7 +31,7 @@
             var source = snowyData.File.File;
 
             var sourceFile = source;
-            var destinationDirectory = Path.Combine(snowyData.Settings.Output, source.Substring(0, snowyData.File.File.IndexOf('.')));
+            var destinationDirectory = Path.Combine(snowyData.Settings.PostsOutput, source.Substring(0, snowyData.File.File.IndexOf('.')));
             var destinationName = source.Substring(0, snowyData.File.File.IndexOf('.'));
 
             if (source.Contains(" => "))
@@ -39,7 +39,7 @@
                 var directorySplit = source.Split(new[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
 
                 sourceFile = directorySplit[0];
-                destinationDirectory = Path.Combine(snowyData.Settings.Output, directorySplit[1]);
+                destinationDirectory = Path.Combine(snowyData.Settings.PostsOutput, directorySplit[1]);
                 destinationName = directorySplit[1];
             }
 

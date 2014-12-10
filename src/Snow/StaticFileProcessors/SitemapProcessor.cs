@@ -14,7 +14,7 @@
         {
             var result = snowyData.Browser.Post("/sitemap");
 
-            var outputFolder = snowyData.Settings.Output;
+            var outputFolder = snowyData.Settings.PostsOutput;
 
             if (!Directory.Exists(outputFolder))
             {
