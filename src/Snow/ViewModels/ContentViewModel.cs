@@ -14,6 +14,7 @@
         /// Posts in Current Page
         /// </summary>
         public List<Post> PostsPaged { get; set; }
+        public List<Page> Pages { get; set; }
 
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }

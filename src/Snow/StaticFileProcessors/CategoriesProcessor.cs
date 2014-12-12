@@ -30,7 +30,7 @@
 
                 result.ThrowIfNotSuccessful(SourceFile);
 
-                var outputFolder = Path.Combine(snowyData.Settings.Output, "category", category.Url);
+                var outputFolder = Path.Combine(snowyData.Settings.PostsOutput, "category", category.Url);
 
                 if (!Directory.Exists(outputFolder))
                 {

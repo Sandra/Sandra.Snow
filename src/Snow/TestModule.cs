@@ -45,6 +45,7 @@
         public static List<BaseViewModel.MonthYear> MonthYear { get; set; }
 
         public static List<Post> Drafts { get; set; }
+        public static List<Page> Pages { get; set; }
 
         public TestModule()
         {
@@ -58,6 +59,7 @@
                     AllCategories = Categories,
                     Posts = Posts,
                     PostsPaged = PostsPaged,
+                    Pages = Pages,
                     PostsGroupedByYearThenMonth = PostsGroupedByYearThenMonth,
                     HasPreviousPage = HasPreviousPage,
                     HasNextPage = HasNextPage,
@@ -81,6 +83,7 @@
                 {
                     Drafts = Drafts,
                     Posts = Posts,
+                    Pages = Pages,
                     GeneratedUrl = GeneratedUrl,
                     PostContent = Data.Content,
                     PostDate = Data.Date,

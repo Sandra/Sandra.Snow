@@ -130,6 +130,8 @@
     <Compile Include="Extensions\SitemapResponse.cs" />
     <Compile Include="Extensions\SlugExtensions.cs" />
     <Compile Include="Extensions\PostHeaderExtensions.cs" />
+    <Compile Include="Models\Page.cs" />
+    <Compile Include="PagesParser.cs" />
     <Compile Include="PostParsers\MarkdownFileParser.cs" />
     <Compile Include="Models\Series.cs" />
     <Compile Include="PostParser.cs" />
