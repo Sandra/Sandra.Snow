@@ -105,9 +105,9 @@
                 return View[result.Layout, result];
             };
 
-            Post["/rss"] = x => Response.AsRSS(Posts, Settings.BlogTitle, Settings.SiteUrl, StaticFile);
+            Post["/rss"] = x => Response.AsRSS(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
-            Post["/atom"] = x => Response.AsAtom(Posts, Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+            Post["/atom"] = x => Response.AsAtom(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
 
             Post["/sitemap"] = x =>
             {
