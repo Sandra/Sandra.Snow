@@ -100,7 +100,8 @@
                     Settings = Settings,
                     Series = Data.Series,
                     MetaDescription = Data.MetaDescription,
-                    Published = Data.Published
+                    Published = Data.Published,
+                    ContentExcerpt = Data.ContentExcerpt,
                 };
 
                 result.Banana = "WOW!";
