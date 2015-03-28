@@ -15,7 +15,7 @@
 
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
-            var postsForRss = GetPostsForRss(snowyData.Files);
+            var postsForRss = GetPostsForRss(snowyData.Files, settings);
 
             TestModule.PostsPaged = postsForRss;
 
@@ -31,9 +31,9 @@
             File.WriteAllText(Path.Combine(outputFolder, SourceFile), result.Body.AsString());
         }
 
-        internal List<Post> GetPostsForRss(IList<Post> files)
+        internal List<Post> GetPostsForRss(IList<Post> files, SnowSettings settings)
         {
-            return files.Where(ShouldProcess.Feed).ToList();
+            return files.Where(ShouldProcess.Feed).Take(settings.FeedSize).ToList();
         }
     }
 }

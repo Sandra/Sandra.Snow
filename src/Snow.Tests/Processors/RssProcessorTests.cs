@@ -32,7 +32,7 @@
                    new Post{ Published = Published.True},
                    new Post{ Published = Published.True},
                 };
-                var posts = processor.GetPostsForRss(files);
+                var posts = processor.GetPostsForRss(files, new SnowSettings { FeedSize = 10 });
                 Assert.Equal(10, posts.Count);
             }
 
@@ -48,7 +48,7 @@
                     new Post{ Published = Published.Private},
                     new Post{ Published = Published.Draft},
                 };
-                var posts = processor.GetPostsForRss(files);
+                var posts = processor.GetPostsForRss(files, new SnowSettings { FeedSize = 10 });
                 Assert.Equal(2, posts.Count);
             }
         }

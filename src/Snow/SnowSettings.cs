@@ -112,6 +112,7 @@
                   CopyFiles = new string[] {},
                   ProcessFiles = new List<StaticFile>(),
                   PageSize = 10,
+                  FeedSize = 10,
                   Author = string.Empty,
                   Email = string.Empty,
                   DefaultPostLayout = "post",
