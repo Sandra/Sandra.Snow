@@ -45,7 +45,7 @@
                 var fileSystem = new FileServerOptions
                 {
                     EnableDirectoryBrowsing = true,
-                    FileSystem = new PhysicalFileSystem(Path.GetFullPath(Settings.Output))
+                    FileSystem = new PhysicalFileSystem(Path.GetFullPath(Settings.PostsOutput))
                 };
 
                 app.UseFileServer(fileSystem);

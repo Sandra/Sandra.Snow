@@ -1,4 +1,4 @@
-@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.BaseViewModel>
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
 @using System.Collections.Generic
 @{
   Layout = "default.cshtml";
@@ -7,7 +7,6 @@
 <div class="post">
     <h1>@Model.Title + @Model.Banana</h1> 
       <div class="meta">
-        <p class="posted">@Model.PostDate.ToString("dd MMM yyyy")</p>
         <ul class="categories">
         @foreach(var category in Model.Categories) {
           <li><a href="/category/@category.Url" title="@category">@category.Name</a></li>
@@ -27,9 +26,4 @@
     @Html.RenderSeries()
         
     @Html.Raw(Model.PostContent)
-
-    @Html.RenderDisqusComments("*disqus id*")
-    
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-****"></script>
-
 </div>

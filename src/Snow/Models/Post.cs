@@ -12,7 +12,7 @@
             Categories = Enumerable.Empty<string>();
         }
 
-        public void SetSnowSettings(SnowSettings defaults)
+        public virtual void SetSnowSettings(SnowSettings defaults)
         {
             Author = defaults.Author;
             Email = defaults.Email;
@@ -73,6 +73,13 @@
                             MetaDescription = (string)setting.Value;
                             break;
                         }
+                    case "tags":
+                    case "keywords":
+                        {
+                            Keywords = (string)setting.Value;
+
+                            break;
+                        }
                 }
             }
         }
@@ -101,6 +108,7 @@
         public string Email { get; set; }
 
         public IEnumerable<string> Categories { get; set; }
+        public string Keywords { get; set; }
 
         public Published Published { get; set; }
         public string Title { get; set; }

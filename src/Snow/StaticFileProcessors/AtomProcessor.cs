@@ -21,7 +21,7 @@
 
             var result = snowyData.Browser.Post("/atom");
 
-            var outputFolder = snowyData.Settings.Output;
+            var outputFolder = snowyData.Settings.PostsOutput;
 
             if (!Directory.Exists(outputFolder))
             {
@@ -33,7 +33,7 @@
 
         internal List<Post> GetPostsForAtom(IList<Post> files)
         {
-            return files.Where(ShouldProcess.Feed).Take(10).ToList();
+            return files.Where(ShouldProcess.Feed).ToList();
         }
     }
 }
