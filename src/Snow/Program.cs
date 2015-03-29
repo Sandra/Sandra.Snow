@@ -66,18 +66,25 @@
                                  .OrderByDescending(x => x.Date)
                                  .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                  .ToList();
-                var pages = new DirectoryInfo(settings.Pages).EnumerateFiles("*", SearchOption.AllDirectories)
+
+                var pages = new List<Page>();
+
+                if (!string.IsNullOrWhiteSpace(settings.Pages))
+                {
+                    pages = new DirectoryInfo(settings.Pages).EnumerateFiles("*", SearchOption.AllDirectories)
                                                              .Select(x => PagesParser.GetFileData(x, settings))
                                                              .OrderByDescending(x => x.Date)
                                                              .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
                                                              .ToList();
+                    pages.SetPostUrl(settings);
+
+                    TestModule.Pages = pages;
+                }
 
                 posts.SetPostUrl(settings);
-                pages.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
                 TestModule.Posts = posts;
-                TestModule.Pages = pages;
                 TestModule.Drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 TestModule.Categories = CategoriesPage.Create(posts);
                 TestModule.PostsGroupedByYearThenMonth = ArchivePage.Create(posts);
