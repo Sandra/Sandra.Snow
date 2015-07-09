@@ -84,7 +84,7 @@
                 posts.SetPostUrl(settings);
                 posts.UpdatePartsToLatestInSeries();
 
-                TestModule.Posts = posts.Where(x => x.Published != Published.Draft).ToList();
+                TestModule.Posts = posts.Where(x => x.Published == Published.True).ToList();
                 TestModule.Drafts = posts.Where(x => x.Published == Published.Draft).ToList();
                 TestModule.Categories = CategoriesPage.Create(posts);
                 TestModule.PostsGroupedByYearThenMonth = ArchivePage.Create(posts);
