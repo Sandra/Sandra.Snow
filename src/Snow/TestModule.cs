@@ -109,16 +109,11 @@
                 return View[result.Layout, result];
             };
 
-            Post["/rss"] = x => Response.AsRSS(Posts.Where(post => post.Published == Published.True).Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, StaticFile);
+            Post["/rss"] = x => Response.AsRSS(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, StaticFile);
 
-            Post["/atom"] = x => Response.AsAtom(Posts.Where(post => post.Published == Published.True).Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
+            Post["/atom"] = x => Response.AsAtom(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
 
-            Post["/sitemap"] = x =>
-            {
-                var publishedPosts = Posts.Where(post => post.Published == Published.True);
-                
-                return Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
-            };
+            Post["/sitemap"] = x => Response.AsSiteMap(Posts, Settings.SiteUrl);
         }
     }
 }
