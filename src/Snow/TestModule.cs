@@ -113,12 +113,7 @@
 
             Post["/atom"] = x => Response.AsAtom(Posts.Take(Settings.FeedSize), Settings.BlogTitle, Settings.SiteUrl, Settings.Author, Settings.Email, StaticFile);
 
-            Post["/sitemap"] = x =>
-            {
-                var publishedPosts = Posts.Where(post => post.Published == Published.True);
-                
-                return Response.AsSiteMap(publishedPosts, Settings.SiteUrl);
-            };
+            Post["/sitemap"] = x => Response.AsSiteMap(Posts, Settings.SiteUrl);
         }
     }
 }
