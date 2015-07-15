@@ -12,12 +12,12 @@
             return names.Contains(name.ToLower(), StringComparer.OrdinalIgnoreCase);
         }
 
-        private static readonly string[] IgnoredFiles = { "cname", "compile.snow.bat", "compile.snow.ps1", "snow.config", ".nojekyll", ".gitignore", ".deployment" };
-        private static readonly string[] IgnoredDirectories = { ".git", "svn", ".svn", "snow", ".nojekyll", ".gitignore" };
-
-        public static void Empty(this DirectoryInfo directory)
+        public static void Empty(this DirectoryInfo directory, Func<IEnumerable<string>> ignoreFactory = null)
         {
-            var files = directory.GetFiles().Where(x => !x.Name.IsIn(IgnoredFiles));
+	        var ignorables = new List<string>();
+			ignorables.AddRange(ignoreFactory != null ? ignoreFactory() : new string[]{});
+
+            var files = directory.GetFiles().Where(x => !x.Name.IsIn(ignorables));
 
             " - Directory Cleanup before Compiling...".OutputIfDebug();
 
@@ -29,7 +29,7 @@
 
             var directories = directory.GetDirectories()
                                        .Select(d => d)
-                                       .Where(d => !d.Name.IsIn(IgnoredDirectories));
+                                       .Where(d => !d.Name.IsIn(ignorables));
 
             foreach (var subDirectory in directories)
             {

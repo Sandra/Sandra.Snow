@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using CsQuery.ExtensionMethods.Internal;
     using Enums;
     using Exceptions;
     using Extensions;
@@ -201,7 +202,7 @@
                 Directory.CreateDirectory(settings.PostsOutput);
             }
 
-            new DirectoryInfo(settings.PostsOutput).Empty();
+            new DirectoryInfo(settings.Output).Empty(() => settings.Ignorables);
         }
 
         private static bool ProcessFile(StaticFile staticFile, SnowSettings settings, IList<Post> parsedFiles, Browser browserComposer)
@@ -293,8 +294,41 @@
                 settings.SiteUrl = settings.SiteUrl.TrimEnd('/');
             }
 
+	        settings.Ignorables = CreateIgnorablesSettings(newSettings).ToArray();
+
             return settings;
         }
+
+	    private static IEnumerable<string> CreateIgnorablesSettings(SnowSettings newSettings)
+	    {
+			if (newSettings.Ignorables == null)
+			{
+				return new []{
+					"cname",
+					"compile.snow.bat", 
+					"snow.config", 
+					".nojekyll", 
+					".gitignore", 
+					".deployment", 
+					".git", 
+					".svn", 
+					"svn", 
+					"snow", 
+					"readme.md"};
+			}
+
+	        if (newSettings.Ignorables != null && !newSettings.Ignorables.Any())
+	        {
+		        return new string[] {};
+	        }
+
+	        if (newSettings.Ignorables != null && newSettings.Ignorables.Any())
+	        {
+		        return newSettings.Ignorables;
+	        }
+
+		    return new string[] {};
+	    }
 
         private static void ComposeParsedFiles(Post post, string output, Browser browserComposer)
         {
