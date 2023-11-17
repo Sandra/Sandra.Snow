@@ -72,6 +72,7 @@
                 if (!string.IsNullOrWhiteSpace(settings.Pages))
                 {
                     pages = new DirectoryInfo(settings.Pages).EnumerateFiles("*", SearchOption.AllDirectories)
+                                                             .Where(x => extensions.Contains(x.Extension))
                                                              .Select(x => PagesParser.GetFileData(x, settings))
                                                              .OrderByDescending(x => x.Date)
                                                              .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
