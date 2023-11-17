@@ -1,0 +1,1 @@
+& src\Snow\bin\Debug\Snow config=.\SnowSite\Snow\Snow.config debug=true server=true

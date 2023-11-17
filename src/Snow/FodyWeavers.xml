@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Weavers>
-  <Costura ExcludeAssemblies="nancy | nancy.viewengines.razor | nancy.testing" IncludeDebugSymbols="false"/>
-  <!--<Costura/>-->
-</Weavers>
