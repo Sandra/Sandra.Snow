@@ -174,7 +174,7 @@
                     File.Copy(source, destination, true);
                 }
 
-                Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
+                Console.WriteLine($"Sandra.Snow : { DateTime.Now.ToString("HH:mm:ss") } : Finish processing (output dir: { Path.GetFullPath(settings.PostsOutput) })");
 
                 if (commands.ContainsKey("server"))
                 {
