@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snow", "Snow\Snow.csproj", "{1143B7F0-4D45-4681-ACF8-EC24E4F4DBCC}"
 EndProject
@@ -19,7 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionStuffs", "SolutionStuffs", "{400CA74D-3B1D-4D07-8170-5A5304710D9A}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
-		..\SnowSite\Snow\snow.config = ..\SnowSite\Snow\snow.config
+		..\SnowSite\Snow\snow.config.json = ..\SnowSite\Snow\snow.config.json
 	EndProjectSection
 EndProject
 Global
@@ -47,5 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D43A1FD-2E25-4078-AF52-D821E9FBC042}
 	EndGlobalSection
 EndGlobal

@@ -28,7 +28,7 @@ Push-Location $PSScriptRoot
 
 # defaulting.
 if (-not $configPath) {
-    $configPath = [IO.FileInfo](Resolve-Path ".\SnowSite\Snow\Snow.config").Path
+    $configPath = [IO.FileInfo](Resolve-Path ".\SnowSite\Snow\Snow.config.json").Path
 }
 $configDirPath = Split-Path $configPath -Parent
 $outputPath = Resolve-Path (Join-Path $configDirPath $config.postsOutput)

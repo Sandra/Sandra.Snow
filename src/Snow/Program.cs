@@ -75,7 +75,7 @@
                                                              .Where(x => extensions.Contains(x.Extension))
                                                              .Select(x => PagesParser.GetFileData(x, settings))
                                                              .OrderByDescending(x => x.Date)
-                                                             .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
+                                                             .Where(x => x.Published != Published.Private) //unlike posts do not check for "MissingPage" functionality because it does not exist.
                                                              .ToList();
                     pages.SetPostUrl(settings);
 
@@ -248,10 +248,18 @@
         {
             var settings = SnowSettings.Default(currentDir);
             var configFile = Path.Combine(currentDir, "snow.config");
+            var alternateConfigFile = Path.Combine(currentDir, "snow.config.json");
 
             if (!File.Exists(configFile))
             {
-                throw new FileNotFoundException("Snow config file not found at " + configFile);
+                if (File.Exists(alternateConfigFile))
+                {
+                    configFile = alternateConfigFile;
+                }
+                else
+                {
+                    throw new FileNotFoundException($"Snow config file not found at '{configFile}' or '{alternateConfigFile}'");
+                }
             }
 
             var fileData = File.ReadAllText(configFile);
