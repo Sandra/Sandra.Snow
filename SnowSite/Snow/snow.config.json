@@ -25,7 +25,8 @@
     },{
         "file": "categories.cshtml => category"
     },{
-        "file": "archive.cshtml"
+        "file": "archive.cshtml",
+        "title": "Archive"
     },{
         "file": "about.cshtml"
     },{

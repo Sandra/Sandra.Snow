@@ -2,6 +2,7 @@
 @using System.Collections.Generic
 @{
     var keywords = String.Join(",", Model.Keywords);
+    var title = String.Join(" • ", Model.HeaderTitleChain);
 }
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="last-modified" content="@Model.GeneratedDate" />
     <meta name="keywords" content="@keywords" />
-    <title>philliphaydon.com</title>
+    <title>@title</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     @Html.CanonicalUrl()
 </head>

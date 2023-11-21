@@ -23,6 +23,7 @@
                 var posts = GetPosts(snowyData.Files, category);
 
                 TestModule.Category = category;
+                TestModule.HeaderTitleChain = new[] { category.Name, "Categories", TestModule.Settings.BlogTitle };
                 TestModule.GeneratedUrl = settings.SiteUrl + "/category/" + category.Url + "/";
                 TestModule.PostsInCategory = posts.ToList();
 

@@ -1,6 +1,7 @@
 ﻿namespace Snow.StaticFileProcessors
 {
     using Enums;
+    using Snow.Models;
 
     public class DraftsProcessor : StaticFileProcessor
     {
@@ -12,7 +13,7 @@
         protected override void Impl(SnowyData snowyData, SnowSettings settings)
         {
             TestModule.Published = Published.Draft;
-            
+            TestModule.HeaderTitleChain = new[] { "Drafts", TestModule.Settings.BlogTitle };
             base.Impl(snowyData, settings);
         }
     }

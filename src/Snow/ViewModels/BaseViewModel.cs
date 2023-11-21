@@ -7,6 +7,11 @@ namespace Snow.ViewModels
     public abstract class BaseViewModel : DynamicDictionary
     {
         /// <summary>
+        /// Title of current view. Will generally be in order from most to least
+        /// specific, with final value always being site name.
+        /// </summary>
+        public IEnumerable<string> HeaderTitleChain { get; set; }
+        /// <summary>
         /// All posts
         /// </summary>
         public List<Post> Posts { get; set; }
