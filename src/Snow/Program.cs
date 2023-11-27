@@ -181,7 +181,9 @@
                     SnowServer.Start(settings);
                 }
 
-                if (commands.ContainsKey("debug"))
+                if (commands.ContainsKey("debug") 
+                    && !commands.ContainsKey("server") //server already has press-any-key-to-stop so waitforcontinue is redundant.
+                )
                 {
                     DebugHelperExtensions.WaitForContinue();
                 }
