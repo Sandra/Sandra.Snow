@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using Enums;
 
     public abstract class BaseProcessor
@@ -20,6 +21,9 @@
             ParseDirectories(snowyData);
             TestModule.StaticFile = SourceFile;
             TestModule.Published = Published.True;
+            TestModule.HeaderTitleChain = new string[] { snowyData.File.Title, TestModule.Settings.BlogTitle }
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .ToList();
 
             Impl(snowyData, settings);
         }

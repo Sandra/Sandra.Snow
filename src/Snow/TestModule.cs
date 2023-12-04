@@ -19,6 +19,9 @@
             get { return Date; }
         }
 
+        //Title to pass to viewmodel, changes on iterations.
+        public static IEnumerable<string> HeaderTitleChain { get; set; }
+
         //Data changes on iterations
         public static Post Data { get; set; }
         public static string StaticFile { get; set; }
@@ -66,6 +69,7 @@
                     NextPage = PageNumber + 1,
                     PreviousPage = PageNumber - 1,
                     MonthYearList = MonthYear,
+                    HeaderTitleChain = HeaderTitleChain,
                     GeneratedDate = GeneratedDate,
                     Category = Category,
                     Drafts = Drafts,
@@ -89,6 +93,7 @@
                     PostDate = Data.Date,
                     Layout = Data.Layout,
                     Title = Data.Title,
+                    HeaderTitleChain = new string[] { Data.Title, Settings.BlogTitle },
                     GeneratedDate = GeneratedDate,
                     Url = Data.Url,
                     AllCategories = Categories,

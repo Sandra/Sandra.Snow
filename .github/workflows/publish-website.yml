@@ -1,0 +1,94 @@
+name: Publish Website
+# publish SnowSite to the repo set in vars.WEBSITE_REPO, using the pat defined in secrets.WEBSITE_PAT
+# note that this action overrides the output paths set in the snow config file
+
+on: 
+  push:
+    paths:
+      - 'SnowSite/**'
+      - '.github/workflows/publish-website.yml'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build Snow"]
+    types:
+      - completed
+
+env:
+  YAML_PATH: .github/workflows/publish-website.yml
+  IS_WEBSITE_REPO_SET: ${{ vars.WEBSITE_REPO != null }}
+  IS_WEBSITE_PAT_SET: ${{ secrets.WEBSITE_PAT != null }}
+  
+jobs:
+  publish:
+    runs-on: windows-latest
+    steps:
+      - name: Check WEBSITE_REPO var
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'false' }}
+        shell: pwsh
+        run: |
+          "::warning file=$env:YAML_PATH::Mandatory repo variable WEBSITE_REPO is not set."
+          
+      - name: Check WEBSITE_PAT secret
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' && env.IS_WEBSITE_PAT_SET == 'false' }}
+        shell: pwsh
+        run: |
+          "::error file=$env:YAML_PATH::Mandatory repo secret WEBSITE_PAT is not set."
+          
+      - name: Checkout SnowSite
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: SnowSite
+          path: doc
+          
+      - name: Checkout Website
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ vars.WEBSITE_REPO }}
+          path: website
+          token: ${{ secrets.WEBSITE_PAT }}
+          
+      - name: Download Snow artifact
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build-snow.yml
+          
+      - name: run Snow
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $blogDir = (mkdir ".\website" -force).FullName
+          $docDir = ".\doc\SnowSite"
+
+          "Configuring git..."
+
+          pushd $docDir
+          $lastMessage = git log -1 --pretty=%B | Select-Object -First 1
+          $lastUserName = git log -1 --pretty=format:'%an' | Select-Object -First 1
+          $lastUserEamil = git log -1 --pretty=format:'%ae' | Select-Object -First 1
+
+          git config --global user.name "github actions bot (on behalf of $lastUserName)"
+          git config --global user.email $lastUserEamil
+          git config --global core.autocrlf false
+          popd
+
+          "Overriding output dirs to $blogDir"
+          $configPath = "$docDir\Snow\Snow.config.json"
+          $config = Get-Content $configPath | ConvertFrom-Json
+          $config.postsOutput = $blogDir
+          $config.pagesOutput = $blogDir
+          $config | ConvertTo-Json | Out-File $configPath
+
+          "Running Snow..."
+          & Snow\Snow.exe "config=$configPath"
+
+          Write-Output "Updating $blogdir..."
+          cd $blogdir
+          Get-Location #DEBUG
+
+          git add .
+          git commit -m "Publish: $lastMessage"
+          git push

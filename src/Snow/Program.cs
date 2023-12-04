@@ -72,9 +72,10 @@
                 if (!string.IsNullOrWhiteSpace(settings.Pages))
                 {
                     pages = new DirectoryInfo(settings.Pages).EnumerateFiles("*", SearchOption.AllDirectories)
+                                                             .Where(x => extensions.Contains(x.Extension))
                                                              .Select(x => PagesParser.GetFileData(x, settings))
                                                              .OrderByDescending(x => x.Date)
-                                                             .Where(x => x.Published != Published.Private && !(x is Post.MissingPost))
+                                                             .Where(x => x.Published != Published.Private) //unlike posts do not check for "MissingPage" functionality because it does not exist.
                                                              .ToList();
                     pages.SetPostUrl(settings);
 
@@ -173,14 +174,16 @@
                     File.Copy(source, destination, true);
                 }
 
-                Console.WriteLine("Sandra.Snow : " + DateTime.Now.ToString("HH:mm:ss") + " : Finish processing");
+                Console.WriteLine($"Sandra.Snow : { DateTime.Now.ToString("HH:mm:ss") } : Finish processing (output dir: { Path.GetFullPath(settings.PostsOutput) })");
 
                 if (commands.ContainsKey("server"))
                 {
                     SnowServer.Start(settings);
                 }
 
-                if (commands.ContainsKey("debug"))
+                if (commands.ContainsKey("debug") 
+                    && !commands.ContainsKey("server") //server already has press-any-key-to-stop so waitforcontinue is redundant.
+                )
                 {
                     DebugHelperExtensions.WaitForContinue();
                 }
@@ -245,10 +248,18 @@
         {
             var settings = SnowSettings.Default(currentDir);
             var configFile = Path.Combine(currentDir, "snow.config");
+            var alternateConfigFile = Path.Combine(currentDir, "snow.config.json");
 
             if (!File.Exists(configFile))
             {
-                throw new FileNotFoundException("Snow config file not found at " + configFile);
+                if (File.Exists(alternateConfigFile))
+                {
+                    configFile = alternateConfigFile;
+                }
+                else
+                {
+                    throw new FileNotFoundException($"Snow config file not found at '{configFile}' or '{alternateConfigFile}'");
+                }
             }
 
             var fileData = File.ReadAllText(configFile);

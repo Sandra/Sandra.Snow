@@ -28,3 +28,4 @@ SnowSite/Snow/Images/original-images/
 SnowSite/Snow/_ignore/
 *.log
 src/Barbato/Snow/
+.vs

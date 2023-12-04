@@ -7,7 +7,8 @@
     "pages": "_pages",
     "layouts": "_layouts",
     "theme": "default",
-    "output": "../Website",
+    "postsOutput": "../Website",
+    "pagesOutput": "../Website",
     "urlFormat": "yyyy/MM/slug",
     "copyDirectories": [
         "images",
@@ -24,7 +25,8 @@
     },{
         "file": "categories.cshtml => category"
     },{
-        "file": "archive.cshtml"
+        "file": "archive.cshtml",
+        "title": "Archive"
     },{
         "file": "about.cshtml"
     },{
