@@ -76,6 +76,8 @@ public class ProcessorFactory
         {
             try
             {
+                if (assembly == null) continue;
+                
                 var processorTypes = assembly.GetTypes()
                     .Where(t => typeof(IContentProcessor).IsAssignableFrom(t) && 
                                !t.IsAbstract && 
@@ -103,7 +105,7 @@ public class ProcessorFactory
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Failed to scan assembly {AssemblyName} for processors", assembly?.FullName);
+                _logger.LogWarning(ex, "Failed to scan assembly {AssemblyName} for processors", assembly?.FullName ?? "Unknown");
             }
         }
 
