@@ -114,7 +114,7 @@ public class PostParser : IPostParser
         // Convert markdown to HTML
         var contentHtml = await _markdownParser.ParseAsync(parsedFile.Body, cancellationToken);
         var excerptHtml = !string.IsNullOrEmpty(parsedFile.Excerpt) 
-            ? await _markdownParser.ParseAsync(parsedFile.Excerpt, cancellationToken)
+            ? await ParseExcerptAsync(parsedFile.Excerpt, cancellationToken)
             : string.Empty;
 
         // Create the post
@@ -155,5 +155,18 @@ public class PostParser : IPostParser
         return ParsePostContentAsync(fileName, rawContent, settings, CancellationToken.None)
                .GetAwaiter()
                .GetResult();
+    }
+
+    /// <summary>
+    /// Parses excerpt content using the excerpt pipeline if available.
+    /// </summary>
+    private async Task<string> ParseExcerptAsync(string excerpt, CancellationToken cancellationToken)
+    {
+        if (_markdownParser is Markdown.MarkdigMarkdownParser markdigParser)
+        {
+            return await markdigParser.ParseExcerptAsync(excerpt, cancellationToken);
+        }
+        
+        return await _markdownParser.ParseAsync(excerpt, cancellationToken);
     }
 }

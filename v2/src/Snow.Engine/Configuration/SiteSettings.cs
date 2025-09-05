@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Snow.Abstractions;
+using Snow.Engine.Markdown;
 
 namespace Snow.Engine.Configuration;
 
@@ -179,6 +180,11 @@ public class SiteSettings : ISiteSettings
     public int FeedSize { get; set; }
 
     /// <summary>
+    /// Gets or sets the markdown processing configuration.
+    /// </summary>
+    public MarkdownConfiguration Markdown { get; set; } = MarkdownConfiguration.Default();
+
+    /// <summary>
     /// Creates a default site settings instance for the specified directory.
     /// </summary>
     /// <param name="directory">The current directory.</param>
@@ -204,7 +210,8 @@ public class SiteSettings : ISiteSettings
             Author = string.Empty,
             Email = string.Empty,
             DefaultPostLayout = "post",
-            DefaultPageLayout = "page"
+            DefaultPageLayout = "page",
+            Markdown = MarkdownConfiguration.Default()
         };
     }
 
