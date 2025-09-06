@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Snow.Abstractions;
+using Snow.Cli.DevServer;
 using Snow.Cli.Infrastructure;
 using Snow.Engine.Extensions;
 using Snow.Engine.Pipeline;
@@ -33,6 +34,12 @@ public static class SimpleProgram
             if (options.ShowVersion)
             {
                 return 0; // Version already shown above
+            }
+
+            // Check for serve command
+            if (args.Contains("serve") || args.Contains("--serve"))
+            {
+                return await ExecuteServe(options);
             }
 
             // Execute build
@@ -82,6 +89,18 @@ public static class SimpleProgram
                 case "-t":
                     if (i + 1 < args.Length)
                         options.Theme = args[++i];
+                    break;
+                case "--port":
+                case "-p":
+                    if (i + 1 < args.Length && int.TryParse(args[i + 1], out var port))
+                    {
+                        options.Port = port;
+                        i++;
+                    }
+                    break;
+                case "--serve":
+                case "serve":
+                    options.ServeMode = true;
                     break;
             }
         }
@@ -146,21 +165,90 @@ public static class SimpleProgram
         }
     }
 
+    private static async Task<int> ExecuteServe(CliOptions options)
+    {
+        try
+        {
+            using var cts = new CancellationTokenSource();
+            Console.CancelKeyPress += (_, e) => 
+            {
+                e.Cancel = true;
+                cts.Cancel();
+            };
+
+            AnsiConsole.MarkupLine("[green]Building site for development server...[/]");
+
+            // First, build the site (reuse existing build logic)
+            var buildResult = await ExecuteBuild(options);
+            if (buildResult != 0)
+            {
+                return buildResult;
+            }
+
+            // Load settings to get output path
+            var settings = await ConfigurationLoader.LoadSettingsAsync(options.ConfigPath, cts.Token);
+            
+            if (!string.IsNullOrEmpty(options.OutputPath))
+            {
+                settings.PostsOutputRaw = options.OutputPath;
+                settings.PagesOutputRaw = options.OutputPath;
+                settings.RefreshPaths();
+            }
+
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[green]Starting development server...[/]");
+
+            // Start development server
+            using var devServer = await Snow.Cli.DevServer.DevServer.StartAsync(
+                settings.PostsOutput,
+                options.Port,
+                enableDirectoryBrowsing: true,
+                autoOpen: true,
+                cts.Token);
+
+            AnsiConsole.WriteLine();
+            AnsiConsole.MarkupLine("[dim]Press Ctrl+C to stop the server[/]");
+
+            // Wait for shutdown
+            await devServer.WaitForShutdownAsync(cts.Token);
+
+            AnsiConsole.MarkupLine("[yellow]Development server stopped[/]");
+            return 0;
+        }
+        catch (OperationCanceledException)
+        {
+            AnsiConsole.MarkupLine("[yellow]Server cancelled[/]");
+            return 130;
+        }
+        catch (Exception ex)
+        {
+            AnsiConsole.MarkupLine("[red]Server failed:[/]");
+            AnsiConsole.WriteException(ex, ExceptionFormats.ShortenPaths);
+            return 1;
+        }
+    }
+
     private static void ShowHelp()
     {
         Console.WriteLine("USAGE:");
-        Console.WriteLine("  sandra [options]");
+        Console.WriteLine("  sandra [command] [options]");
+        Console.WriteLine();
+        Console.WriteLine("COMMANDS:");
+        Console.WriteLine("  serve                   Build and start development server");
         Console.WriteLine();
         Console.WriteLine("OPTIONS:");
         Console.WriteLine("  -c, --config <path>     Configuration file path");
         Console.WriteLine("  -o, --output <path>     Output directory");
         Console.WriteLine("  -t, --theme <name>      Theme name");
+        Console.WriteLine("  -p, --port <number>     Port for development server (default: 5498)");
         Console.WriteLine("  -v, --verbose           Enable verbose output");
         Console.WriteLine("      --version           Show version");
         Console.WriteLine("  -h, --help              Show this help");
         Console.WriteLine();
         Console.WriteLine("EXAMPLES:");
         Console.WriteLine("  sandra                               # Build with default settings");
+        Console.WriteLine("  sandra serve                         # Build and start development server");
+        Console.WriteLine("  sandra serve --port 8080             # Start server on custom port");
         Console.WriteLine("  sandra --config ./custom/sandra.json # Build with custom config");
         Console.WriteLine("  sandra --output ./dist --verbose     # Build to custom output with verbose logging");
     }
@@ -177,6 +265,8 @@ public class CliOptions
     public string? ConfigPath { get; set; }
     public string? OutputPath { get; set; }
     public string? Theme { get; set; }
+    public int Port { get; set; } = 0; // 0 = auto-discover
+    public bool ServeMode { get; set; }
 }
 
 /// <summary>
