@@ -120,7 +120,6 @@ public class SiteSettings : ISiteSettings
     /// <summary>
     /// Gets or sets the raw posts output directory path before combination with current directory.
     /// </summary>
-    [JsonPropertyName("postsOutput")]
     public string PostsOutputRaw { get; set; } = "Website";
 
     /// <inheritdoc />
@@ -137,7 +136,6 @@ public class SiteSettings : ISiteSettings
     /// <summary>
     /// Gets or sets the raw pages output directory path before combination with current directory.
     /// </summary>
-    [JsonPropertyName("pagesOutput")]
     public string PagesOutputRaw { get; set; } = "Website";
 
     /// <inheritdoc />
@@ -152,7 +150,6 @@ public class SiteSettings : ISiteSettings
     }
 
     /// <inheritdoc />
-    [JsonPropertyName("urlFormat")]
     public string PostUrlFormat { get; set; }
 
     /// <inheritdoc />
@@ -170,8 +167,16 @@ public class SiteSettings : ISiteSettings
     /// <inheritdoc />
     public IReadOnlyList<string> CopyFiles { get; set; }
 
-    /// <inheritdoc />
-    public IReadOnlyList<IStaticFile> ProcessFiles { get; set; }
+    /// <summary>
+    /// Gets or sets the static files to process.
+    /// </summary>
+    public IReadOnlyList<StaticFile> ProcessFiles { get; set; }
+
+    /// <summary>
+    /// Gets the static files as interface for compatibility.
+    /// </summary>
+    [System.Text.Json.Serialization.JsonIgnore]
+    IReadOnlyList<IStaticFile> ISiteSettings.ProcessFiles => ProcessFiles.Cast<IStaticFile>().ToList();
 
     /// <inheritdoc />
     public int PageSize { get; set; }
