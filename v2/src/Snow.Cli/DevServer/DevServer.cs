@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -20,13 +21,15 @@ public class DevServer : IDisposable, IAsyncDisposable
     private readonly string _contentPath;
     private readonly int _port;
     private readonly ILogger<DevServer> _logger;
+    private readonly LiveReloadServer? _liveReloadServer;
 
-    private DevServer(WebApplication app, string contentPath, int port, ILogger<DevServer> logger)
+    private DevServer(WebApplication app, string contentPath, int port, ILogger<DevServer> logger, LiveReloadServer? liveReloadServer = null)
     {
         _app = app;
         _contentPath = contentPath;
         _port = port;
         _logger = logger;
+        _liveReloadServer = liveReloadServer;
     }
 
     /// <summary>
@@ -35,6 +38,7 @@ public class DevServer : IDisposable, IAsyncDisposable
     /// <param name="contentPath">Path to the generated static site content.</param>
     /// <param name="port">Port to listen on (0 for auto-assign).</param>
     /// <param name="enableDirectoryBrowsing">Whether to enable directory browsing.</param>
+    /// <param name="enableLiveReload">Whether to enable live reload functionality.</param>
     /// <param name="autoOpen">Whether to automatically open browser.</param>
     /// <param name="cancellationToken">Cancellation token for startup.</param>
     /// <returns>A running development server instance.</returns>
@@ -42,6 +46,7 @@ public class DevServer : IDisposable, IAsyncDisposable
         string contentPath, 
         int port = 0, 
         bool enableDirectoryBrowsing = true,
+        bool enableLiveReload = false,
         bool autoOpen = true,
         CancellationToken cancellationToken = default)
     {
@@ -72,8 +77,17 @@ public class DevServer : IDisposable, IAsyncDisposable
         var app = builder.Build();
         var logger = app.Services.GetRequiredService<ILogger<DevServer>>();
 
+        // Setup live reload if enabled
+        LiveReloadServer? liveReloadServer = null;
+        if (enableLiveReload)
+        {
+            var liveReloadLogger = app.Services.GetRequiredService<ILogger<LiveReloadServer>>();
+            liveReloadServer = new LiveReloadServer(liveReloadLogger);
+            liveReloadServer.ConfigureWebSockets(app);
+        }
+
         // Configure middleware
-        ConfigureMiddleware(app, contentPath, enableDirectoryBrowsing, logger);
+        ConfigureMiddleware(app, contentPath, enableDirectoryBrowsing, enableLiveReload, logger);
 
         // Start the server
         await app.StartAsync(cancellationToken);
@@ -103,13 +117,13 @@ public class DevServer : IDisposable, IAsyncDisposable
             }
         }
 
-        return new DevServer(app, contentPath, actualPort, logger);
+        return new DevServer(app, contentPath, actualPort, logger, liveReloadServer);
     }
 
     /// <summary>
     /// Configures the middleware pipeline for the development server.
     /// </summary>
-    private static void ConfigureMiddleware(WebApplication app, string contentPath, bool enableDirectoryBrowsing, ILogger logger)
+    private static void ConfigureMiddleware(WebApplication app, string contentPath, bool enableDirectoryBrowsing, bool enableLiveReload, ILogger logger)
     {
         // Development-friendly caching
         app.Use(async (context, next) =>
@@ -160,7 +174,38 @@ public class DevServer : IDisposable, IAsyncDisposable
             FileProvider = fileProvider
         });
 
-        logger.LogDebug("Configured development server middleware for: {ContentPath}", contentPath);
+        // Live reload script injection (if enabled) - must be before static files
+        if (enableLiveReload)
+        {
+            app.Use(async (context, next) =>
+            {
+                // Capture response body for HTML injection
+                var originalBody = context.Response.Body;
+                using var memoryStream = new MemoryStream();
+                context.Response.Body = memoryStream;
+
+                await next();
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                var content = await new StreamReader(memoryStream).ReadToEndAsync();
+
+                // Inject live reload script into HTML responses
+                if (context.Response.ContentType?.Contains("text/html") == true &&
+                    context.Response.StatusCode == 200 &&
+                    content.Contains("</body>", StringComparison.OrdinalIgnoreCase))
+                {
+                    var serverUrl = $"{context.Request.Scheme}://{context.Request.Host}";
+                    var script = LiveReloadServer.GetClientScript(serverUrl);
+                    content = content.Replace("</body>", script + "</body>", StringComparison.OrdinalIgnoreCase);
+                }
+
+                context.Response.Body = originalBody;
+                await context.Response.WriteAsync(content);
+            });
+        }
+
+        logger.LogDebug("Configured development server middleware for: {ContentPath} (LiveReload: {LiveReload})", 
+            contentPath, enableLiveReload);
     }
 
     /// <summary>
@@ -234,6 +279,23 @@ public class DevServer : IDisposable, IAsyncDisposable
     public string ServerUrl => $"http://localhost:{_port}";
 
     /// <summary>
+    /// Notifies all connected clients to reload (for live reload functionality).
+    /// </summary>
+    /// <param name="changedFiles">Optional list of files that changed.</param>
+    public async Task NotifyReloadAsync(IReadOnlyList<string>? changedFiles = null)
+    {
+        if (_liveReloadServer != null)
+        {
+            await _liveReloadServer.NotifyReloadAsync(changedFiles);
+        }
+    }
+
+    /// <summary>
+    /// Gets the number of active live reload connections.
+    /// </summary>
+    public int ActiveConnections => _liveReloadServer?.ActiveConnections ?? 0;
+
+    /// <summary>
     /// Waits for the server to shut down.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for shutdown.</param>
@@ -264,6 +326,8 @@ public class DevServer : IDisposable, IAsyncDisposable
     /// </summary>
     public async ValueTask DisposeAsync()
     {
+        _liveReloadServer?.Dispose();
+        
         if (_app != null)
         {
             await _app.DisposeAsync();

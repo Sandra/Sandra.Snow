@@ -4,6 +4,7 @@ using Snow.Abstractions;
 using Snow.Cli.DevServer;
 using Snow.Cli.Infrastructure;
 using Snow.Engine.Extensions;
+using Snow.Engine.Incremental;
 using Snow.Engine.Pipeline;
 using Spectre.Console;
 
@@ -102,6 +103,10 @@ public static class SimpleProgram
                 case "serve":
                     options.ServeMode = true;
                     break;
+                case "--watch":
+                case "-w":
+                    options.WatchMode = true;
+                    break;
             }
         }
 
@@ -198,19 +203,89 @@ public static class SimpleProgram
             AnsiConsole.WriteLine();
             AnsiConsole.MarkupLine("[green]Starting development server...[/]");
 
-            // Start development server
+            // Start development server with live reload if watch mode enabled
+            var enableLiveReload = options.WatchMode;
             using var devServer = await Snow.Cli.DevServer.DevServer.StartAsync(
-                settings.PostsOutput,
-                options.Port,
-                enableDirectoryBrowsing: true,
-                autoOpen: true,
+            settings.PostsOutput,
+            options.Port,
+            enableDirectoryBrowsing: true,
+            enableLiveReload: enableLiveReload,
+            autoOpen: true,
                 cts.Token);
 
-            AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine("[dim]Press Ctrl+C to stop the server[/]");
+        // Setup file watching if enabled
+            FileWatcher? fileWatcher = null;
+            IncrementalSiteGenerator? incrementalGenerator = null;
+        
+        if (options.WatchMode)
+        {
+            AnsiConsole.MarkupLine("[yellow]👁[/] Setting up file watching...");
+            
+            // Setup incremental generator with dependency graph
+            var services = new ServiceCollection();
+            services.AddSnow(settings, options.Verbose);
+            using var serviceProvider = services.BuildServiceProvider();
+            
+            var dependencyGraph = new DependencyGraph(serviceProvider.GetRequiredService<ILogger<DependencyGraph>>());
+            incrementalGenerator = new IncrementalSiteGenerator(
+                serviceProvider.GetRequiredService<SiteGenerator>(),
+                dependencyGraph,
+                serviceProvider.GetRequiredService<IPostParser>(),
+                serviceProvider.GetRequiredService<IPageParser>(),
+                serviceProvider.GetRequiredService<ITemplateRenderer>(),
+                serviceProvider.GetRequiredService<IFileProvider>(),
+                settings,
+                serviceProvider.GetRequiredService<ILogger<IncrementalSiteGenerator>>());
 
+            // Initialize from cache
+            await incrementalGenerator.InitializeFromCacheAsync(cts.Token);
+
+            // Setup file watcher
+            fileWatcher = new FileWatcher(
+                settings.CurrentDirectory, 
+                serviceProvider.GetRequiredService<ILogger<FileWatcher>>());
+
+            fileWatcher.FilesChanged += async (changedFiles) =>
+            {
+                try
+                {
+                    AnsiConsole.MarkupLine($"[dim]Files changed:[/] {string.Join(", ", changedFiles.Select(Path.GetFileName))}");
+                    
+                    var hasChanges = await incrementalGenerator.IncrementalBuildAsync(changedFiles, cts.Token);
+                    if (hasChanges)
+                    {
+                        AnsiConsole.MarkupLine("[green]✓[/] Site rebuilt");
+                        await devServer.NotifyReloadAsync(changedFiles);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[red]Build error:[/] {ex.Message}");
+                }
+            };
+
+            fileWatcher.Start();
+            AnsiConsole.MarkupLine("[green]👁[/] File watching started");
+        }
+
+        AnsiConsole.WriteLine();
+        
+        if (enableLiveReload)
+        {
+            AnsiConsole.MarkupLine("[green]⚡[/] Live reload enabled");
+        }
+        
+        AnsiConsole.MarkupLine("[dim]Press Ctrl+C to stop the server[/]");
+
+        try
+        {
             // Wait for shutdown
             await devServer.WaitForShutdownAsync(cts.Token);
+        }
+        finally
+        {
+            fileWatcher?.Dispose();
+        }
 
             AnsiConsole.MarkupLine("[yellow]Development server stopped[/]");
             return 0;
@@ -240,7 +315,8 @@ public static class SimpleProgram
         Console.WriteLine("  -c, --config <path>     Configuration file path");
         Console.WriteLine("  -o, --output <path>     Output directory");
         Console.WriteLine("  -t, --theme <name>      Theme name");
-        Console.WriteLine("  -p, --port <number>     Port for development server (default: 5498)");
+        Console.WriteLine("  -p, --port <number>     Port for development server (default: auto)");
+        Console.WriteLine("  -w, --watch             Enable file watching with live reload");
         Console.WriteLine("  -v, --verbose           Enable verbose output");
         Console.WriteLine("      --version           Show version");
         Console.WriteLine("  -h, --help              Show this help");
@@ -248,7 +324,8 @@ public static class SimpleProgram
         Console.WriteLine("EXAMPLES:");
         Console.WriteLine("  sandra                               # Build with default settings");
         Console.WriteLine("  sandra serve                         # Build and start development server");
-        Console.WriteLine("  sandra serve --port 8080             # Start server on custom port");
+        Console.WriteLine("  sandra serve --watch                 # Start server with live reload");
+        Console.WriteLine("  sandra serve --port 8080 --watch     # Custom port with file watching");
         Console.WriteLine("  sandra --config ./custom/sandra.json # Build with custom config");
         Console.WriteLine("  sandra --output ./dist --verbose     # Build to custom output with verbose logging");
     }
@@ -267,6 +344,7 @@ public class CliOptions
     public string? Theme { get; set; }
     public int Port { get; set; } = 0; // 0 = auto-discover
     public bool ServeMode { get; set; }
+    public bool WatchMode { get; set; }
 }
 
 /// <summary>
