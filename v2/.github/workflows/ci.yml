@@ -1,0 +1,265 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop, 'release/*' ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dotnet-version: ['9.0.x']
+        configuration: [Debug, Release]
+      fail-fast: false
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Full history for GitVersion
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore dependencies
+      run: dotnet restore v2/Sandra.Snow.v2.sln
+
+    - name: Build
+      run: dotnet build v2/Sandra.Snow.v2.sln --configuration ${{ matrix.configuration }} --no-restore --verbosity normal
+
+    - name: Run tests
+      run: dotnet test v2/Sandra.Snow.v2.sln --configuration ${{ matrix.configuration }} --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+
+    - name: Upload coverage to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.configuration == 'Release'
+      uses: codecov/codecov-action@v4
+      with:
+        directory: ./coverage
+        fail_ci_if_error: false
+
+  integration-test:
+    name: Integration Tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    needs: test
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Build CLI
+      run: |
+        cd v2
+        dotnet build src/Snow.Cli/Snow.Cli.csproj --configuration Release
+
+    - name: Create test site
+      shell: bash
+      run: |
+        mkdir test-integration-site
+        cd test-integration-site
+        mkdir -p _posts themes/default/_layouts
+        
+        # Create test configuration
+        cat > sandra.json << 'EOF'
+        {
+          "blogTitle": "Integration Test Blog",
+          "siteUrl": "https://test.example.com",
+          "author": "Test Author",
+          "email": "test@example.com",
+          "theme": "default",
+          "processFiles": [{"file": "index.cshtml"}]
+        }
+        EOF
+        
+        # Create test post
+        cat > _posts/2024-01-01-test-post.md << 'EOF'
+        ---
+        title: Integration Test Post
+        author: Test Author
+        layout: post
+        published: published
+        ---
+        
+        This is a test post for CI integration testing.
+        
+        ## Features
+        - Markdown processing
+        - Template rendering
+        EOF
+        
+        # Create test layout
+        cat > themes/default/_layouts/post.cshtml << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head><title>@Model.Title</title></head>
+        <body>
+          <h1>@Model.Title</h1>
+          <div>@Html.Raw(Model.Content)</div>
+        </body>
+        </html>
+        EOF
+        
+        # Create index template
+        cat > themes/default/index.cshtml << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head><title>@Model.Settings.BlogTitle</title></head>
+        <body>
+          <h1>@Model.Settings.BlogTitle</h1>
+          <p>Posts: @Model.Posts.Count</p>
+        </body>
+        </html>
+        EOF
+
+    - name: Test CLI build command
+      shell: bash
+      run: |
+        cd test-integration-site
+        dotnet run --project ../v2/src/Snow.Cli/Snow.Cli.csproj -- build --verbose
+        
+        # Verify output was created
+        [ -f "output/index.html" ] || (echo "index.html not generated" && exit 1)
+        [ -d "output/test-post" ] || (echo "Post directory not generated" && exit 1)
+        [ -f "output/test-post/index.html" ] || (echo "Post HTML not generated" && exit 1)
+        
+        echo "✅ Build integration test passed"
+
+    - name: Test CLI version and help
+      shell: bash
+      run: |
+        cd v2
+        dotnet run --project src/Snow.Cli/Snow.Cli.csproj -- --version
+        dotnet run --project src/Snow.Cli/Snow.Cli.csproj -- --help
+        echo "✅ CLI commands integration test passed"
+
+    - name: Upload test artifacts
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-artifacts-${{ matrix.os }}
+        path: test-integration-site/
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore v2/Sandra.Snow.v2.sln
+
+    - name: Check for vulnerable packages
+      run: dotnet list v2/Sandra.Snow.v2.sln package --vulnerable --include-transitive
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: './v2'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  package:
+    name: Package and Validate
+    runs-on: ubuntu-latest
+    needs: [test, integration-test]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore v2/Sandra.Snow.v2.sln
+
+    - name: Build Release
+      run: dotnet build v2/Sandra.Snow.v2.sln --configuration Release --no-restore
+
+    - name: Pack CLI Tool
+      run: |
+        cd v2
+        dotnet pack src/Snow.Cli/Snow.Cli.csproj --configuration Release --no-build --output ./packages
+
+    - name: Pack Engine Library
+      run: |
+        cd v2
+        dotnet pack src/Snow.Engine/Snow.Engine.csproj --configuration Release --no-build --output ./packages
+        dotnet pack src/Snow.Abstractions/Snow.Abstractions.csproj --configuration Release --no-build --output ./packages
+
+    - name: Test CLI Package
+      run: |
+        cd v2
+        # Install from local package
+        dotnet tool install --global --add-source ./packages Sandra.Snow.Cli --prerelease
+        
+        # Test installed tool
+        sandra --version
+        sandra --help
+        
+        echo "✅ CLI package validation passed"
+
+    - name: Upload packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: v2/packages/*.nupkg
+
+    - name: Validate package integrity
+      run: |
+        cd v2/packages
+        for package in *.nupkg; do
+          echo "Validating $package..."
+          dotnet nuget verify "$package"
+        done

@@ -37,6 +37,12 @@ public static class SimpleProgram
                 return 0; // Version already shown above
             }
 
+            // Check for migrate command
+            if (args.Contains("migrate"))
+            {
+                return await Commands.MigrateCommand.ExecuteAsync(args);
+            }
+
             // Check for serve command
             if (args.Contains("serve") || args.Contains("--serve"))
             {
@@ -309,6 +315,7 @@ public static class SimpleProgram
         Console.WriteLine("  sandra [command] [options]");
         Console.WriteLine();
         Console.WriteLine("COMMANDS:");
+        Console.WriteLine("  migrate <path>          Migrate v1 site to v2 format");
         Console.WriteLine("  serve                   Build and start development server");
         Console.WriteLine();
         Console.WriteLine("OPTIONS:");
@@ -323,6 +330,7 @@ public static class SimpleProgram
         Console.WriteLine();
         Console.WriteLine("EXAMPLES:");
         Console.WriteLine("  sandra                               # Build with default settings");
+        Console.WriteLine("  sandra migrate ./old-blog            # Migrate v1 site to v2");
         Console.WriteLine("  sandra serve                         # Build and start development server");
         Console.WriteLine("  sandra serve --watch                 # Start server with live reload");
         Console.WriteLine("  sandra serve --port 8080 --watch     # Custom port with file watching");

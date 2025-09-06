@@ -9,6 +9,16 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <!-- Package Metadata -->
+    <PackageId>Sandra.Snow.Engine</PackageId>
+    <Version>2.0.0-beta.1</Version>
+    <Authors>Sandra.Snow Contributors</Authors>
+    <Description>Core static site generation engine for Sandra.Snow v2</Description>
+    <PackageProjectUrl>https://github.com/Sandra/Sandra.Snow</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sandra/Sandra.Snow</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>static-site-generator;engine;markdown;templates</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

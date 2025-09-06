@@ -18,13 +18,34 @@
     <PackageType>DotnetTool</PackageType>
     <ToolCommandName>sandra</ToolCommandName>
     <PackageId>Sandra.Snow.Cli</PackageId>
-    <Version>2.0.0-alpha</Version>
+    <Version>2.0.0-beta.1</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <InformationalVersion>2.0.0-beta.1</InformationalVersion>
+    
+    <!-- Package Metadata -->
     <Authors>Sandra.Snow Contributors</Authors>
-    <Description>Modern static site generator inspired by Jekyll, built with .NET 9</Description>
+    <Company>Sandra.Snow</Company>
+    <Product>Sandra.Snow CLI</Product>
+    <Description>Modern static site generator inspired by Jekyll, built with .NET 9. Features live reload, incremental builds, and cross-platform support.</Description>
+    <Summary>Modern static site generator with live reload and incremental builds</Summary>
     <PackageProjectUrl>https://github.com/Sandra/Sandra.Snow</PackageProjectUrl>
+    <PackageDocumentationFile>docs/README.md</PackageDocumentationFile>
     <RepositoryUrl>https://github.com/Sandra/Sandra.Snow</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>See CHANGELOG.md for detailed release notes</PackageReleaseNotes>
+    
+    <!-- Package Tags -->
+    <PackageTags>static-site-generator;blog;markdown;jekyll;dotnet;cli;cross-platform</PackageTags>
+    
+    <!-- Release Configuration -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
