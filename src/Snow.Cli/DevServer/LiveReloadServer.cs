@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Snow.Cli.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
@@ -77,7 +78,7 @@ public class LiveReloadServer
         try
         {
             // Send initial connection message
-            await SendMessage(webSocket, new { type = "connected", timestamp = DateTime.UtcNow });
+            await SendMessage(webSocket, new LiveReloadMessage { Type = "connected" });
 
             // Keep connection alive and handle incoming messages
             var buffer = new byte[1024];
@@ -106,7 +107,7 @@ public class LiveReloadServer
                         // Handle ping/pong for keep-alive
                         if (message == "ping")
                         {
-                            await SendMessage(webSocket, new { type = "pong", timestamp = DateTime.UtcNow });
+                            await SendMessage(webSocket, new LiveReloadMessage { Type = "pong" });
                         }
                     }
                 }
@@ -137,18 +138,17 @@ public class LiveReloadServer
         if (_disposed)
             return;
 
-        var message = new
+        var reloadMessage = new LiveReloadMessage
         {
-            type = "reload",
-            timestamp = DateTime.UtcNow,
-            files = changedFiles?.Select(f => System.Net.WebUtility.HtmlEncode(Path.GetFileName(f))).ToArray()
+            Type = "reload",
+            Files = changedFiles?.Select(f => System.Net.WebUtility.HtmlEncode(Path.GetFileName(f))).ToArray()
         };
 
         var tasks = new List<Task>();
 
         foreach (var connection in _connections.ToList())
         {
-            tasks.Add(SafeSendMessage(connection.Value, message, connection.Key));
+            tasks.Add(SafeSendMessage(connection.Value, reloadMessage, connection.Key));
         }
 
         if (tasks.Any())
@@ -162,7 +162,7 @@ public class LiveReloadServer
     /// Sends a message to all connected clients.
     /// </summary>
     /// <param name="message">The message object to send.</param>
-    public async Task BroadcastAsync(object message)
+    public async Task BroadcastAsync(LiveReloadMessage message)
     {
         if (_disposed)
             return;
@@ -189,7 +189,7 @@ public class LiveReloadServer
     /// <summary>
     /// Safely sends a message to a WebSocket, handling errors.
     /// </summary>
-    private async Task SafeSendMessage(WebSocket webSocket, object message, string connectionId)
+    private async Task SafeSendMessage(WebSocket webSocket, LiveReloadMessage message, string connectionId)
     {
         try
         {
@@ -212,12 +212,9 @@ public class LiveReloadServer
     /// <summary>
     /// Sends a JSON message to a WebSocket.
     /// </summary>
-    private static async Task SendMessage(WebSocket webSocket, object message)
+    private static async Task SendMessage(WebSocket webSocket, LiveReloadMessage message)
     {
-        var json = JsonSerializer.Serialize(message, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
+        var json = JsonSerializer.Serialize(message, CliJsonContext.Default.LiveReloadMessage);
 
         var buffer = Encoding.UTF8.GetBytes(json);
         await webSocket.SendAsync(

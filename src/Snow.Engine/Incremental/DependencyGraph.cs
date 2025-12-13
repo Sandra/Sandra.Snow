@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Snow.Abstractions;
+using Snow.Engine.Configuration;
 
 namespace Snow.Engine.Incremental;
 
@@ -221,10 +222,7 @@ public class DependencyGraph
                 LastUpdated = DateTime.UtcNow
             };
 
-            var json = JsonSerializer.Serialize(cache, new JsonSerializerOptions 
-            { 
-                WriteIndented = true 
-            });
+            var json = JsonSerializer.Serialize(cache, SnowJsonContext.Default.DependencyCache);
 
             var cacheDirectory = Path.GetDirectoryName(cacheFilePath);
             if (!string.IsNullOrEmpty(cacheDirectory) && !Directory.Exists(cacheDirectory))
@@ -256,7 +254,7 @@ public class DependencyGraph
             }
 
             var json = await File.ReadAllTextAsync(cacheFilePath);
-            var cache = JsonSerializer.Deserialize<DependencyCache>(json);
+            var cache = JsonSerializer.Deserialize(json, SnowJsonContext.Default.DependencyCache);
 
             if (cache == null)
             {
@@ -337,7 +335,7 @@ public enum BuildNodeType
 /// <summary>
 /// Cache structure for persisting dependency graph.
 /// </summary>
-internal class DependencyCache
+public class DependencyCache
 {
     public List<BuildNode> Nodes { get; set; } = new();
     public Dictionary<string, List<string>> Dependencies { get; set; } = new();

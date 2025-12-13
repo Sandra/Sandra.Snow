@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
 using Snow.Engine.Configuration;
 using Spectre.Console;
 
@@ -38,7 +37,7 @@ public static class ConfigurationLoader
             AnsiConsole.MarkupLine($"[dim]Loading configuration from:[/] {Path.GetFileName(configFile)}");
 
             var configContent = await File.ReadAllTextAsync(configFile, cancellationToken);
-            var settings = JsonSerializer.Deserialize<SiteSettings>(configContent, CreateJsonOptions());
+            var settings = JsonSerializer.Deserialize(configContent, CliJsonContext.Default.SiteSettings);
 
             if (settings == null)
             {
@@ -108,18 +107,7 @@ public static class ConfigurationLoader
         return null;
     }
 
-    /// <summary>
-    /// Creates JSON serializer options for configuration.
-    /// </summary>
-    private static JsonSerializerOptions CreateJsonOptions()
-    {
-        return new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            ReadCommentHandling = JsonCommentHandling.Skip,
-            AllowTrailingCommas = true
-        };
-    }
+
 
     /// <summary>
     /// Copies settings from source to target.

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Snow.Abstractions;
@@ -40,7 +41,7 @@ public static class SimpleProgram
             // Check for migrate command
             if (args.Contains("migrate"))
             {
-                return await Commands.MigrateCommand.ExecuteAsync(args);
+                return await ExecuteMigrate(args);
             }
 
             // Check for serve command
@@ -387,6 +388,18 @@ public static class SimpleProgram
         Console.WriteLine("  sandra serve --port 8080 --watch     # Custom port with file watching");
         Console.WriteLine("  sandra --config ./custom/sandra.json # Build with custom config");
         Console.WriteLine("  sandra --output ./dist --verbose     # Build to custom output with verbose logging");
+    }
+
+    /// <summary>
+    /// Executes the migrate command with trimming suppression.
+    /// Migration uses reflection-based JSON for v1 config parsing, which is acceptable
+    /// since it's a one-time operation and not performance-critical.
+    /// </summary>
+    [UnconditionalSuppressMessage("Trimming", "IL2026:RequiresUnreferencedCode", 
+        Justification = "Migration is a one-time operation that may not be fully trim-compatible")]
+    private static Task<int> ExecuteMigrate(string[] args)
+    {
+        return Commands.MigrateCommand.ExecuteAsync(args);
     }
 }
 

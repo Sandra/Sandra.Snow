@@ -20,6 +20,11 @@
     <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     
+    <!-- Ready-to-run and trimming for optimized binaries -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+    
     <!-- Global Tool Configuration -->
     <PackAsTool>true</PackAsTool>
     <PackageType>DotnetTool</PackageType>
@@ -34,7 +39,7 @@
     <Authors>Sandra.Snow Contributors</Authors>
     <Company>Sandra.Snow</Company>
     <Product>Sandra.Snow CLI</Product>
-    <Description>Modern static site generator inspired by Jekyll, built with .NET 9. Features live reload, incremental builds, and cross-platform support.</Description>
+    <Description>Modern static site generator inspired by Jekyll, built with .NET 10. Features live reload, incremental builds, and cross-platform support.</Description>
     <Summary>Modern static site generator with live reload and incremental builds</Summary>
     <PackageProjectUrl>https://github.com/Sandra/Sandra.Snow</PackageProjectUrl>
     <PackageDocumentationFile>docs/README.md</PackageDocumentationFile>
@@ -68,6 +73,11 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!-- Trimming: Keep reflection-heavy assemblies intact -->
+  <ItemGroup>
+    <TrimmerRootAssembly Include="RazorEngineCore" />
   </ItemGroup>
 
   <ItemGroup>

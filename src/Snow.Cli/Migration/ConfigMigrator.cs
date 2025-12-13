@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -14,6 +15,11 @@ namespace Snow.Cli.Migration;
 /// <summary>
 /// Migrates Sandra.Snow v1 configuration to v2 format.
 /// </summary>
+/// <remarks>
+/// This class uses reflection-based JSON serialization for dynamic v1 config parsing.
+/// It's a one-time migration tool, so trimming compatibility is not critical here.
+/// </remarks>
+[RequiresUnreferencedCode("ConfigMigrator uses reflection-based JSON serialization for v1 config parsing")]
 public class ConfigMigrator
 {
     private readonly ILogger<ConfigMigrator> _logger;

@@ -51,7 +51,7 @@ jobs:
         if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Download Snow artifact
         if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}

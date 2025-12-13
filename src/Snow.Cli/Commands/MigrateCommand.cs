@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ public static class MigrateCommand
     /// </summary>
     /// <param name="args">Command line arguments.</param>
     /// <returns>Exit code.</returns>
+    [RequiresUnreferencedCode("Migration uses reflection-based JSON serialization")]
     public static async Task<int> ExecuteAsync(string[] args)
     {
         try
