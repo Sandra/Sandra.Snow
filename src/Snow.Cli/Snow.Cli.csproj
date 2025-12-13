@@ -20,10 +20,11 @@
     <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     
-    <!-- Ready-to-run and trimming for optimized binaries -->
+    <!-- Ready-to-run for optimized binaries -->
+    <!-- Note: Trimming is disabled because ASP.NET Core MVC/SignalR and RazorEngineCore -->
+    <!-- are not trim-compatible due to extensive reflection usage -->
     <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>partial</TrimMode>
+    <PublishTrimmed>false</PublishTrimmed>
     
     <!-- Global Tool Configuration -->
     <PackAsTool>true</PackAsTool>
@@ -73,11 +74,6 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <!-- Trimming: Keep reflection-heavy assemblies intact -->
-  <ItemGroup>
-    <TrimmerRootAssembly Include="RazorEngineCore" />
   </ItemGroup>
 
   <ItemGroup>
