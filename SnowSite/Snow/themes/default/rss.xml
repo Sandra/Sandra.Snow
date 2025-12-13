@@ -1,0 +1,24 @@
+---
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>philliphaydon.com</title>
+    <description>Works on my PC...</description>
+    <link>http://www.philliphaydon.com/</link>
+    <pubDate>{{ site.time | date: "%a, %d %b %Y 00:00:00 GMT" }}</pubDate>
+    <copyright>Copyright (c) 2010 Phillip Haydon</copyright>
+    <atom:link href="http://www.philliphaydon.com/rss.xml" rel="self" type="application/rss+xml" />
+    {% for post in site.posts %}
+    {% unless post.draft %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <description>{{ post.content | xml_escape }}</description>
+      <link>http://www.philliphaydon.com{{ post.url }}/</link>
+      <guid isPermaLink="true">http://www.philliphaydon.com{{ post.url }}/</guid>
+      <pubDate>{{ post.date | date: "%a, %d %b %Y 00:00:00 GMT" }}</pubDate>
+    </item>
+    {% endunless %}
+    {% endfor %}
+  </channel>
+</rss>

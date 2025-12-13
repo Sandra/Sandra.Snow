@@ -1,0 +1,105 @@
+name: Publish Website
+
+on:
+  push:
+    paths:
+      - 'SnowSite/**'
+      - '.github/workflows/publish-website.yml'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build Snow"]
+    types:
+      - completed
+
+env:
+  YAML_PATH: .github/workflows/publish-website.yml
+  IS_WEBSITE_REPO_SET: ${{ vars.WEBSITE_REPO != null }}
+  IS_WEBSITE_PAT_SET: ${{ secrets.WEBSITE_PAT != null }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check WEBSITE_REPO var
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'false' }}
+        shell: bash
+        run: |
+          echo "::warning file=$YAML_PATH::Mandatory repo variable WEBSITE_REPO is not set."
+
+      - name: Check WEBSITE_PAT secret
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' && env.IS_WEBSITE_PAT_SET == 'false' }}
+        shell: bash
+        run: |
+          echo "::error file=$YAML_PATH::Mandatory repo secret WEBSITE_PAT is not set."
+
+      - name: Checkout SnowSite
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: SnowSite
+          path: doc
+
+      - name: Checkout Website
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.WEBSITE_REPO }}
+          path: website
+          token: ${{ secrets.WEBSITE_PAT }}
+
+      - name: Setup .NET
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Download Snow artifact
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: build-snow.yml
+          name: Snow-linux-x64
+          path: Snow
+
+      - name: Run Snow
+        if: ${{ env.IS_WEBSITE_REPO_SET == 'true' }}
+        shell: bash
+        run: |
+          set -e
+          blogDir=$(mkdir -p ./website && cd ./website && pwd)
+          docDir="./doc/SnowSite"
+
+          echo "Configuring git..."
+
+          cd "$docDir"
+          lastMessage=$(git log -1 --pretty=%B | head -1)
+          lastUserName=$(git log -1 --pretty=format:'%an' | head -1)
+          lastUserEmail=$(git log -1 --pretty=format:'%ae' | head -1)
+
+          git config --global user.name "github actions bot (on behalf of $lastUserName)"
+          git config --global user.email "$lastUserEmail"
+          git config --global core.autocrlf false
+          cd -
+
+          echo "Overriding output dirs to $blogDir"
+          configPath="$docDir/Snow/sandra.json"
+          
+          # Update config with jq if available, otherwise use sed
+          if command -v jq &> /dev/null; then
+            jq --arg dir "$blogDir" '.postsOutput = $dir | .pagesOutput = $dir' "$configPath" > tmp.json && mv tmp.json "$configPath"
+          else
+            sed -i "s|\"postsOutput\":.*|\"postsOutput\": \"$blogDir\",|" "$configPath"
+            sed -i "s|\"pagesOutput\":.*|\"pagesOutput\": \"$blogDir\",|" "$configPath"
+          fi
+
+          echo "Running Snow..."
+          chmod +x Snow/sandra
+          Snow/sandra build --path "$docDir/Snow"
+
+          echo "Updating $blogDir..."
+          cd "$blogDir"
+          pwd
+
+          git add .
+          git commit -m "Publish: $lastMessage" || echo "No changes to commit"
+          git push

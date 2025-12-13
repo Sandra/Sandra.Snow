@@ -1,0 +1,18 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+  <header>
+  <div class="head-inner">
+    <h1>Categories</h1>
+  </div>
+  </header>
+  
+  <ul class="category-list fancy-container darkishblue">
+    @foreach(var category in Model.AllCategories){
+      <li><a href="/category/@category.Url" title="@category.Name">@category.Name</a></li>
+    }
+  </ul>
+  

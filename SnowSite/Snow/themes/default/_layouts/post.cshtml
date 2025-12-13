@@ -1,0 +1,33 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.PostViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<div id="post">
+    <h1>@Model.Title</h1>
+
+    <div class="post-note">
+      posted on @Model.PostDate.ToString("dd MMM yyyy")
+      @foreach (var category in Model.Categories) {
+       @:| <a href="/category/@category.Url">@category.Name</a>
+      }
+      
+      <div class="addthis_toolbox addthis_default_style" style="float:right;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        <a class="addthis_button_linkedin_counter"></a>
+        <a class="addthis_counter addthis_pill_style"></a>
+      </div>
+    </div>
+    
+    @Html.RenderSeries()
+        
+    @Html.Raw(Model.PostContent)
+
+    @Html.RenderDisqusComments("philliphaydon")
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51ca97356d8c1454"></script>
+
+</div>

@@ -1,0 +1,20 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.PostViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<div id="post">
+    <h1>@Model.Title</h1>
+
+    <div class="post-note">
+      @foreach (var category in Model.Categories) {
+       @:| <a href="/category/@category.Url">@category.Name</a>
+      }
+      
+    </div>
+    
+    @Html.RenderSeries()
+        
+    @Html.Raw(Model.PostContent)
+</div>

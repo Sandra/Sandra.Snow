@@ -1,0 +1,23 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<h1>Archives</h1>
+
+
+@foreach(var year in Model.PostsGroupedByYearThenMonth)
+{
+  @foreach(var month in year.Value)
+  {
+    <a name="@year.Key@month.Key"></a>
+    <h2>@Model.GetMonth(@month.Key), @year.Key</h2>
+    <ul class="archive fancy-container darkishred">
+    @foreach(var post in month.Value)
+    {
+      <li><a href="@post.Url">@post.Title</a> (<span>@post.Date.ToString("dd MMM yyyy")</span>)</li>
+    }
+    </ul>
+  }
+}
