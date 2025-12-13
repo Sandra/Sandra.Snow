@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Snow.Abstractions\Snow.Abstractions.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    
+    <DebugType Condition="'$(Configuration)' == 'Release'">none</DebugType>
+    <DebugSymbols Condition="'$(Configuration)' == 'Release'">false</DebugSymbols>
+    
+    <!-- Package Metadata -->
+    <PackageId>Sandra.Snow.Engine</PackageId>
+    <Version>2.0.0-beta.1</Version>
+    <Authors>Sandra.Snow Contributors</Authors>
+    <Description>Core static site generation engine for Sandra.Snow v2</Description>
+    <PackageProjectUrl>https://github.com/Sandra/Sandra.Snow</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sandra/Sandra.Snow</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>static-site-generator;engine;markdown;templates</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.44.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
+    <PackageReference Include="RazorEngineCore" Version="2024.4.1" />
+  </ItemGroup>
+
+</Project>
