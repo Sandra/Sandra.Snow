@@ -1,0 +1,5 @@
+
+# Build outputs
+dist/
+published/
+src/Snow.Cli/published/

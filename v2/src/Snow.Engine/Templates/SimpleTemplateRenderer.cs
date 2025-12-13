@@ -25,10 +25,13 @@ public class SimpleTemplateRenderer : ITemplateRenderer
     private readonly ConcurrentDictionary<string, (string Content, DateTime LastWriteUtc)> _templateCache = new();
     private readonly ConcurrentDictionary<Type, Dictionary<string, PropertyInfo>> _propertyCache = new();
 
-    // Basic template processing patterns
-    private static readonly Regex ModelPropertyRegex = new(@"@Model\.(\w+)", RegexOptions.Compiled);
-    private static readonly Regex RawContentRegex = new(@"@Html\.Raw\(([^)]*)\)", RegexOptions.Compiled);
-    private static readonly Regex LayoutRegex = new(@"@\{\s*Layout\s*=\s*""([^""]+)""\s*;\s*\}", RegexOptions.Compiled);
+    // Basic template processing patterns (optimized for performance)
+    private static readonly Lazy<Regex> ModelPropertyRegex = new(() => 
+        new(@"@Model\.(\w+)", RegexOptions.Compiled | RegexOptions.NonBacktracking));
+    private static readonly Lazy<Regex> RawContentRegex = new(() => 
+        new(@"@Html\.Raw\(([^)]*)\)", RegexOptions.Compiled | RegexOptions.NonBacktracking));
+    private static readonly Lazy<Regex> LayoutRegex = new(() => 
+        new(@"@\{\s*Layout\s*=\s*""([^""]+)""\s*;\s*\}", RegexOptions.Compiled | RegexOptions.NonBacktracking));
 
     public SimpleTemplateRenderer(IFileProvider fileProvider, ISiteSettings settings, ILogger<SimpleTemplateRenderer> logger)
     {
@@ -72,8 +75,13 @@ public class SimpleTemplateRenderer : ITemplateRenderer
         {
             _logger.LogError(ex, "Failed to render template: {TemplatePath}", templatePath);
             
-            // Return a safe error template
-            return $@"<html><body><h1>Template Error</h1><p>Failed to render template: {templatePath}</p><p>Error: {ex.Message}</p></body></html>";
+            // Return a safe error template (avoid information disclosure)
+            var errorMessage = ex.Message;
+#if !DEBUG
+            // In release builds, don't expose detailed error information
+            errorMessage = "Template processing failed. Check logs for details.";
+#endif
+            return $@"<html><body><h1>Template Error</h1><p>Failed to render template: {System.Net.WebUtility.HtmlEncode(templatePath)}</p><p>Error: {System.Net.WebUtility.HtmlEncode(errorMessage)}</p></body></html>";
         }
     }
 
@@ -132,25 +140,54 @@ public class SimpleTemplateRenderer : ITemplateRenderer
     /// </summary>
     private string ProcessTemplate<TModel>(string templateContent, TModel model, IDictionary<string, object>? viewData)
     {
+        return ProcessTemplate(templateContent, model, viewData, new HashSet<string>());
+    }
+
+    /// <summary>
+    /// Processes template content with layout recursion protection.
+    /// </summary>
+    private string ProcessTemplate<TModel>(string templateContent, TModel model, IDictionary<string, object>? viewData, HashSet<string> layoutStack)
+    {
         // This is a simplified template processor for Stage 3
         // In a production implementation, this would use proper Razor compilation
         
         var processed = templateContent;
 
-        // Handle layout directive
-        var layoutMatch = LayoutRegex.Match(processed);
+        // Handle layout directive with recursion protection
+        var layoutMatch = LayoutRegex.Value.Match(processed);
         if (layoutMatch.Success)
         {
             var layoutName = layoutMatch.Groups[1].Value;
-            processed = LayoutRegex.Replace(processed, ""); // Remove layout directive
+            var layoutPath = $"_layouts/{layoutName}";
             
-            // Load and process layout
-            var layoutContent = LoadTemplate($"_layouts/{layoutName}");
-            processed = layoutContent.Replace("@RenderBody()", processed);
+            // Protect against layout recursion
+            if (layoutStack.Contains(layoutPath))
+            {
+                _logger.LogError("Layout recursion detected: {LayoutPath}. Stack: {LayoutStack}", 
+                    layoutPath, string.Join(" -> ", layoutStack));
+                processed = $"<p>Error: Layout recursion detected in {layoutPath}</p>";
+            }
+            else
+            {
+                processed = LayoutRegex.Value.Replace(processed, ""); // Remove layout directive
+                layoutStack.Add(layoutPath);
+                
+                try
+                {
+                    // Load and process layout
+                    var layoutContent = LoadTemplate(layoutPath);
+                    var processedLayout = ProcessTemplate(layoutContent, model, viewData, layoutStack);
+                    processed = processedLayout.Replace("@RenderBody()", processed);
+                }
+                finally
+                {
+                    layoutStack.Remove(layoutPath);
+                }
+            }
         }
 
         // Replace @Model.Property references with cached reflection
-        processed = ModelPropertyRegex.Replace(processed, match =>
+        processed = ModelPropertyRegex.Value.Replace(processed, match =>
         {
             var propertyName = match.Groups[1].Value;
             try
@@ -171,7 +208,7 @@ public class SimpleTemplateRenderer : ITemplateRenderer
         });
 
         // Handle @Html.Raw() calls with cached reflection
-        processed = RawContentRegex.Replace(processed, match =>
+        processed = RawContentRegex.Value.Replace(processed, match =>
         {
             var content = match.Groups[1].Value.Trim('"');
             
@@ -201,29 +238,56 @@ public class SimpleTemplateRenderer : ITemplateRenderer
     }
 
     /// <summary>
-    /// Resolves template path with theme fallback.
+    /// Resolves template path with theme and layouts fallback (v1 compatible).
+    /// v1 search order: theme/_layouts, theme root, direct _layouts, root
     /// </summary>
     private string? ResolveTemplatePath(string templatePath)
     {
         var normalizedPath = NormalizeTemplatePath(templatePath);
         
-        var searchPaths = new[]
+        // Security: Reject paths containing directory traversal
+        if (normalizedPath.Contains(".."))
         {
-            // Current theme
-            Path.Combine(_settings.CurrentDirectory, _settings.ThemesDirectory, _settings.Theme, normalizedPath),
-            // Default theme fallback
-            Path.Combine(_settings.CurrentDirectory, _settings.ThemesDirectory, "default", normalizedPath),
+            _logger.LogWarning("Rejected template path containing directory traversal: {TemplatePath}", templatePath);
+            return null;
+        }
+        
+        // Normalize base directory for consistent path comparison
+        var baseDir = Path.GetFullPath(_settings.CurrentDirectory);
+        
+        // v1 compatible search paths (see SnowViewLocationConventions.cs)
+        var searchPaths = new List<string>
+        {
+            // Theme layouts directory: themes/<theme>/_layouts/<template>
+            Path.Combine(baseDir, _settings.ThemesDirectory, _settings.Theme, Path.GetFileName(_settings.LayoutsDirectory.TrimEnd('/', '\\')), normalizedPath),
+            // Theme root: themes/<theme>/<template>
+            Path.Combine(baseDir, _settings.ThemesDirectory, _settings.Theme, normalizedPath),
+            // Direct layouts directory: _layouts/<template> (v1 compatibility)
+            Path.Combine(_settings.LayoutsDirectory, normalizedPath),
+            // Root: <template>
+            Path.Combine(baseDir, normalizedPath),
         };
 
         foreach (var searchPath in searchPaths)
         {
             var fullPath = Path.GetFullPath(searchPath);
+            
+            // Security: Ensure resolved path is within current directory
+            if (!fullPath.StartsWith(baseDir, StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug("Skipping path outside base directory: {FullPath}", fullPath);
+                continue;
+            }
+            
             if (_fileProvider.FileExists(fullPath))
             {
+                _logger.LogDebug("Resolved template: {TemplatePath} -> {FullPath}", templatePath, fullPath);
                 return fullPath;
             }
         }
 
+        _logger.LogWarning("Template not found in any search path: {TemplatePath}. Searched: {SearchPaths}", 
+            templatePath, string.Join(", ", searchPaths));
         return null;
     }
 

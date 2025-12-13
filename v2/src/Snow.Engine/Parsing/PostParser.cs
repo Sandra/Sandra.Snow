@@ -65,7 +65,7 @@ public class PostParser : IPostParser
 
         try
         {
-            var rawContent = System.IO.File.ReadAllText(fileInfo.FullPath);
+            var rawContent = _fileProvider.ReadAllTextAsync(fileInfo.FullPath).GetAwaiter().GetResult();
             return ParsePostContent(fileInfo.Name, rawContent, settings);
         }
         catch (Exception ex)
@@ -109,6 +109,12 @@ public class PostParser : IPostParser
                 year = date.Year;
                 month = date.Month;
                 day = date.Day;
+            }
+            else
+            {
+                _logger.LogWarning("Invalid date format in front matter: {DateValue} for file {FileName}", 
+                    frontMatterSettings["date"], fileName);
+                // Keep original date from filename when front matter date is invalid
             }
         }
 

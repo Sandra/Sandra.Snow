@@ -38,6 +38,19 @@ public class LiveReloadServer
         {
             if (context.WebSockets.IsWebSocketRequest)
             {
+                // Security: Check origin for WebSocket connections
+                var origin = context.Request.Headers["Origin"].FirstOrDefault();
+                var isValidOrigin = string.IsNullOrEmpty(origin) || 
+                                  origin.StartsWith("http://localhost") || 
+                                  origin.StartsWith("http://127.0.0.1");
+
+                if (!isValidOrigin)
+                {
+                    context.Response.StatusCode = 403;
+                    await context.Response.WriteAsync("Invalid origin");
+                    return;
+                }
+
                 await HandleWebSocketConnection(context);
             }
             else
@@ -128,7 +141,7 @@ public class LiveReloadServer
         {
             type = "reload",
             timestamp = DateTime.UtcNow,
-            files = changedFiles?.Select(Path.GetFileName).ToArray()
+            files = changedFiles?.Select(f => System.Net.WebUtility.HtmlEncode(Path.GetFileName(f))).ToArray()
         };
 
         var tasks = new List<Task>();

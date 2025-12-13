@@ -7,7 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Snow.Abstractions;
+using Snow.Engine.Extensions;
 using Snow.Engine.IO;
+using Snow.Engine.Processing;
+using Snow.Engine.Processing.Processors;
 using Snow.Engine.ViewModels;
 
 namespace Snow.Engine.Pipeline;
@@ -64,6 +67,13 @@ public class SiteGenerator
             // Step 1: Parse all content
             _logger.LogInformation("Step 1: Parsing content...");
             var (posts, pages) = await ParseAllContentAsync(cancellationToken);
+
+            // Apply URL formats from settings
+            posts.SetPostUrls(_settings);
+            pages.SetPageUrls(_settings);
+
+            // Update series navigation after URLs are set
+            posts.UpdateSeriesNavigation();
 
             // Step 2: Generate individual post and page files
             _logger.LogInformation("Step 2: Rendering posts and pages...");
@@ -234,7 +244,9 @@ public class SiteGenerator
         IReadOnlyList<ICategory> allCategories,
         CancellationToken cancellationToken)
     {
-        var viewModel = TemplateViewModel.FromPost(post, allPosts, allPages, allDrafts, allCategories, _settings);
+        // Create v1-compatible view model for backwards compatibility
+        var baseModel = CreateBaseViewModel(allPosts, allPages, allDrafts, allCategories);
+        var viewModel = Snow.ViewModels.PostViewModel.FromPost(post, baseModel);
         var html = await _templateRenderer.RenderAsync($"_layouts/{post.Layout}", viewModel, null, cancellationToken);
 
         var outputPath = SafePathOperations.CreateOutputPath(_settings.PostsOutput, post.Url, "index.html");
@@ -260,7 +272,10 @@ public class SiteGenerator
         IReadOnlyList<ICategory> allCategories,
         CancellationToken cancellationToken)
     {
-        var viewModel = TemplateViewModel.FromPage(page, allPosts, allPages, allDrafts, allCategories, _settings);
+        // Create v1-compatible view model for backwards compatibility
+        // Note: v1 used PostViewModel for pages too (page.cshtml uses PostViewModel)
+        var baseModel = CreateBaseViewModel(allPosts, allPages, allDrafts, allCategories);
+        var viewModel = Snow.ViewModels.PostViewModel.FromPage(page, baseModel);
         var html = await _templateRenderer.RenderAsync($"_layouts/{page.Layout}", viewModel, null, cancellationToken);
 
         var outputPath = SafePathOperations.CreateOutputPath(_settings.PagesOutput, page.Url, "index.html");
@@ -280,10 +295,15 @@ public class SiteGenerator
     /// </summary>
     private async Task ProcessStaticFilesAsync(List<IPost> posts, List<IPage> pages, CancellationToken cancellationToken)
     {
-        var publishedPosts = posts.Where(p => p.Published == PublishedStatus.Published).ToList();
+        var publishedPosts = posts.Where(p => p.Published == PublishedStatus.Published)
+            .OrderByDescending(p => p.Date)
+            .ToList();
         var categories = BuildCategories(publishedPosts);
         var publishedPages = pages.Where(p => p.Published == PublishedStatus.Published).ToList();
         var draftPosts = posts.Where(p => p.Published == PublishedStatus.Draft).ToList();
+
+        // Build archives
+        var archives = BuildArchives(publishedPosts);
 
         foreach (var staticFile in _settings.ProcessFiles)
         {
@@ -291,7 +311,7 @@ public class SiteGenerator
 
             try
             {
-                await ProcessStaticFile(staticFile, publishedPosts, publishedPages, draftPosts, categories, cancellationToken);
+                await ProcessStaticFileWithProcessor(staticFile, publishedPosts, publishedPages, draftPosts, categories, archives, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -301,44 +321,96 @@ public class SiteGenerator
     }
 
     /// <summary>
-    /// Processes a single static file.
+    /// Processes a single static file using the appropriate processor.
     /// </summary>
-    private async Task ProcessStaticFile(
+    private async Task ProcessStaticFileWithProcessor(
         IStaticFile staticFile,
         IReadOnlyList<IPost> posts,
         IReadOnlyList<IPage> pages,
         IReadOnlyList<IPost> drafts,
         IReadOnlyList<ICategory> categories,
+        IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<IPost>>> archives,
         CancellationToken cancellationToken)
     {
-        var viewModel = new TemplateViewModel
+        // Create processing context
+        var context = new ProcessingContext(
+            staticFile,
+            posts,
+            pages,
+            drafts,
+            categories,
+            archives,
+            _settings,
+            _templateRenderer,
+            _fileProvider,
+            _settings.PostsOutput);
+
+        // Get the appropriate processor based on the loop type
+        var processorName = staticFile.Loop?.ToLowerInvariant() ?? string.Empty;
+        var processor = GetProcessor(processorName);
+
+        if (processor != null)
         {
-            Settings = _settings,
-            Posts = posts,
-            Pages = pages,
-            Drafts = drafts,
-            AllCategories = categories
+            await processor.ProcessAsync(context, cancellationToken);
+        }
+        else
+        {
+            _logger.LogWarning("No processor found for loop type '{Loop}', using default static file processor", staticFile.Loop);
+            var defaultProcessor = new StaticFileProcessor(_logger as ILogger<StaticFileProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<StaticFileProcessor>.Instance);
+            await defaultProcessor.ProcessAsync(context, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// Gets a processor by name.
+    /// </summary>
+    private IContentProcessor? GetProcessor(string processorName)
+    {
+        return processorName switch
+        {
+            "posts" => new PostsProcessor(_logger as ILogger<PostsProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<PostsProcessor>.Instance),
+            "categories" => new CategoriesProcessor(_logger as ILogger<CategoriesProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<CategoriesProcessor>.Instance),
+            "drafts" => new DraftsProcessor(_logger as ILogger<DraftsProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<DraftsProcessor>.Instance),
+            "rss" => new RssProcessor(_logger as ILogger<RssProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<RssProcessor>.Instance),
+            "atom" => new AtomProcessor(_logger as ILogger<AtomProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<AtomProcessor>.Instance),
+            "sitemap" => new SitemapProcessor(_logger as ILogger<SitemapProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<SitemapProcessor>.Instance),
+            "" or null => new StaticFileProcessor(_logger as ILogger<StaticFileProcessor> ?? 
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<StaticFileProcessor>.Instance),
+            _ => null
         };
+    }
 
-        var templateName = Path.GetFileNameWithoutExtension(staticFile.File);
-        var html = await _templateRenderer.RenderAsync(templateName, viewModel, null, cancellationToken);
+    /// <summary>
+    /// Builds archive data grouped by year and month.
+    /// </summary>
+    private static IReadOnlyDictionary<int, IReadOnlyDictionary<int, IReadOnlyList<IPost>>> BuildArchives(IReadOnlyList<IPost> posts)
+    {
+        var result = new Dictionary<int, IReadOnlyDictionary<int, IReadOnlyList<IPost>>>();
 
-        var outputFileName = staticFile.File;
-        if (staticFile.File.EndsWith(".cshtml"))
+        var grouped = posts
+            .GroupBy(p => p.Date.Year)
+            .OrderByDescending(g => g.Key);
+
+        foreach (var yearGroup in grouped)
         {
-            outputFileName = staticFile.File.Substring(0, staticFile.File.Length - 7) + ".html";
+            var monthGroups = yearGroup
+                .GroupBy(p => p.Date.Month)
+                .OrderByDescending(g => g.Key)
+                .ToDictionary(
+                    g => g.Key,
+                    g => (IReadOnlyList<IPost>)g.OrderByDescending(p => p.Date).ToList());
+
+            result[yearGroup.Key] = monthGroups;
         }
 
-        var outputPath = Path.Combine(_settings.PostsOutput, outputFileName);
-        var outputDir = Path.GetDirectoryName(outputPath);
-
-        if (!string.IsNullOrEmpty(outputDir) && !_fileProvider.DirectoryExists(outputDir))
-        {
-            _fileProvider.CreateDirectory(outputDir);
-        }
-
-        await _fileProvider.WriteAllTextAsync(outputPath, html, cancellationToken);
-        _logger.LogDebug("Processed static file: {StaticFile} -> {OutputPath}", staticFile.File, outputPath);
+        return result;
     }
 
     /// <summary>
@@ -363,11 +435,13 @@ public class SiteGenerator
 
     /// <summary>
     /// Copies a directory with optional mapping.
+    /// v1 compatible: for mappings, only check CurrentDir/source; for non-mappings, check theme first then root.
     /// </summary>
     private async Task CopyDirectory(string directorySpec, CancellationToken cancellationToken)
     {
         var sourceDir = directorySpec;
         var destDir = directorySpec;
+        var hasMapping = false;
 
         // Handle directory mapping (source => destination)
         if (directorySpec.Contains(" => "))
@@ -375,9 +449,14 @@ public class SiteGenerator
             var parts = directorySpec.Split(new[] { " => " }, StringSplitOptions.RemoveEmptyEntries);
             sourceDir = parts[0].Trim();
             destDir = parts[1].Trim();
+            hasMapping = true;
         }
 
-        var sourcePath = ResolveAssetPath(sourceDir);
+        // v1 compatible: mappings only check CurrentDir/source, non-mappings check theme then root
+        var sourcePath = hasMapping 
+            ? ResolveAssetPathDirect(sourceDir) 
+            : ResolveAssetPath(sourceDir);
+            
         if (sourcePath == null || !_fileProvider.DirectoryExists(sourcePath))
         {
             _logger.LogWarning("Asset directory not found: {Directory}", sourceDir);
@@ -419,19 +498,28 @@ public class SiteGenerator
     }
 
     /// <summary>
-    /// Resolves asset path with theme fallback.
+    /// Resolves asset path with theme fallback (v1 compatible: theme then root, no default theme fallback).
     /// </summary>
     private string? ResolveAssetPath(string assetPath)
     {
+        // v1 compatible: check theme directory first, then root directory (no default theme fallback)
         var searchPaths = new[]
         {
             Path.Combine(_settings.CurrentDirectory, _settings.ThemesDirectory, _settings.Theme, assetPath),
-            Path.Combine(_settings.CurrentDirectory, _settings.ThemesDirectory, "default", assetPath),
             Path.Combine(_settings.CurrentDirectory, assetPath)
         };
 
         return searchPaths.FirstOrDefault(path => 
             _fileProvider.FileExists(path) || _fileProvider.DirectoryExists(path));
+    }
+
+    /// <summary>
+    /// Resolves asset path directly from CurrentDirectory only (for mapped sources in v1).
+    /// </summary>
+    private string? ResolveAssetPathDirect(string assetPath)
+    {
+        var path = Path.Combine(_settings.CurrentDirectory, assetPath);
+        return (_fileProvider.FileExists(path) || _fileProvider.DirectoryExists(path)) ? path : null;
     }
 
     /// <summary>
@@ -480,5 +568,44 @@ public class SiteGenerator
                 return (ICategory)category;
             })
             .ToList();
+    }
+    
+    /// <summary>
+    /// Creates a base view model with common properties for v1 template compatibility.
+    /// </summary>
+    private ViewModels.BasePostViewModel CreateBaseViewModel(
+        IReadOnlyList<IPost> allPosts,
+        IReadOnlyList<IPage> allPages,
+        IReadOnlyList<IPost> allDrafts,
+        IReadOnlyList<ICategory> allCategories)
+    {
+        // Build month/year menu for archive navigation (v1 compatibility)
+        var monthYearList = allPosts
+            .GroupBy(p => new { p.Date.Year, p.Date.Month })
+            .OrderByDescending(g => g.Key.Year)
+            .ThenByDescending(g => g.Key.Month)
+            .Select(g => new ViewModels.ArchiveMenuItem
+            {
+                Year = g.Key.Year,
+                Month = g.Key.Month,
+                MonthName = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMMM"),
+                PostCount = g.Count(),
+                Url = $"/{g.Key.Year:0000}/{g.Key.Month:00}/"
+            })
+            .ToList();
+        
+        return new ViewModels.BasePostViewModel
+        {
+            Settings = _settings,
+            Posts = allPosts,
+            Pages = allPages,
+            Drafts = allDrafts,
+            AllCategories = allCategories,
+            MonthYearList = monthYearList,
+            HeaderTitleChain = new[] { _settings.BlogTitle },
+            GeneratedDate = DateTime.UtcNow,
+            GeneratedUrl = _settings.SiteUrl,
+            Keywords = Array.Empty<string>()
+        };
     }
 }

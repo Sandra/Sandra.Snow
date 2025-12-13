@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Snow.Abstractions;
 using Snow.Engine.IO;
@@ -8,6 +7,7 @@ using Snow.Engine.Parsing;
 using Snow.Engine.Pipeline;
 using Snow.Engine.Processing;
 using Snow.Engine.Templates;
+using Snow.Engine.Templates.Razor;
 
 namespace Snow.Engine.Extensions;
 
@@ -36,13 +36,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IPostParser, PostParser>();
         services.AddSingleton<IPageParser, PageParser>();
 
-        // Template system
+        // Template system - using RazorEngineCore for full Razor syntax support with single-file publish
         services.AddSingleton<ITemplateRenderer>(provider =>
         {
             var fileProvider = provider.GetRequiredService<IFileProvider>();
             var settings = provider.GetRequiredService<ISiteSettings>();
-            var logger = provider.GetRequiredService<ILogger<SimpleTemplateRenderer>>();
-            return new SimpleTemplateRenderer(fileProvider, settings, logger);
+            var logger = provider.GetRequiredService<ILogger<RazorTemplateRenderer>>();
+            return new RazorTemplateRenderer(settings, fileProvider, logger);
         });
 
         // Pipeline components

@@ -49,7 +49,7 @@ public static class MarkdownFileParser
             parsedFile.Body = rawContent;
         }
 
-        // Handle excerpt section: ---excerpt ... ---end
+        // Handle excerpt section: ---excerpt ... ---end (v2 format)
         var startOfExcerpt = rawContent.IndexOf("---excerpt", StringComparison.InvariantCultureIgnoreCase);
         if (startOfExcerpt >= 0)
         {
@@ -69,6 +69,21 @@ public static class MarkdownFileParser
                 parsedFile.Header = reparsed.Header;
                 parsedFile.Body = reparsed.Body;
             }
+        }
+        
+        // Handle inline excerpt marker: <!--excerpt--> (v1 format)
+        // This marker splits the body into excerpt (before) and rest (after)
+        // The marker itself should be removed from the content
+        const string excerptMarker = "<!--excerpt-->";
+        var excerptMarkerIndex = parsedFile.Body.IndexOf(excerptMarker, StringComparison.InvariantCultureIgnoreCase);
+        if (excerptMarkerIndex >= 0 && string.IsNullOrEmpty(parsedFile.Excerpt))
+        {
+            // Extract content before the marker as excerpt
+            parsedFile.Excerpt = parsedFile.Body.Substring(0, excerptMarkerIndex).Trim();
+            
+            // Remove the marker from body (keep content before and after)
+            parsedFile.Body = parsedFile.Body.Substring(0, excerptMarkerIndex) + 
+                              parsedFile.Body.Substring(excerptMarkerIndex + excerptMarker.Length);
         }
 
         // Trim whitespace from all components

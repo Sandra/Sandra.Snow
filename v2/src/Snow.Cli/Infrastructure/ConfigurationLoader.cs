@@ -24,8 +24,13 @@ public static class ConfigurationLoader
         if (configFile == null)
         {
             throw new FileNotFoundException(
-                $"No configuration file found in {currentDirectory}. " +
-                "Expected: sandra.json, sandra.config.json, or snow.config.json");
+                $"No configuration file found in '{currentDirectory}'.\n\n" +
+                "Sandra.Snow requires a configuration file to build your site.\n\n" +
+                "Create one of these files in your site directory:\n" +
+                "  • snow.config (v1 compatible)\n" +
+                "  • snow.config.json\n" +
+                "  • sandra.json\n\n" +
+                "Or specify a path: sandra build --config /path/to/your/site");
         }
 
         try
@@ -85,10 +90,10 @@ public static class ConfigurationLoader
     {
         var possibleFiles = new[]
         {
-            "sandra.json",
-            "sandra.config.json", 
-            "snow.config.json",
-            "snow.config"
+            "snow.config",          // v1 primary config (no extension)
+            "snow.config.json",     // v1 alternate config
+            "sandra.json",          // v2 config options
+            "sandra.config.json"
         };
 
         foreach (var fileName in possibleFiles)
@@ -125,7 +130,7 @@ public static class ConfigurationLoader
         target.Author = source.Author;
         target.Email = source.Email;
         target.BlogTitle = source.BlogTitle;
-        target.SiteUrl = source.SiteUrl;
+        target.SiteUrl = source.SiteUrl?.TrimEnd('/') ?? string.Empty; // v1 compatibility: normalize trailing slash
         target.PostsDirectoryRaw = source.PostsDirectoryRaw;
         target.PagesDirectoryRaw = source.PagesDirectoryRaw;
         target.LayoutsDirectoryRaw = source.LayoutsDirectoryRaw;
@@ -158,18 +163,20 @@ public static class ConfigurationLoader
         if (string.IsNullOrWhiteSpace(settings.BlogTitle))
             errors.Add("BlogTitle is required");
 
-        if (string.IsNullOrWhiteSpace(settings.Theme))
-            errors.Add("Theme is required");
-
         if (string.IsNullOrWhiteSpace(settings.PostsDirectoryRaw))
             errors.Add("Posts directory is required");
 
         if (!Directory.Exists(settings.PostsDirectory))
             errors.Add($"Posts directory not found: {settings.PostsDirectory}");
 
+        // Check for layouts - either theme directory or direct layouts directory must exist (v1 compatibility)
         var themePath = Path.Combine(settings.CurrentDirectory, settings.ThemesDirectory, settings.Theme);
-        if (!Directory.Exists(themePath))
-            errors.Add($"Theme directory not found: {themePath}");
+        var directLayoutsPath = settings.LayoutsDirectory;
+        
+        if (!Directory.Exists(themePath) && !Directory.Exists(directLayoutsPath))
+        {
+            errors.Add($"No layouts found. Expected theme at '{themePath}' or layouts at '{directLayoutsPath}'");
+        }
 
         if (errors.Any())
         {

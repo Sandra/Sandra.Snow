@@ -28,6 +28,9 @@ public class Category : ICategory
 
     /// <inheritdoc />
     public string Slug { get; }
+    
+    /// <inheritdoc />
+    public string Url => Slug;
 
     /// <inheritdoc />
     public IReadOnlyList<IPost> Posts => _posts.AsReadOnly();

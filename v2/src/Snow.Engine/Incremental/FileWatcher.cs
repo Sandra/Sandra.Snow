@@ -160,8 +160,7 @@ public class FileWatcher : IDisposable
                 {
                     var changedFiles = changeTracker.Values
                         .Select(e => e.FilePath)
-                        .Where(path => File.Exists(path)) // Only include files that still exist
-                        .ToList();
+                        .ToList(); // Include all changes including deletions
 
                     if (changedFiles.Any())
                     {

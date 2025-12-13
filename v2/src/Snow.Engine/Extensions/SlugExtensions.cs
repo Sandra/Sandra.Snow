@@ -154,8 +154,11 @@ public static class SlugExtensions
     {
         var urlFormat = "/" + settings.PageUrlFormat.Trim('/').AppendSlashIfNecessary();
 
+        // The page.Url contains the slug (possibly with leading slash from parsing)
+        var slug = page.Url.TrimStart('/');
+
         // Apply URL formatting (pages use slug directly)
-        urlFormat = urlFormat.Replace("{slug}", page.Url).Replace("slug", page.Url);
+        urlFormat = urlFormat.Replace("{slug}", slug).Replace("slug", slug);
 
         if (page is Models.Page mutablePage)
         {
@@ -183,6 +186,60 @@ public static class SlugExtensions
         }
 
         return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+    }
+
+    /// <summary>
+    /// Updates series navigation to ensure all parts have correct URLs.
+    /// </summary>
+    /// <param name="posts">The posts to update.</param>
+    public static void UpdateSeriesNavigation(this IEnumerable<IPost> posts)
+    {
+        var postsList = posts.ToList();
+        var groupBySeriesId = (from x in postsList
+                               where x.Series != null
+                               where x.Published == PublishedStatus.Published
+                               group x by x.Series!.Name
+                               into g
+                               select g).ToList();
+
+        foreach (var seriesGroup in groupBySeriesId)
+        {
+            // Get all series as mutable types
+            var mutableSeriesInGroup = seriesGroup
+                .Select(x => x.Series)
+                .OfType<Models.Series>()
+                .ToList();
+
+            if (!mutableSeriesInGroup.Any())
+                continue;
+
+            var latestSeries = mutableSeriesInGroup
+                .OrderByDescending(x => seriesGroup.First(p => p.Series == x).Date)
+                .First();
+
+            // Fix up all the Parts to have the latest URLs
+            foreach (var partKvp in latestSeries.MutableParts)
+            {
+                var post = seriesGroup.FirstOrDefault(x => x.Series?.Current == partKvp.Key);
+                if (post != null)
+                {
+                    partKvp.Value.Url = post.Url;
+                }
+            }
+
+            // Copy the latest parts to all posts in the series
+            foreach (var series in mutableSeriesInGroup)
+            {
+                if (series != latestSeries)
+                {
+                    series.MutableParts.Clear();
+                    foreach (var part in latestSeries.MutableParts)
+                    {
+                        series.MutableParts[part.Key] = part.Value;
+                    }
+                }
+            }
+        }
     }
 
     // URL format helper methods

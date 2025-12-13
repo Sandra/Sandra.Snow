@@ -137,15 +137,38 @@ public class DevServer : IDisposable, IAsyncDisposable
         });
 
         var fileProvider = new PhysicalFileProvider(Path.GetFullPath(contentPath));
+        var absoluteContentPath = Path.GetFullPath(contentPath);
 
-        // 1. Default files (changes path before static file handling)
+        // 1. Handle clean URLs for static sites (e.g., /2013/01/post-slug → /2013/01/post-slug/index.html)
+        // This must come BEFORE UseDefaultFiles/UseStaticFiles to rewrite the path first
+        app.Use(async (context, next) =>
+        {
+            var path = context.Request.Path.Value ?? "";
+            
+            // If path has no extension and doesn't end with /, check if directory/index.html exists
+            if (!string.IsNullOrEmpty(path) && !Path.HasExtension(path) && !path.EndsWith('/'))
+            {
+                var indexPath = path + "/index.html";
+                var fullPath = Path.Combine(absoluteContentPath, indexPath.TrimStart('/'));
+                
+                if (File.Exists(fullPath))
+                {
+                    // Rewrite path to include index.html
+                    context.Request.Path = indexPath;
+                }
+            }
+            
+            await next();
+        });
+
+        // 2. Default files (changes path /dir/ → /dir/index.html)
         app.UseDefaultFiles(new DefaultFilesOptions
         {
             FileProvider = fileProvider,
             DefaultFileNames = ["index.html", "index.htm", "default.html"]
         });
 
-        // 2. Static file serving
+        // 3. Static file serving
         app.UseStaticFiles(new StaticFileOptions
         {
             FileProvider = fileProvider,
@@ -159,7 +182,7 @@ public class DevServer : IDisposable, IAsyncDisposable
             }
         });
 
-        // 3. Directory browsing (development convenience)
+        // 4. Directory browsing (development convenience)
         if (enableDirectoryBrowsing)
         {
             app.UseDirectoryBrowser(new DirectoryBrowserOptions
@@ -167,12 +190,6 @@ public class DevServer : IDisposable, IAsyncDisposable
                 FileProvider = fileProvider
             });
         }
-
-        // 4. Fallback for SPA-style routing (serve index.html for unmatched routes)
-        app.MapFallbackToFile("index.html", new StaticFileOptions
-        {
-            FileProvider = fileProvider
-        });
 
         // Live reload script injection (if enabled) - must be before static files
         if (enableLiveReload)

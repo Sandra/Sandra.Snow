@@ -23,7 +23,7 @@ public static class SimpleProgram
             var options = ParseArguments(args);
             
             AnsiConsole.MarkupLine("[green]Sandra.Snow v2.0.0-alpha[/]");
-            AnsiConsole.MarkupLine("[dim]Modern static site generator built with .NET 9[/]");
+            AnsiConsole.MarkupLine("[dim]Modern static site generator built with .NET 10[/]");
             AnsiConsole.WriteLine();
 
             if (options.ShowHelp)
@@ -69,7 +69,31 @@ public static class SimpleProgram
         
         for (int i = 0; i < args.Length; i++)
         {
-            switch (args[i].ToLowerInvariant())
+            var arg = args[i];
+            var lowerArg = arg.ToLowerInvariant();
+            
+            // Handle v1-style key=value arguments
+            if (arg.Contains('='))
+            {
+                var parts = arg.Split('=', 2);
+                var key = parts[0].ToLowerInvariant();
+                var value = parts[1];
+                
+                switch (key)
+                {
+                    case "config":
+                        options.ConfigPath = value;
+                        continue;
+                    case "debug":
+                        options.Verbose = true;
+                        continue;
+                    case "server":
+                        options.ServeMode = true;
+                        continue;
+                }
+            }
+            
+            switch (lowerArg)
             {
                 case "--help":
                 case "-h":
@@ -80,6 +104,7 @@ public static class SimpleProgram
                     break;
                 case "--verbose":
                 case "-v":
+                case "--debug":
                     options.Verbose = true;
                     break;
                 case "--config":
@@ -106,12 +131,20 @@ public static class SimpleProgram
                     }
                     break;
                 case "--serve":
+                case "--server":
                 case "serve":
                     options.ServeMode = true;
                     break;
                 case "--watch":
                 case "-w":
                     options.WatchMode = true;
+                    break;
+                default:
+                    // Treat first positional argument as config path
+                    if (!arg.StartsWith("-") && string.IsNullOrEmpty(options.ConfigPath))
+                    {
+                        options.ConfigPath = arg;
+                    }
                     break;
             }
         }
@@ -167,6 +200,24 @@ public static class SimpleProgram
 
             AnsiConsole.MarkupLine("[green]✓ Build completed successfully![/]");
             return 0;
+        }
+        catch (FileNotFoundException ex)
+        {
+            AnsiConsole.MarkupLine("[red]Build failed:[/]");
+            AnsiConsole.WriteLine(ex.Message);
+            return 1;
+        }
+        catch (DirectoryNotFoundException ex)
+        {
+            AnsiConsole.MarkupLine("[red]Build failed:[/]");
+            AnsiConsole.WriteLine(ex.Message);
+            return 1;
+        }
+        catch (InvalidOperationException ex)
+        {
+            AnsiConsole.MarkupLine("[red]Build failed:[/]");
+            AnsiConsole.WriteLine(ex.Message);
+            return 1;
         }
         catch (Exception ex)
         {

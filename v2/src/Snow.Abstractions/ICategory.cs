@@ -16,6 +16,11 @@ public interface ICategory
     /// Gets the URL slug for the category.
     /// </summary>
     string Slug { get; }
+    
+    /// <summary>
+    /// Gets the URL path for the category (v1 compatibility alias for Slug).
+    /// </summary>
+    string Url { get; }
 
     /// <summary>
     /// Gets the posts in this category.

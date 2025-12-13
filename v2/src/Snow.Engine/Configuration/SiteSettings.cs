@@ -67,6 +67,7 @@ public class SiteSettings : ISiteSettings
     public string PostsDirectoryRaw { get; set; } = "_posts";
 
     /// <inheritdoc />
+    [JsonIgnore]
     public string PostsDirectory
     {
         get => _postsDirectory ??= Path.Combine(_currentDirectory, PostsDirectoryRaw);
@@ -79,18 +80,22 @@ public class SiteSettings : ISiteSettings
 
     /// <summary>
     /// Gets or sets the raw pages directory path before combination with current directory.
+    /// v1 compatible: default is empty (no pages directory) - only parse pages if explicitly configured.
     /// </summary>
     [JsonPropertyName("pages")]
-    public string PagesDirectoryRaw { get; set; } = "_pages";
+    public string PagesDirectoryRaw { get; set; } = string.Empty;
 
     /// <inheritdoc />
+    [JsonIgnore]
     public string PagesDirectory
     {
-        get => _pagesDirectory ??= Path.Combine(_currentDirectory, PagesDirectoryRaw);
+        get => string.IsNullOrEmpty(PagesDirectoryRaw) 
+            ? string.Empty 
+            : (_pagesDirectory ??= Path.Combine(_currentDirectory, PagesDirectoryRaw));
         set
         {
             PagesDirectoryRaw = value;
-            _pagesDirectory = Path.Combine(_currentDirectory, value);
+            _pagesDirectory = string.IsNullOrEmpty(value) ? string.Empty : Path.Combine(_currentDirectory, value);
         }
     }
 
@@ -101,6 +106,7 @@ public class SiteSettings : ISiteSettings
     public string LayoutsDirectoryRaw { get; set; } = "_layouts";
 
     /// <inheritdoc />
+    [JsonIgnore]
     public string LayoutsDirectory
     {
         get => _layoutsDirectory ??= Path.Combine(_currentDirectory, LayoutsDirectoryRaw);
@@ -112,6 +118,7 @@ public class SiteSettings : ISiteSettings
     }
 
     /// <inheritdoc />
+    [JsonPropertyName("themesDir")]
     public string ThemesDirectory { get; set; }
 
     /// <inheritdoc />
@@ -120,9 +127,11 @@ public class SiteSettings : ISiteSettings
     /// <summary>
     /// Gets or sets the raw posts output directory path before combination with current directory.
     /// </summary>
+    [JsonPropertyName("postsOutput")]
     public string PostsOutputRaw { get; set; } = "Website";
 
     /// <inheritdoc />
+    [JsonIgnore]
     public string PostsOutput
     {
         get => _postsOutput ??= Path.Combine(_currentDirectory, PostsOutputRaw);
@@ -136,9 +145,11 @@ public class SiteSettings : ISiteSettings
     /// <summary>
     /// Gets or sets the raw pages output directory path before combination with current directory.
     /// </summary>
+    [JsonPropertyName("pagesOutput")]
     public string PagesOutputRaw { get; set; } = "Website";
 
     /// <inheritdoc />
+    [JsonIgnore]
     public string PagesOutput
     {
         get => _pagesOutput ??= Path.Combine(_currentDirectory, PagesOutputRaw);
@@ -146,6 +157,20 @@ public class SiteSettings : ISiteSettings
         {
             PagesOutputRaw = value;
             _pagesOutput = Path.Combine(_currentDirectory, value);
+        }
+    }
+
+    /// <summary>
+    /// v1 compatibility: urlFormat maps to PostUrlFormat
+    /// </summary>
+    [JsonPropertyName("urlFormat")]
+    public string? UrlFormat
+    {
+        get => null;
+        set
+        {
+            if (!string.IsNullOrEmpty(value))
+                PostUrlFormat = value;
         }
     }
 
@@ -199,7 +224,7 @@ public class SiteSettings : ISiteSettings
         return new SiteSettings(directory)
         {
             PostsDirectoryRaw = "_posts",
-            PagesDirectoryRaw = "_pages", 
+            PagesDirectoryRaw = string.Empty, // v1 compatible: no default pages directory
             LayoutsDirectoryRaw = "_layouts",
             Theme = "default",
             ThemesDirectory = "themes/",
