@@ -1,31 +1,49 @@
-*.[Cc]ache
-*.csproj.user
-*.[Rr]e[Ss]harper*
-*.sln.cache
-*.suo
+# Build outputs
+bin/
+obj/
+dist/
+published/
+build/
+
+# IDE
+.idea/
+.vs/
 *.user
+*.suo
+*.csproj.user
+*.sln.cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# .NET
+*.cache
+*.log
+packages/
+
+# Test results
+TestResults/
+*.trx
+
+# NuGet
+*.nupkg
+
+# Resharper
+*.[Rr]e[Ss]harper*
+_[Rr]e[Ss]harper.*/
+
+# NCrunch
+*.ncrunchproject
+*.ncrunchsolution
+
+# dotCover
+*.dotCover
+
+# Other
 *.orig
 *.pidb
 *.userprefs
-.DS_Store
-deploy/
-build/
-[Bb]in/
-[Dd]ebug/
-[Oo]bj/
-[Rr]elease/
-_[Rr]e[Ss]harper.*/
 *.docstates
 *.tss
-*.ncrunchproject
-*.ncrunchsolution
-*.dotCover
-Thumbs.db
-.idea
-Website/
-packages/
-SnowSite/Snow/Images/original-images/
-SnowSite/Snow/_ignore/
-*.log
-src/Barbato/Snow/
-.vs
+deploy/

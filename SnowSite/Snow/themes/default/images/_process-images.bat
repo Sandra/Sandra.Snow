@@ -1,1 +1,0 @@
-optipng-0.7.4-win32\optipng.exe original-images\*.png -dir=. -force
